@@ -4,7 +4,7 @@ const initialState = {
 
 };
 
-const userReducer = (state = initialState, action) => {
+const leaderboardReducer = (state = initialState, action) => {
   switch (action.type) {
     case '':
       return {
@@ -14,4 +14,4 @@ const userReducer = (state = initialState, action) => {
   return state;
 }
 
-export default userReducer;
+export default leaderboardReducer;

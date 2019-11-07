@@ -1,17 +1,32 @@
 'use strict';
 
-const initialState = {
+import store from './store';
 
+const initialState = {
+  gameStatus: 'lobby',
+  roundCounter: 1,
+  drawingIsSent: false,
 };
 
-const userReducer = (state = initialState, action) => {
+const currentGameReducer = (state = initialState, action) => {
   switch (action.type) {
-    case '':
+    case 'NEXT_ROUND':
       return {
-
+        roundCounter: roundCounter++,
       }
+    case 'SEND_DRAW':
+      return {
+        drawingIsSent: true,
+      }
+    case 'GAME_STATUS_CHANGE':
+      return {
+        gameStatus: action.payload,
+      }  
   };
   return state;
 }
 
-export default userReducer;
+currentGameReducer(null, {type: 'NEXT_ROUND'});
+console.log(store.getState());
+
+export default currentGameReducer;
