@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Canvas from '../components/Canvas';
 import { sendImageToFirestore } from '../services/firebase/firebase-services';
-import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
+import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
+import { calculateString } from 'bytebuffer';
 
 const timeToUpload = 11000;
 
@@ -45,6 +46,9 @@ const useStyles = theme => ({
 });
 
 class Draw extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   componentDidMount() {
     setTimeout(this.uploadImage, timeToUpload);
@@ -65,15 +69,11 @@ class Draw extends Component {
         <Navbar />
         <Container maxWidth="sm">
           <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
-          <Typography color="secondary" className={classes.title}>Kutyámajom</Typography>
+          <Typography color="secondary" className={classes.title}>asd</Typography>
           <Typography color="error" className={classes.title}>10s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
-              {width === 'xs' ? (
-                <Canvas width={280} height={250} />
-              ) : (
-                  <Canvas width={536} height={500} />
-                )}
+              <h3>kép helye</h3>
             </Paper>
           </div>
           <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
