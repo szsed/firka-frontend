@@ -47,6 +47,4 @@ function App(props) {
   );
 }
 
-
 ReactDOM.render(<ThemeProvider theme={theme}><App /></ThemeProvider>, document.getElementById('root'));
-
