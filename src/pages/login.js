@@ -83,11 +83,10 @@ class Login extends Component {
       .catch(error => this.setState({ responseError: error.message })); */
       loginUser(username, password)
       .then(parsed => {
+        if(parsed.message) {
+          this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+        } else {
         this.props.history.push("/"); 
-      })
-      .catch(err => {
-      if(err.message) {
-         this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
       }
     })
   }
