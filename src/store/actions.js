@@ -1,4 +1,4 @@
-import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, startGameInFirestore, createCurrentGameListener } from "../services/firebase/firebase-services"
+import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener } from "../services/firebase/firebase-services"
 import store from "./store";
 
 // export const refreshGamesAction = () => {
@@ -152,7 +152,9 @@ export const endGameAction = () => {
 }
 
 export const selectGameAction = (gameId) => {
+  const userData = store.getState().user;
   const listener = createCurrentGameListener(gameId);
+  joinGameInFirestore(gameId, userData)
   return { type: 'SELECT_GAME', payload: listener }
 }
 
