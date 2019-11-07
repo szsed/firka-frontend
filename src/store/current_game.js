@@ -20,7 +20,6 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         gameStats: action.payload,
       }
-
     case 'NEXT_ROUND':
       return {
         ...state,
