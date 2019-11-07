@@ -71,8 +71,7 @@ const currentRound = store.getState().roundCounter;
 // -----------------------------------------------------------------------------------------------------
 
 export const addListOfGamesListenerAction = () => {
-  const userId = store.getState().user.id;
-  const listener = createGameListListener(userId);
+  const listener = createGameListListener();
   return { type: 'ADD_LISTENER', payload: listener };
 }
 
