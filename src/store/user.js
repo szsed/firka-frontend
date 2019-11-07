@@ -6,8 +6,9 @@ const userReducer = (state = initialState, action) => {
       return action.payload;
     case 'LOGOUT':
       return null;
+    default:
+      return state;
   };
-  return state;
 }
 
 export default userReducer;

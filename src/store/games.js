@@ -21,8 +21,9 @@ const gameReducer = (state = initialState, action) => {
         ...state,
         listener: null,
       }
+    default:
+      return state;
   };
-  return state;
 }
 
 export default gameReducer;

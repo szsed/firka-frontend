@@ -41,9 +41,6 @@ const useStyles = theme => ({
 });
 
 class Lobby extends Component {
-  constructor(props) {
-    super(props);
-  };
 
   handleSubmit = () => {
     console.log('elindul a játék');

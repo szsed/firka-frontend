@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 class Canvas extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     let canvas = document.querySelector('#canvas');
     let context = canvas.getContext('2d');
-    let clickX = new Array();
-    let clickY = new Array();
-    let clickDrag = new Array();
+    let clickX = [];
+    let clickY = [];
+    let clickDrag = [];
     let paint;
 
     canvas.addEventListener('mousedown', (event) => {

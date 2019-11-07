@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
+import { connect } from 'react-redux';
 import Akos from '../images/avatars/Akos.png';
+import { addListOfGamesListenerAction, selectGameAction } from '../store/actions';
 
 const useStyles = theme => ({
   games: {
@@ -63,9 +65,12 @@ class Dashboard extends Component {
     };
   };
 
+  componentDidMount() {
+    this.props.addListOfGamesListener();
+  }
 
-  handleClick = () => {
-    console.log('csatlakoztam a szobához');
+  handleClick = (game) => {
+    selectGameAction(game.id);
   };
 
   handleChange = (e) => {
@@ -74,13 +79,12 @@ class Dashboard extends Component {
     });
   };
 
-  handleSubmit = () => {
-    console.log(this.state.newGame);
-    // TODO: hozz létre szobát, és irányítsd oda!
+  handleSubmit = (game) => {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, gameList, user } = this.props;
+    if (!user) return null;
     const { newGame } = this.state;
     return (
       <Fragment>
@@ -90,11 +94,19 @@ class Dashboard extends Component {
           <Paper className={classes.paper}>
             <Avatar
               className={classes.avatar}
-              src={Akos}
+              src={user.avatar}
             />
-            <Typography className={classes.title}>Szervusz Ákos!</Typography>
+            <Typography className={classes.title}>Szervusz {user.display_name}!</Typography>
             <Typography paragraph>Csatlakozz egy meglévő játékhoz:</Typography>
             <div className={classes.games}>
+              {gameList ? gameList.map(game => {
+                return (<Chip
+                  key={game.id}
+                  avatar={<Avatar alt="Natacha" src={game.players[0].avatar} />}
+                  label={game.name}
+                  onClick={() => this.handleClick(game)}
+                />)
+              }) : null}
               <Chip
                 avatar={<Avatar alt="Natacha" src={Akos} />}
                 label="Ákos játéka"
@@ -134,4 +146,14 @@ class Dashboard extends Component {
   }
 }
 
-export default withStyles(useStyles)(Dashboard);
+const mapStateToProps = state => ({
+  user: state.user,
+  gameList: state.lobby.currentGames,
+});
+
+const mapActionsToProps = {
+  addListOfGamesListener: addListOfGamesListenerAction,
+  selectGame: selectGameAction,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Dashboard));
