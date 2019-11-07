@@ -7,6 +7,8 @@ import Dashboard from './pages/dashboard';
 import Leaderboard from './pages/leaderboard';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import store from './store/store';
+import { createCurrentGameListener, startGameInFirestore } from './services/firebase/firebase-services';
 
 function App(props) {
   const { isLoggedin } = props;
@@ -27,3 +29,13 @@ function App(props) {
 
 
 ReactDOM.render(<App />, document.getElementById('root'));
+
+// const testListener = createCurrentGameListener('Rpp6VH4AaDJTGVAe7XNx');
+
+// startGameInFirestore('Rpp6VH4AaDJTGVAe7XNx')
+//   .then(() => {
+//     setTimeout(() => {
+//       console.log(store.getState())
+//     }, 500)
+//   });
+
