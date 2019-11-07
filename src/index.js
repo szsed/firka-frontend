@@ -7,6 +7,28 @@ import Dashboard from './pages/dashboard';
 import Leaderboard from './pages/leaderboard';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { blueGrey, orange } from "@material-ui/core/colors";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blueGrey[700]
+    },
+    secondary: {
+      main: orange[400]
+    },
+    background: {
+      default: "#E5E5E5"
+    }
+  },
+  typography: {
+    fontFamily: "'McLaren', 'cursive'"
+  },
+  shape: {
+    borderRadius: 6
+  }
+});
 
 function App(props) {
   const { isLoggedin } = props;
@@ -25,5 +47,4 @@ function App(props) {
   );
 }
 
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<ThemeProvider theme={theme}><App /></ThemeProvider>, document.getElementById('root'));

@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { CssBaseline } from '@material-ui/core';
 
 class Dashboard extends Component {
   render() {
     return (
-      <h1>Dashboard</h1>
+      <Fragment>
+        <CssBaseline />
+        <h1>Főoldal</h1>
+      </Fragment>
     );
   }
 }
