@@ -47,8 +47,7 @@ class Lobby extends Component {
 
   handleSubmit = () => {
     console.log('elindul a játék');
-    // TODO: indítsd el a játékot!
-    //actionsből kiszedni
+    props.startGameAction();
   };
 
   render() {
@@ -63,11 +62,11 @@ class Lobby extends Component {
             <Typography color="primary">Várjunk meg mindenkit!</Typography>
             <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
             <div className={classes.players}>
+              {/* {for (let i= 0; i < props.user.length; i++) } */}
               <Chip
-                avatar={<Avatar alt="Akos" src={Akos} />}
-                label="Ákos"
+                avatar={<Avatar alt={props.user[i].name} src={props.user[i].img} />}
+                label={props.user[i].name}
               />
-              // src - legyen az avatar, label= username
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
               Játék indítása
@@ -80,7 +79,7 @@ class Lobby extends Component {
 }
 
 const mapStateToProps = {
-
+  user: state.user,
 }
 
 const mapActionsToProps = {
@@ -89,6 +88,7 @@ const mapActionsToProps = {
 
 Lobby.propTypes = {
   startGame: PropTypes.func,
+  user: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));
