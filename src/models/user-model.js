@@ -42,5 +42,5 @@ export const loginUser = (username, password) => {
 
 export const logoutUser = () => {
   localStorage.setItem('token', null);
-  store.dipspatch({ type: 'LOGOUT' });
+  store.dispatch({ type: 'LOGOUT' });
 }

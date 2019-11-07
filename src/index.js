@@ -9,6 +9,8 @@ import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const theme = createMuiTheme({
   palette: {
@@ -47,4 +49,9 @@ function App(props) {
   );
 }
 
-ReactDOM.render(<ThemeProvider theme={theme}><App /></ThemeProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Provider>, document.getElementById('root'));
