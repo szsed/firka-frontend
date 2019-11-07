@@ -70,9 +70,15 @@ class Register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('regisztráltam')
     const { username, password } = this.state;
-    registerUser({ username, password });
+    registerUser({ username, password })
+      .then(parsed => {
+        if (parsed.message) {
+          this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+        } else {
+          this.props.history.push("/");
+        }
+      })
   }
 
   render() {
@@ -114,7 +120,7 @@ class Register extends Component {
                 id="password"
                 onChange={this.handlePasswordChange}
                 onBlur={event => this.validate(event)}
-                helperText={this.state.passwordError}
+                helperText={this.state.passwordError || this.state.responseError}
               />
               <Button
                 type="submit"
@@ -126,6 +132,7 @@ class Register extends Component {
               >
                 Regisztrálok
               </Button>
+              <label>{this.state.responseError}</label>
               <Grid container>
                 <Grid item>
                   <Link underline="always" href="/login" variant="body2">
