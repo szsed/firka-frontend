@@ -72,20 +72,6 @@ class Register extends Component {
     e.preventDefault();
     console.log('regisztráltam')
     const { username, password } = this.state;
-    /* const { username, password } = this.state;
-    if (!username || !password) {
-      return;
-    }
-    this.props.signupUser(username, password)
-      .then(parsed => {
-        if (parsed.message) {
-          throw new Error(parsed.message);
-        }
-        else {
-          localStorage.setItem('token', parsed);
-        }
-      })
-      .catch(error => this.setState({ responseError: error.message })); */
     registerUser({ username, password });
   }
 
