@@ -70,22 +70,11 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
-    /* const { username, password } = this.state;
-
-    if (!username || !password) {
-      return;
-    }
-    this.props.loginUser(username, password)
-      .then(parsed => {
-        localStorage.setItem('token', parsed);
-        this.onLogin();
-      })
-      .catch(error => this.setState({ responseError: error.message })); */
-      loginUser(username, password)
-      .then(parsed => {
-        if(parsed.message) {
-          this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
-        } else {
+    loginUser(username, password)
+    .then(parsed => {
+      if(parsed.message) {
+        this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+      } else {
         this.props.history.push("/"); 
       }
     })
@@ -135,7 +124,7 @@ class Login extends Component {
                   id="password"
                   onChange={this.handlePasswordChange}
                   onBlur={event => this.validate(event)}
-                  helperText={this.state.passwordError}
+                  helperText={this.state.passwordError || this.state.responseError}
                 />
                 <Button
                   type="submit"
@@ -147,7 +136,6 @@ class Login extends Component {
                 >
                   Bejelentkezés
                 </Button>
-                <label>{this.state.responseError}</label>
                 <Grid container>
                   <Grid item>
                     <Link underline="always" href="/register" variant="body2">
