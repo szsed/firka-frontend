@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { CssBaseline } from '@material-ui/core';
 
 class Register extends Component {
   render() {
     return (
-      <h1>Register</h1>
+      <Fragment>
+        <CssBaseline />
+        <h1>Register</h1>
+      </Fragment>
     );
   }
 }
