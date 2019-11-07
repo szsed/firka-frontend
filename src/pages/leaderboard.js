@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { CssBaseline } from '@material-ui/core';
 
 class Leaderboard extends Component {
   render() {
     return (
-      <h1>Leaderboard</h1>
+      <Fragment>
+        <CssBaseline />
+        <h1>Ranglista</h1>
+      </Fragment>
     );
   }
 }

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from 'react';
+import { CssBaseline } from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -89,9 +89,10 @@ class Register extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline>
-          <div className={classes.paper}>
+      <Fragment>
+        <CssBaseline />
+        <Container maxWidth="sm">
+          <Paper className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
@@ -145,8 +146,9 @@ class Register extends Component {
               </Grid>
             </form>
           </div>
-        </CssBaseline>
+        </Paper>
       </Container>
+      </Fragment>
     );
   }
 }
