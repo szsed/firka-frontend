@@ -69,22 +69,17 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('bejelentkeztem')
     const { username, password } = this.state;
-    /* const { username, password } = this.state;
-
-    if (!username || !password) {
-      return;
-    }
-    this.props.loginUser(username, password)
-      .then(parsed => {
-        localStorage.setItem('token', parsed);
-        this.onLogin();
-      })
-      .catch(error => this.setState({ responseError: error.message })); */
     loginUser(username, password)
-      .then(console.log);
+    .then(parsed => {
+      if(parsed.message) {
+        this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+      } else {
+        this.props.history.push("/"); 
+      }
+    })
   }
+  
 
   render() {
     const { classes } = this.props;
@@ -104,42 +99,42 @@ class Login extends Component {
               noValidate
               onSubmit={this.handleSubmit}
             >
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Felhasználónév"
-                name="username"
-                type="text"
-                autoFocus
-                onChange={this.handleUserChange}
-                onBlur={event => this.validate(event)}
-                helperText={this.state.usernameError}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Jelszó"
-                type="password"
-                id="password"
-                onChange={this.handlePasswordChange}
-                onBlur={event => this.validate(event)}
-                helperText={this.state.passwordError}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                disabled={!this.state.username || !this.state.password}
-              >
-                Bejelentkezés
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Felhasználónév"
+                  name="username"
+                  type="text"
+                  autoFocus
+                  onChange={this.handleUserChange}
+                  onBlur={event => this.validate(event)}
+                  helperText={this.state.usernameError}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Jelszó"
+                  type="password"
+                  id="password"
+                  onChange={this.handlePasswordChange}
+                  onBlur={event => this.validate(event)}
+                  helperText={this.state.passwordError || this.state.responseError}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  disabled={!this.state.username || !this.state.password}
+                >
+                  Bejelentkezés
                 </Button>
               <Grid container>
                 <Grid item>
