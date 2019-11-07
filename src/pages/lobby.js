@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Akos from '../images/avatars/Akos.png';
+import { connect } from 'react-redux';
+import { testGame } from '../constants/test-game';
 
 const useStyles = theme => ({
   players: {
@@ -48,7 +50,7 @@ class Lobby extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, currentGame } = this.props;
     return (
       <Fragment>
         <CssBaseline />
@@ -59,10 +61,14 @@ class Lobby extends Component {
             <Typography color="primary">Várjunk meg mindenkit!</Typography>
             <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
             <div className={classes.players}>
-              <Chip
-                avatar={<Avatar alt="Akos" src={Akos} />}
-                label="Ákos"
-              />
+              {/* {currentGame.players.map(player => ( */}
+              {testGame.players.map(player => (
+                <Chip
+                  avatar={<Avatar alt={player.name} src={player.img} />}
+                  label={player.name}
+                  key={player.id}
+                />
+              ))}
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
               Játék indítása
@@ -74,4 +80,10 @@ class Lobby extends Component {
   }
 }
 
-export default withStyles(useStyles)(Lobby);
+const mapStateToProps = state => {
+  return {
+    currentGame: state.game.gameStats,
+  };
+}
+
+export default connect(mapStateToProps, null)(withStyles(useStyles)(Lobby));

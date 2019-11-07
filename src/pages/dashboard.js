@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Akos from '../images/avatars/Akos.png';
+import { connect } from 'react-redux';
+import { testGameList } from '../constants/test-game';
 
 const useStyles = theme => ({
   games: {
@@ -64,8 +66,9 @@ class Dashboard extends Component {
   };
 
 
-  handleClick = () => {
+  handleClick = (game) => {
     console.log('csatlakoztam a szobához');
+    console.log(game);
   };
 
   handleChange = (e) => {
@@ -80,7 +83,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, gameList } = this.props;
     const { newGame } = this.state;
     return (
       <Fragment>
@@ -95,26 +98,14 @@ class Dashboard extends Component {
             <Typography className={classes.title}>Szervusz Ákos!</Typography>
             <Typography paragraph>Csatlakozz egy meglévő játékhoz:</Typography>
             <div className={classes.games}>
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
+              {testGameList.map(game => (
+                <Chip
+                  avatar={<Avatar alt="Natacha" src={Akos} />}
+                  label={game.name}
+                  onClick={() => this.handleClick(game)}
+                  key={game.id}
+                />
+              ))}
             </div>
             <Typography paragraph>Vagy hozz létre egy új játékot:</Typography>
             <TextField
@@ -134,4 +125,10 @@ class Dashboard extends Component {
   }
 }
 
-export default withStyles(useStyles)(Dashboard);
+const mapStateToProps = state => {
+  return {
+    gameList: state.gameList,
+  };
+}
+
+export default connect(mapStateToProps, null)(withStyles(useStyles)(Dashboard));

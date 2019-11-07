@@ -6,7 +6,7 @@ import leaderboardReducer from './leaderboard';
 
 const rootReducer = combineReducers({
     user: userReducer,
-    // gameReducer,
+    gameList: gameReducer,
     game: currentGameReducer
     // leaderboardReducer,
 });
