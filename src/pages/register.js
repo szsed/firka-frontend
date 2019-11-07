@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CssBaseline, Paper} from '@material-ui/core';
+import { CssBaseline, Paper } from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -11,6 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { registerUser } from '../models/user-model';
 
 const useStyles = theme => ({
   paper: {
@@ -70,6 +71,7 @@ class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log('regisztráltam')
+    const { username, password } = this.state;
     /* const { username, password } = this.state;
     if (!username || !password) {
       return;
@@ -84,6 +86,7 @@ class Register extends Component {
         }
       })
       .catch(error => this.setState({ responseError: error.message })); */
+    registerUser({ username, password });
   }
 
   render() {
@@ -145,8 +148,8 @@ class Register extends Component {
                 </Grid>
               </Grid>
             </form>
-        </Paper>
-      </Container>
+          </Paper>
+        </Container>
       </Fragment>
     );
   }

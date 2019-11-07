@@ -2,26 +2,25 @@ const API = 'http://localhost:4000';
 
 const addTokenToHeaders = params => {
   const token = localStorage.getItem('token');
-  const modifiedParams;
+  let modifiedParams;
   if (params) {
     if (params.headers) {
       modifiedParams = {
         ...params,
         headers: {
-          ...headers,
+          ...params.headers,
           token,
         }
       }
     } else {
       modifiedParams = {
-        modifiedParams = {
-          ...params,
-          headers: {
-            token,
-          }
+        ...params,
+        headers: {
+          token,
         }
       }
     }
+
   } else {
     modifiedParams = {
       headers: {
