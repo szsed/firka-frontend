@@ -14,9 +14,6 @@ class VoteMix extends Component {
     }
   }
 
-  currentImgSource = '';
-  currentImgIndex = 0;
-
   componentDidMount() {
     this.currentImgSource = this.props.images[currentImgIndex].source
     setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
