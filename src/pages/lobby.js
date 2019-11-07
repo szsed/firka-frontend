@@ -3,6 +3,9 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Akos from '../images/avatars/Akos.png';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { startGameAction } from '../store/actions';
 
 const useStyles = theme => ({
   players: {
@@ -45,6 +48,7 @@ class Lobby extends Component {
   handleSubmit = () => {
     console.log('elindul a játék');
     // TODO: indítsd el a játékot!
+    //actionsből kiszedni
   };
 
   render() {
@@ -63,6 +67,7 @@ class Lobby extends Component {
                 avatar={<Avatar alt="Akos" src={Akos} />}
                 label="Ákos"
               />
+              // src - legyen az avatar, label= username
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
               Játék indítása
@@ -74,4 +79,16 @@ class Lobby extends Component {
   }
 }
 
-export default withStyles(useStyles)(Lobby);
+const mapStateToProps = {
+
+}
+
+const mapActionsToProps = {
+  startGame: startGameAction,
+};
+
+Lobby.propTypes = {
+  startGame: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));
