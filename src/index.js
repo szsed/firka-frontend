@@ -7,8 +7,11 @@ import Dashboard from './pages/dashboard';
 import Leaderboard from './pages/leaderboard';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import LobbyPage from './pages/lobby';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const theme = createMuiTheme({
   palette: {
@@ -43,8 +46,14 @@ function App(props) {
           <Route exact path="/" component={WelcomePage} />
         )}
       <Route exact path="/leaderboard" component={Leaderboard} />
+      <Route exact path="/lobby" component={LobbyPage} />
     </Router>
   );
 }
 
-ReactDOM.render(<ThemeProvider theme={theme}><App /></ThemeProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Provider>, document.getElementById('root'));

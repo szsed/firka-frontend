@@ -8,6 +8,10 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
 import Logo_white from '../images/logo_white.png';
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+import { logoutUser } from "../models/user-model";
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -34,11 +38,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Navbar(props) {
+function Navbar(props) {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const { isLoggedIn } = props;
+  const { userData } = props;
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -49,8 +53,10 @@ export default function Navbar(props) {
   };
 
   const handleLogout = () => {
-    console.log('kijelentkeztem');
+    logoutUser();
+    props.history.push('/login');
   }
+
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -63,41 +69,41 @@ export default function Navbar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {isLoggedIn ? (
+      {!userData ? (
         <div>
-          <Link underline="none" color="inherit" href="/account">
+          <Link underline="none" color="inherit" href="/login">
             <MenuItem>
               <IconButton aria-label="show 4 new mails" color="inherit">
-                <AccountCircleRoundedIcon />
+                <LockOpenRoundedIcon />
               </IconButton>
-              <p>Fiókom</p>
+              <p>Bejelentkezés</p>
             </MenuItem>
           </Link>
-          <MenuItem onClick={handleLogout}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <ExitToAppRoundedIcon />
-            </IconButton>
-            <p>Kijelentkezés</p>
-          </MenuItem>
+          <Link underline="none" color="inherit" href="/register">
+            <MenuItem>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <EmojiPeopleRoundedIcon />
+              </IconButton>
+              <p>Regisztráció</p>
+            </MenuItem>
+          </Link>
         </div>
       ) : (
           <div>
-            <Link underline="none" color="inherit" href="/login">
+            <Link underline="none" color="inherit" href="/account">
               <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                  <LockOpenRoundedIcon />
+                  <AccountCircleRoundedIcon />
                 </IconButton>
-                <p>Bejelentkezés</p>
+                <p>Fiókom</p>
               </MenuItem>
             </Link>
-            <Link underline="none" color="inherit" href="/register">
-              <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                  <EmojiPeopleRoundedIcon />
-                </IconButton>
-                <p>Regisztráció</p>
-              </MenuItem>
-            </Link>
+            <MenuItem onClick={handleLogout}>
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <ExitToAppRoundedIcon />
+              </IconButton>
+              <p>Kijelentkezés</p>
+            </MenuItem>
           </div>
         )}
     </Menu>
@@ -112,29 +118,30 @@ export default function Navbar(props) {
           </a>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {isLoggedIn ? (
+            {!userData ? (
+
               <div>
-                <Button href="/account" startIcon={<AccountCircleRoundedIcon />} className={classes.button} color="inherit">
-                  Fiókom
+                <Button href="/login" className={classes.button} color="inherit">
+                  Bejelentkezés
                 </Button>
-                <Button onClick={handleLogout} startIcon={<ExitToAppRoundedIcon />} className={classes.button} color="inherit"
+                <Button
+                  href="/register"
+                  className={classes.button}
+                  color="secondary"
+                  variant="contained"
                 >
-                  Kijelentkezés
+                  Regisztráció
                 </Button>
               </div>
             ) : (
                 <div>
-                  <Button href="/login" className={classes.button} color="inherit">
-                    Bejelentkezés
-          </Button>
-                  <Button
-                    href="/register"
-                    className={classes.button}
-                    color="secondary"
-                    variant="contained"
+                  <Button href="/account" startIcon={<AccountCircleRoundedIcon />} className={classes.button} color="inherit">
+                    Fiókom
+                  </Button>
+                  <Button onClick={handleLogout} startIcon={<ExitToAppRoundedIcon />} className={classes.button} color="inherit"
                   >
-                    Regisztráció
-          </Button>
+                    Kijelentkezés
+                  </Button>
                 </div>
               )}
           </div>
@@ -160,3 +167,11 @@ export default function Navbar(props) {
 Navbar.propTypes = {
   isLoggedIn: PropTypes.bool,
 };
+
+const mapStateToProps = state => {
+  return {
+    userData: state.user,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, null)(Navbar));

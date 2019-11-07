@@ -5,10 +5,10 @@ import currentGameReducer from './current_game';
 import leaderboardReducer from './leaderboard';
 
 const rootReducer = combineReducers({
-    // userReducer,
-    // gameReducer,
-    game: currentGameReducer
-    // leaderboardReducer,
+    user: userReducer,
+    lobby: gameReducer,
+    game: currentGameReducer,
+    scores: leaderboardReducer,
 });
 
 console.log(rootReducer);
