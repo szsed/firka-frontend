@@ -12,6 +12,7 @@ export const registerUser = (userData) => {
   })
     .then(response => response.json())
     .then(parsed => {
+      if (parsed.message) throw parsed.message;
       localStorage.setItem('token', parsed.token);
       store.dispatch({ type: 'LOGIN', payload: parsed });
       return parsed;
@@ -33,6 +34,7 @@ export const loginUser = (username, password) => {
   })
     .then(response => response.json())
     .then(parsed => {
+      if (parsed.message) throw parsed.message;
       localStorage.setItem('token', parsed.token);
       store.dispatch({ type: 'LOGIN', payload: parsed });
       return parsed;

@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000';
+const API = 'http://localhost:4000';
 
 const addTokenToHeaders = params => {
   const token = localStorage.getItem('token');
