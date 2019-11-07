@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Paper} from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +9,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { signupUserAction } from '../../redux/actions/user-actions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -70,7 +69,8 @@ class Register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
+    console.log('regisztráltam')
+    /* const { username, password } = this.state;
     if (!username || !password) {
       return;
     }
@@ -83,7 +83,7 @@ class Register extends Component {
           localStorage.setItem('token', parsed);
         }
       })
-      .catch(error => this.setState({ responseError: error.message }));
+      .catch(error => this.setState({ responseError: error.message })); */
   }
 
   render() {
@@ -145,7 +145,6 @@ class Register extends Component {
                 </Grid>
               </Grid>
             </form>
-          </div>
         </Paper>
       </Container>
       </Fragment>
@@ -153,12 +152,12 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
+/* Register.propTypes = {
   signupUser: PropTypes.func,
 };
 
 const mapActionsToProps = {
   signupUser: signupUserAction,
-};
+}; */
 
-export default connect(null, mapActionsToProps)(withStyles(useStyles)(Register));
+export default /* connect(null, mapActionsToProps)( */withStyles(useStyles)(Register);

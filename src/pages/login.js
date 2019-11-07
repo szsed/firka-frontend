@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline, Paper} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -11,7 +11,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { loginUserAction } from '../../redux/actions/user-actions';
 
 const useStyles = theme => ({
   paper: {
@@ -69,7 +68,8 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
+    console.log('bejelentkeztem')
+    /* const { username, password } = this.state;
 
     if (!username || !password) {
       return;
@@ -79,7 +79,7 @@ class Login extends Component {
         localStorage.setItem('token', parsed);
         this.onLogin();
       })
-      .catch(error => this.setState({ responseError: error.message }));
+      .catch(error => this.setState({ responseError: error.message })); */
   }
 
   render() {
@@ -152,12 +152,12 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+/* Login.propTypes = {
   loginUser: PropTypes.func,
 };
 
 const mapActionsToProps = {
   loginUser: loginUserAction,
-};
+}; */
 
-export default connect(null, mapActionsToProps)(withStyles(useStyles)(Login));
+export default /* connect(null, mapActionsToProps)( */withStyles(useStyles)(Login);
