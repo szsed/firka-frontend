@@ -81,6 +81,8 @@ class Login extends Component {
         this.onLogin();
       })
       .catch(error => this.setState({ responseError: error.message })); */
+      loginUser(username, password)
+      .then(console.log);
   }
 
   render() {

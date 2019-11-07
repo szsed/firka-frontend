@@ -84,6 +84,8 @@ class Register extends Component {
         }
       })
       .catch(error => this.setState({ responseError: error.message })); */
+      registerUser(username, password)
+      .then(console.log);
   }
 
   render() {
