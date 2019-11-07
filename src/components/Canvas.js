@@ -15,7 +15,7 @@ class Canvas extends Component {
     let clickDrag = new Array();
     let paint;
 
-    canvas.addEventListener('mousedown', (e) => {
+    canvas.addEventListener('mousedown', (event) => {
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
 
@@ -24,7 +24,7 @@ class Canvas extends Component {
       redraw();
     });
 
-    canvas.addEventListener('mousemove', (e) => {
+    canvas.addEventListener('mousemove', (event) => {
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
       if (paint) {
@@ -41,14 +41,14 @@ class Canvas extends Component {
       paint = false;
     });
 
-    const clearButton = document.querySelector('#clearButton') // not implemented
-    clearButton.addEventListener('click', () => {
-      clickX = [];
-      clickY = [];
-      clickDrag = [];
-      paint;
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    })
+    // const clearButton = document.querySelector('#clearButton') // not implemented
+    // clearButton.addEventListener('click', () => {
+    //   clickX = [];
+    //   clickY = [];
+    //   clickDrag = [];
+    //   paint = false;
+    //   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    // })
 
     const strokeColor = "black";
     const strokeWidt = 5;
