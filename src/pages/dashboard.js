@@ -98,6 +98,7 @@ class Dashboard extends Component {
             <Typography className={classes.title}>Szervusz Ákos!</Typography>
             <Typography paragraph>Csatlakozz egy meglévő játékhoz:</Typography>
             <div className={classes.games}>
+              // TODO: change map
               {testGameList.map(game => (
                 <Chip
                   avatar={<Avatar alt="Natacha" src={Akos} />}
@@ -127,7 +128,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    gameList: state.gameList,
+    gameList: state.lobby,
   };
 }
 
