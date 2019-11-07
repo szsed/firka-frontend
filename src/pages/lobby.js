@@ -3,6 +3,9 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Akos from '../images/avatars/Akos.png';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { startGameAction } from '../store/actions';
 
 const useStyles = theme => ({
   players: {
@@ -38,13 +41,10 @@ const useStyles = theme => ({
 });
 
 class Lobby extends Component {
-  constructor(props) {
-    super(props);
-  };
 
   handleSubmit = () => {
     console.log('elindul a játék');
-    // TODO: indítsd el a játékot!
+    props.startGameAction();
   };
 
   render() {
@@ -59,9 +59,10 @@ class Lobby extends Component {
             <Typography color="primary">Várjunk meg mindenkit!</Typography>
             <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
             <div className={classes.players}>
+              {/* {for (let i= 0; i < props.user.length; i++) } */}
               <Chip
-                avatar={<Avatar alt="Akos" src={Akos} />}
-                label="Ákos"
+                avatar={<Avatar alt={props.user[i].name} src={props.user[i].img} />}
+                label={props.user[i].name}
               />
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
@@ -74,4 +75,17 @@ class Lobby extends Component {
   }
 }
 
-export default withStyles(useStyles)(Lobby);
+const mapStateToProps = {
+  user: state.user,
+}
+
+const mapActionsToProps = {
+  startGame: startGameAction,
+};
+
+Lobby.propTypes = {
+  startGame: PropTypes.func,
+  user: PropTypes.array,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));

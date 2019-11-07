@@ -9,8 +9,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { registerUser } from '../models/user-model';
 
 const useStyles = theme => ({

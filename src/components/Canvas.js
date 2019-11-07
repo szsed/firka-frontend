@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 class Canvas extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     let canvas = document.querySelector('#canvas');
     let context = canvas.getContext('2d');
-    let clickX = new Array();
-    let clickY = new Array();
-    let clickDrag = new Array();
+    let clickX = [];
+    let clickY = [];
+    let clickDrag = [];
     let paint;
 
-    canvas.addEventListener('mousedown', (e) => {
+    canvas.addEventListener('mousedown', (event) => {
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
 
@@ -24,7 +19,7 @@ class Canvas extends Component {
       redraw();
     });
 
-    canvas.addEventListener('mousemove', (e) => {
+    canvas.addEventListener('mousemove', (event) => {
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
       if (paint) {
@@ -41,6 +36,7 @@ class Canvas extends Component {
       paint = false;
     });
 
+
     /*     const clearButton = document.querySelector('#clearButton') // not implemented
         clearButton.addEventListener('click', () => {
           clickX = [];
@@ -49,6 +45,7 @@ class Canvas extends Component {
           paint;
           context.clearRect(0, 0, context.canvas.width, context.canvas.height);
         }) */
+
 
     const strokeColor = "black";
     const strokeWidt = 5;
