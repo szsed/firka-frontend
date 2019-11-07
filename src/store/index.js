@@ -6,9 +6,9 @@ import leaderboardReducer from './leaderboard';
 
 const rootReducer = combineReducers({
     user: userReducer,
-    // gameReducer,
-    game: currentGameReducer
-    // leaderboardReducer,
+    lobby: gameReducer,
+    game: currentGameReducer,
+    scores: leaderboardReducer,
 });
 
 console.log(rootReducer);

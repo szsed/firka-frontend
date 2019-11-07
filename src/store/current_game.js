@@ -9,7 +9,7 @@ const initialState = {
   allGuessesAreSent: false,
   correctAnswer: '',
   choiceSent: false,
-  allChoicesSent: false,
+  // allChoicesSent: false,
   listener: null,
 };
 
@@ -20,7 +20,7 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         gameStats: action.payload,
       }
-        
+
     case 'NEXT_ROUND':
       return {
         ...state,
@@ -30,18 +30,17 @@ const currentGameReducer = (state = initialState, action) => {
         correctAnswer: '',
         choiceSent: false,
         allChoicesSent: false,
-        gameStatus: 'wait_for_start',
-      };
-    case 'SEND_DRAW':
-      console.log('asd');
-      return {
-        ...state,
-        drawingIsSent: true,
+        gameStatus: 'guess',
       };
     case 'GAME_STATUS_CHANGE':
       return {
         ...state,
         gameStatus: action.payload,
+      };
+    case 'SEND_DRAW':
+      return {
+        ...state,
+        drawingIsSent: true,
       };
     case 'ALL_DRAWINGS_SENT':
       return {
@@ -68,17 +67,18 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         choiceSent: true,
       }
-    case 'ALL_CHOICES_SENT':
-      return {
-        ...state,
-        allChoicesSent: true,
-      }
+    // case 'ALL_CHOICES_SENT':
+    //   return {
+    //     ...state,
+    //     allChoicesSent: true,
+    //   }
     case 'START_GAME':
       return {
-        ...state,
+        ...initialState,
         listener: action.payload,
       }
     case 'STOP_GAME':
+      state.listener();
       return {
         ...state,
         listener: null,
