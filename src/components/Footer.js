@@ -1,19 +1,20 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { makeStyles } from "@material-ui/core/styles";
 import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
-import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
-import ContactSupportRoundedIcon from '@material-ui/icons/ContactSupportRounded';
+import TrendingUpRoundedIcon from "@material-ui/icons/TrendingUpRounded";
+import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 
 const useStyles = makeStyles({
   root: {
     flexGrow: 2,
     display: "flex",
     justifyContent: "space-around",
-    alignItems: "flex-end",
-    minHeight: "90vh",
+    position: "absolute",
+    rigth: 0,
+    bottom: 0,
+    left: 0,
   }
 });
 
@@ -26,8 +27,8 @@ export default function Footer() {
   };
 
   return (
-    <Paper square className={classes.root} >
     <Tabs
+      className={classes.root}
       value={value}
       onChange={handleChange}
       variant="fullWidth"
@@ -39,6 +40,5 @@ export default function Footer() {
       <Tab icon={<TrendingUpRoundedIcon />} label="Ranglista" />
       <Tab icon={<ContactSupportRoundedIcon />} label="Szabályok" />
     </Tabs>
-  </Paper>
   );
 }
