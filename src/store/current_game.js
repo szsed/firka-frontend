@@ -87,8 +87,9 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         listener: null,
       }
+    default:
+      return state;
   };
-  return state;
 }
 
 export default currentGameReducer;

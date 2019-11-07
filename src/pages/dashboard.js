@@ -4,7 +4,6 @@ import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, C
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
 import Akos from '../images/avatars/Akos.png';
-import store from '../store/store';
 import { addListOfGamesListenerAction, selectGameAction } from '../store/actions';
 
 const useStyles = theme => ({
@@ -59,13 +58,19 @@ const useStyles = theme => ({
 });
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newGame: '',
+    };
+  };
 
   componentDidMount() {
-    store.dispatch(addListOfGamesListenerAction())
+    this.props.addListOfGamesListener();
   }
 
-  handleClick = () => {
-    console.log('csatlakoztam a szobához');
+  handleClick = (game) => {
+    selectGameAction(game.id);
   };
 
   handleChange = (e) => {
@@ -75,7 +80,6 @@ class Dashboard extends Component {
   };
 
   handleSubmit = (game) => {
-    selectGameAction(game.id);
   };
 
   render() {
@@ -97,6 +101,7 @@ class Dashboard extends Component {
             <div className={classes.games}>
               {gameList ? gameList.map(game => {
                 return (<Chip
+                  key={game.id}
                   avatar={<Avatar alt="Natacha" src={game.players[0].avatar} />}
                   label={game.name}
                   onClick={() => this.handleClick(game)}
@@ -147,6 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
+  addListOfGamesListener: addListOfGamesListenerAction,
   selectGame: selectGameAction,
 }
 

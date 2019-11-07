@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Canvas from '../components/Canvas';
 import { sendImageToFirestore } from '../services/firebase/firebase-services';
-import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
+import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { calculateString } from 'bytebuffer';
 
 const timeToUpload = 11000;
 
@@ -55,9 +54,6 @@ const useStyles = theme => ({
 });
 
 class Draw extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     setTimeout(this.uploadImage, timeToUpload);

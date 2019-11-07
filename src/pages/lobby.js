@@ -41,9 +41,6 @@ const useStyles = theme => ({
 });
 
 class Lobby extends Component {
-  constructor(props) {
-    super(props);
-  };
 
   handleSubmit = () => {
     console.log('elindul a játék');
@@ -67,7 +64,6 @@ class Lobby extends Component {
                 avatar={<Avatar alt="Akos" src={Akos} />}
                 label="Ákos"
               />
-              // src - legyen az avatar, label= username
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
               Játék indítása

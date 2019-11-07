@@ -1,52 +1,15 @@
 import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, startGameInFirestore, createCurrentGameListener } from "../services/firebase/firebase-services"
 import store from "./store";
 
-// export const refreshGamesAction = () => {
-  //   return dispatch => {
-//     return refreshGame()
-//       // mi kell ennek??? ez jó függvény itt???
-//       .then(response => {
-//         const dataOfGames = response.json;
-//         // ez így gut???
-//         dispatch({ type: 'REFRESH_GAMES', payload: dataOfGames });
-//       })
-//   }
-// }
 
-// export const loginAction = () => {
-//   return dispatch => {
-  //     return loginUser(username, password)
-//       // mi kell ennek??? ez jó függvény itt???
-//       .then(response => {
-//         const userData = response.json;
-//         // ez így gut???
-//         dispatch({ type: 'LOGIN', payload: userData });
-//       })
-//   }
-// }
 
-// export const logoutAction = () => {
-//   return { type: 'LOGOUT' };
-// }
-
-// export const addScoresToLeaderboardAction = () => {
-//   return dispatch => {
-//     return addScoresToLeaderboard()
-//       // mi kell ennek??? ez jó függvény itt???            
-//       .then(response => {
-//         const scoresData = response.json;
-//         // ez így gut???
-//         dispatch({ type: 'ADD_SCORES', payload: scoresData });
-//       })
-//   }
-// }
 
 // export const updateGameStatsAction = () => {
-  //   return dispatch => {
+//   return dispatch => {
 //     return updateGameStats()
 //       // mi kell ennek??? ez jó függvény itt???
 //       .then(response => {
-  //         const gameStats = response.json;
+//         const gameStats = response.json;
 //         // ez így gut???
 //         dispatch({ type: 'UPDATE_GAMESTATS', payload: gameStats });
 //       })
@@ -57,8 +20,8 @@ import store from "./store";
 //   let currentNumberOfChoices = 0;
 //   for (let i = 0; i < gameStats.players.length; i++) {
 //     if (gameStats.players[i].guesses.length === currentRound()) {
-  //       currentNumberOfChoices++;
-  //     }
+//       currentNumberOfChoices++;
+//     }
 //   }
 //   if (currentNumberOfChoices === playerNumber) {
 //     return { type: 'ALL_CHOICES_SENT' };
@@ -67,7 +30,7 @@ import store from "./store";
 
 // -----------------------------------------------------------------------------------------------------
 
-export const playerNumber = () =>{
+export const playerNumber = () => {
   return 3;
 };
 
