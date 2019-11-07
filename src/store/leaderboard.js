@@ -1,15 +1,9 @@
-'use strict';
-
-const initialState = {
-
-};
+const initialState = [];
 
 const leaderboardReducer = (state = initialState, action) => {
   switch (action.type) {
-    case '':
-      return {
-
-      }
+    case 'ADD_SCORES':
+      return action.payload
   };
   return state;
 }

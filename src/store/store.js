@@ -1,5 +1,3 @@
-'use strict';
-
 import rootReducer from './index';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
