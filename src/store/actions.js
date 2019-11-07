@@ -1,17 +1,8 @@
-import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore } from "../services/firebase/firebase-services"
+import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, startGameInFirestore } from "../services/firebase/firebase-services"
 import store from "./store";
 
 const playerNumber = 3;
-
-export const addListOfGamesListenerAction = () => {
-  const userId = store.getState().user.id;
-  const listener = createGameListListener(userId);
-  return { type: 'ADD_LISTENER', payload: listener };
-}
-
-export const stopListOfGamesListenerAction = () => {
-  return { type: 'STOP_LISTENER' };
-}
+const currentRound = store.getState().roundCounter;
 
 // export const refreshGamesAction = () => {
 //   return dispatch => {
@@ -65,7 +56,29 @@ export const stopListOfGamesListenerAction = () => {
 //   }
 // }
 
-// -----------------------------------------------------------------------------------
+// export const areAllChoicesSentAction = () => {
+//   let currentNumberOfChoices = 0;
+//   for (let i = 0; i < gameStats.players.length; i++) {
+//     if (gameStats.players[i].guesses.length === currentRound) {
+//       currentNumberOfChoices++;
+//     }
+//   }
+//   if (currentNumberOfChoices === playerNumber) {
+//     return { type: 'ALL_CHOICES_SENT' };
+//   }
+// }
+
+// -----------------------------------------------------------------------------------------------------
+
+export const addListOfGamesListenerAction = () => {
+  const userId = store.getState().user.id;
+  const listener = createGameListListener(userId);
+  return { type: 'ADD_LISTENER', payload: listener };
+}
+
+export const stopListOfGamesListenerAction = () => {
+  return { type: 'STOP_LISTENER' };
+}
 
 export const nextRoundAction = () => {
   return { type: 'NEXT_ROUND' };
@@ -79,10 +92,10 @@ export const sendDrawingAction = (drawing) => {
 
 export const sendGuessAction = (guess) => {
   const userId = store.getState().user.id;
-  if (userId !== store.getState().game.gameStats.players[roundCounter].id) {
+  if (userId !== store.getState().game.gameStats.players[currentRound - 1].id) {
     sendGuessToFirestore(userId, guess);
   } else {
-    sendGuessToFirestore(userId, store.getState().game.gameStats.players[roundCounter].word)
+    sendGuessToFirestore(userId, store.getState().game.gameStats.players[currentRound - 1].word)
   }
   return { type: 'SEND_GUESS' };
 }
@@ -90,9 +103,9 @@ export const sendGuessAction = (guess) => {
 export const sendChoiceAction = (choice) => {
   const userId = store.getState().user.id;
   let userIdRelatedToTheChosenGuess = 0;
-  if (choice !== store.getState().game.gameStats.players[roundCounter].word) {
+  if (choice !== store.getState().game.gameStats.players[currentRound - 1].word) {
     for (let i = 0; i < store.getState().game.gameStats.players.length; i++) {
-      if (store.getState().game.gameStats.players[i].guesses[roundCounter] === choice) {
+      if (store.getState().game.gameStats.players[i].guesses[currentRound - 1] === choice) {
         userIdRelatedToTheChosenGuess = store.getState().game.gameStats.players[i].id;
       }
     }
@@ -100,7 +113,7 @@ export const sendChoiceAction = (choice) => {
     return { type: 'SEND_CHOICE' };
   } else {
     sendScoreToFirestore(userId, 10);
-    sendScoreToFirestore(store.getState().game.gameStats.players[roundCounter].id, 10)
+    sendScoreToFirestore(store.getState().game.gameStats.players[currentRound - 1].id, 10)
     return { type: 'SEND_CHOICE' };
   }
 }
@@ -120,7 +133,7 @@ export const areAllDrawingsSentAction = () => {
 export const areAllGuessesSentAction = () => {
   let currentNumberOfGuesses = 0;
   for (let i = 0; i < store.getState().game.gameStats.players.length; i++) {
-    if (store.getState().game.gameStats.players[i].guesses.length === roundCounter) {
+    if (store.getState().game.gameStats.players[i].guesses.length === currentRound) {
       currentNumberOfGuesses++;
     }
   }
@@ -129,25 +142,44 @@ export const areAllGuessesSentAction = () => {
   }
 }
 
-// export const areAllChoicesSentAction = () => {
-//   let currentNumberOfChoices = 0;
-//   for (let i = 0; i < gameStats.players.length; i++) {
-//     if (gameStats.players[i].guesses.length === roundCounter) {
-//       currentNumberOfChoices++;
-//     }
-//   }
-//   if (currentNumberOfChoices === playerNumber) {
-//     return { type: 'ALL_CHOICES_SENT' };
-//   }
-// }
-
 export const endGameAction = () => {
   return { type: 'STOP_GAME' };
 }
 
 export const startGameAction = () => {
   const gameId = store.getState().game.id;
-  // kell game id az adatbázisba (vagy van már?)
   const listener = startGameInFirestore(gameId);
+  store.dispatch(whatIsTheCorrectAnswerAction());
+  // ^^ ez így jó???
   return { type: 'START_GAME', payload: listener };
 }
+
+export const changeGameStatusAction = (toWhichStatusToChange) => {
+  return { type: 'GAME_STATUS_CHANGE', payload: toWhichStatusToChange };
+}
+
+export const whatIsTheCorrectAnswerAction = () => {
+  const correctAnswer = store.getState().game.gameStats.players[currentRound - 1].word;
+  return { type: 'CORRECT_ANSWER_IS', payload: correctAnswer }
+}
+
+export const blockGuessingAction = () => {
+  const userId = store.getState().user.id;
+  if (userId !== store.getState().game.gameStats.players[currentRound - 1].id) {
+    return null;
+  } else {
+    return 'Kérlek várj, amíg a többiek szavaznak!'
+    // ^^ ez így jó?
+  }
+}
+
+export const buidlingChoicesAction = () => {
+  const userId = store.getState().user.id;
+  if (userId !== store.getState().game.gameStats.players[currentRound - 1].id) {
+    return null;
+  } else {
+    return 'Kérlek várj, amíg a többiek választanak!'
+    // ^^ ez így jó?
+  }
+}
+
