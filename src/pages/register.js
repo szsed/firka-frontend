@@ -57,7 +57,7 @@ class Register extends Component {
     if (event.target.type === "text") {
       this.setState({
         usernameError:
-          username.length > 0 ? "" : "Kérjük, válassz felhasználónevet!"
+          username.length > 0 ? "" : "Válassz felhasználónevet!"
       });
     }
     if (event.target.type === "password") {
@@ -139,7 +139,7 @@ class Register extends Component {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link underline="none" href="/login" variant="body2">
+                  <Link underline="always" href="/login" variant="body2">
                     {"Már van fiókom, belépek!"}
                   </Link>
                 </Grid>

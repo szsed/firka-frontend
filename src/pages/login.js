@@ -56,7 +56,7 @@ class Login extends Component {
     if (event.target.type === "text") {
       this.setState({
         usernameError:
-          username.length > 0 ? "" : "Kérjük, válassz felhasználónevet!"
+          username.length > 0 ? "" : "Felhasználónév megadása kötelező!"
       });
     }
     if (event.target.type === "password") {
@@ -106,7 +106,7 @@ class Login extends Component {
                   required
                   fullWidth
                   id="username"
-                  label="Válassz felhasználónevet!"
+                  label="Felhasználónév"
                   name="username"
                   type="text"
                   autoFocus
@@ -120,7 +120,7 @@ class Login extends Component {
                   required
                   fullWidth
                   name="password"
-                  label="Válassz jelszót!"
+                  label="Jelszó"
                   type="password"
                   id="password"
                   onChange={this.handlePasswordChange}
@@ -139,7 +139,7 @@ class Login extends Component {
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link underline="none" href="/register" variant="body2">
+                    <Link underline="always" href="/register" variant="body2">
                       {"Még nincs fiókod? Regisztrálj itt!"}
                     </Link>
                   </Grid>
