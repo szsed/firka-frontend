@@ -9,7 +9,7 @@ const testData = {
   status: 'lobby',
   players: [
     {
-      id: 'testId',
+      id: 'cica',
       name: 'testName',
       picture: null,
       guesses: [],
@@ -18,7 +18,11 @@ const testData = {
   ]
 }
 
-firebaseServices.addGameToFirestore(testData);
+// firebaseServices.addGameToFirestore(testData);
+
+setTimeout(() => {
+  firebaseServices.sendImageToFirestore('cica', 'asdasdasdasd')
+}, 1000) ;
 
 // gameListListener();
 
