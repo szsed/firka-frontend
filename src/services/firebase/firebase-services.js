@@ -1,4 +1,5 @@
 import firestoreDB from "./firebase-setup";
+import store from "../../store/store";
 
 export const createGameListListener = () => {
   return firestoreDB.where('status', '==', 'lobby').onSnapshot(querySnapshot => {
@@ -8,43 +9,73 @@ export const createGameListListener = () => {
 
 export const createCurrentGameListener = gameId => {
   return firestoreDB.doc(gameId).onSnapshot(doc => {
-    console.log(doc.metadata.hasPendingWrites ? "Local" : "Server", doc.id, doc.data())
+    store.dispatch({
+      type: 'UPDATE_GAMESTATS',
+      payload: doc.data(),
+    })
   });
 }
 
 export const addGameToFirestore = gameData => {
-  firestoreDB.add(gameData);
+  return firestoreDB.add(gameData).then(doc => doc.id);
 }
 
-export const sendImageToFirestore = (userId, imgData) => {
-  firestoreDB.where('status', '==', 'inprogress').get().then(docs => {
-    if (!docs) return;
-    const gamesList = []
-    docs.forEach(doc => gamesList.push({
-      id: doc.id,
-      data: doc.data()
-    }));
-    const currentGameData = gamesList.filter(game => game.data.players.some(player => player.id === userId))[0];
-    console.log(currentGameData);
-
+export const startGameInFirestore = (gameId) => {
+  firestoreDB.doc(gameId).update({
+    status: 'inprogress',
   })
 }
 
-// export const sendImageToFirestore = (userId, imgData) => {
+export const endGameInFirestore = (gameId) => {
+  firestoreDB.doc(gameId).update({
+    status: 'finished',
+  })
+}
 
-// }
+export const getCurrentGameInfo = userId => {
+  return new Promise(resolve => {
+    firestoreDB.where('status', '==', 'inprogress').get().then(docs => {
+      if (!docs) return null;
+      const gamesList = []
+      docs.forEach(doc => gamesList.push({
+        id: doc.id,
+        data: doc.data()
+      }));
+      const currentGameData = gamesList.filter(game => game.data.players.some(player => player.id === userId))[0];
+      resolve(currentGameData);
+    });
+  });
+}
 
+export const sendImageToFirestore = (userId, imgData) => {
+  return getCurrentGameInfo(userId)
+    .then(game => {
+      const thisPlayer = game.data.players.find(player => player.id === userId)
+      thisPlayer.picture = imgData;
+      firestoreDB.doc(game.id).update({
+        players: game.data.players
+      })
+    });
+}
 
-// firestoreDB.doc('Un0CHdNeWqgy9pBUMzrq').onSnapshot(doc => {
-//   console.log(doc.metadata.hasPendingWrites ? "Local" : "Server", doc.id, doc.data())
-// });
+export const sendGuessToFirestore = (userId, guess) => {
+  return getCurrentGameInfo(userId)
+    .then(game => {
+      const thisPlayer = game.data.players.find(player => player.id === userId)
+      thisPlayer.guesses.push(guess);
+      firestoreDB.doc(game.id).update({
+        players: game.data.players
+      })
+    });
+}
 
-// const handleAdd = () => firestoreDB.add({
-//   cica: 'yes',
-//   hello: 'world'
-// }).then(thing => console.log('HI', thing));
-
-// const handleSet = () => firestoreDB.doc('Un0CHdNeWqgy9pBUMzrq').set({
-//   cica: 'no',
-//   hello: 'world'
-// }).then(thing => console.log('HI', thing));
+export const sendScoreToFirestore = (userId, score) => {
+  return getCurrentGameInfo(userId)
+    .then(game => {
+      const thisPlayer = game.data.players.find(player => player.id === userId)
+      thisPlayer.score += score;
+      firestoreDB.doc(game.id).update({
+        players: game.data.players
+      })
+    });
+}
