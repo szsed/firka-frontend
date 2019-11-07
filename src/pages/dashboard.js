@@ -96,7 +96,7 @@ class Dashboard extends Component {
               className={classes.avatar}
               src={user.avatar}
             />
-            <Typography className={classes.title}>Szervusz {user.display_name}!</Typography>
+            <Typography className={classes.title}>Szervusz {user.username}!</Typography>
             <Typography paragraph>Csatlakozz egy meglévő játékhoz:</Typography>
             <div className={classes.games}>
               {gameList ? gameList.map(game => {
@@ -147,7 +147,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user.playerDetails,
   gameList: state.lobby.currentGames,
 });
 
