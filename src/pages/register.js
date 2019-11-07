@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CssBaseline, Paper} from '@material-ui/core';
+import { CssBaseline, Paper } from '@material-ui/core';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -141,8 +141,8 @@ class Register extends Component {
                 </Grid>
               </Grid>
             </form>
-        </Paper>
-      </Container>
+          </Paper>
+        </Container>
       </Fragment>
     );
   }

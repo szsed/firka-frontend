@@ -52,7 +52,7 @@ export const sendImageToFirestore = (userId, imgData) => {
   return getCurrentGameInfo(userId)
     .then(game => {
       const thisPlayer = game.data.players.find(player => player.id === userId)
-      thisPlayer.picture = imgData;
+      thisPlayer.drawing = imgData;
       firestoreDB.doc(game.id).update({
         players: game.data.players
       })

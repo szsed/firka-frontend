@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import { CssBaseline, Paper} from "@material-ui/core";
+import { CssBaseline, Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -84,21 +84,21 @@ class Login extends Component {
   render() {
     const { classes } = this.props;
     return (
-        <Fragment>
-          <CssBaseline />
-          <Container maxWidth="sm">
-            <Paper className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Bejelentkezés
+      <Fragment>
+        <CssBaseline />
+        <Container maxWidth="sm">
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Bejelentkezés
               </Typography>
-              <form
-                className={classes.form}
-                noValidate
-                onSubmit={this.handleSubmit}
-              >
+            <form
+              className={classes.form}
+              noValidate
+              onSubmit={this.handleSubmit}
+            >
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -136,15 +136,15 @@ class Login extends Component {
                 >
                   Bejelentkezés
                 </Button>
-                <Grid container>
-                  <Grid item>
-                    <Link underline="always" href="/register" variant="body2">
-                      {"Még nincs fiókod? Regisztrálj itt!"}
-                    </Link>
-                  </Grid>
+              <Grid container>
+                <Grid item>
+                  <Link underline="always" href="/register" variant="body2">
+                    {"Még nincs fiókod? Regisztrálj itt!"}
+                  </Link>
                 </Grid>
-              </form>
-            </Paper>
+              </Grid>
+            </form>
+          </Paper>
         </Container>
       </Fragment>
     );
