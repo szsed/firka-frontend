@@ -16,6 +16,7 @@ const gameReducer = (state = initialState, action) => {
         listener: action.payload,
       }
     case 'STOP_LISTENER':
+      state.listener();
       return {
         ...state,
         listener: null,
