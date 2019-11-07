@@ -1,6 +1,7 @@
 const initialState = {
-  gameStatus: 'lobby',
-  //lobby, gameLobby, draw, guess, select, gameEnd
+  gameStatus: 'wait_for_start',
+  //wait_for_start, draw, guess, select, gameEnd
+  gameStats: null,
   roundCounter: 1,
   drawingIsSent: false,
   allDrawingsAreSent: false,
@@ -14,6 +15,12 @@ const initialState = {
 
 const currentGameReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'UPDATE_GAMESTATS':
+      return {
+        ...state,
+        gameStats: action.payload,
+      }
+        
     case 'NEXT_ROUND':
       return {
         ...state,
@@ -23,7 +30,7 @@ const currentGameReducer = (state = initialState, action) => {
         correctAnswer: '',
         choiceSent: false,
         allChoicesSent: false,
-        gameStatus: 'guess',
+        gameStatus: 'wait_for_start',
       };
     case 'SEND_DRAW':
       console.log('asd');
