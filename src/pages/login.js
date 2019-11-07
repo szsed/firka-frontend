@@ -69,6 +69,7 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log('bejelentkeztem')
+    const { username, password } = this.state;
     /* const { username, password } = this.state;
 
     if (!username || !password) {
