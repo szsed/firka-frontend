@@ -6,7 +6,7 @@ import DashboardRoundedIcon from "@material-ui/icons/DashboardRounded";
 import TrendingUpRoundedIcon from "@material-ui/icons/TrendingUpRounded";
 import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 2,
     display: "flex",
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
   }
-});
+}));
 
 export default function Footer() {
   const classes = useStyles();

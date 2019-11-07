@@ -35,7 +35,7 @@ const useStyles = theme => ({
     justifyContent: 'space-between',
     margin: theme.spacing(4),
     width: '100%',
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("sm")]: {
       width: '90%',
       justifyContent: 'space-around',
       margin: theme.spacing(8, 2),
@@ -58,16 +58,16 @@ class WelcomePage extends Component {
             <img alt="logo" src={Logo} style={{ width: "95%" }} />
             <div className={classes.boxContainer}>
               <div className={classes.box}>
-                <GestureRoundedIcon className={classes.icon} />
+                <GestureRoundedIcon color="primary" className={classes.icon} />
                 <Typography color="secondary" className={classes.boxText}>Rajzolj!</Typography>
               </div>
               <div className={classes.box}>
-                <ContactSupportRoundedIcon className={classes.icon} />
+                <ContactSupportRoundedIcon color="primary" className={classes.icon} />
                 <Typography color="secondary" className={classes.boxText}>Tippelj!</Typography>
               </div>
               <div className={classes.box}>
-                <EmojiEmotionsRoundedIcon className={classes.icon} />
-                <Typography color="secondary" className={classes.boxText}>Nevess!</Typography>
+                <EmojiEmotionsRoundedIcon color="primary" className={classes.icon} />
+                <Typography color="secondary" className={classes.boxText}>Kacagj!</Typography>
               </div>
             </div>
             <Typography>Regisztrálj, vagy jelentkezz be a játékhoz!</Typography>

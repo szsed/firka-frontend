@@ -37,7 +37,7 @@ function App(props) {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/account" component={AccountPage} />
-      {isLoggedin ? (
+      {!isLoggedin ? (
         <Route exact path="/" component={Dashboard} />
       ) : (
           <Route exact path="/" component={WelcomePage} />
