@@ -2,7 +2,6 @@ import { requestToAPI } from "../services/backend-api-services";
 import store from "../store/store";
 
 export const registerUser = (userData) => {
-  console.log(userData);
   return requestToAPI('/register', {
     method: 'POST',
     headers: {

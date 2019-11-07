@@ -10,8 +10,9 @@ import RegisterPage from './pages/register';
 import LobbyPage from './pages/lobby';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from './store/store';
+import { loginWithJWTOnLoad } from './models/user-model';
 
 const theme = createMuiTheme({
   palette: {
@@ -38,28 +39,20 @@ class App extends Component {
     super(props);
   }
   componentDidMount() {
-    // fetch
-    const token = localStorage.getItem('token');
-    fetch('/refresh', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      }
-    })
+    loginWithJWTOnLoad();
   }
 
   render() {
-    const userData = true;
+    const { userData } = this.props;
     return (
       <Router>
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/account" component={AccountPage} />
         {!userData ? (
-          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/" component={WelcomePage} />
         ) : (
-            <Route exact path="/" component={WelcomePage} />
+            <Route exact path="/" component={Dashboard} />
           )}
         <Route exact path="/leaderboard" component={Leaderboard} />
         <Route exact path="/lobby" component={LobbyPage} />
@@ -68,9 +61,16 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    userData: state.user,
+  };
+};
+
+const AppWithRedux = connect(mapStateToProps, null)(App);
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <App />
+      <AppWithRedux />
     </ThemeProvider>
   </Provider>, document.getElementById('root'));
