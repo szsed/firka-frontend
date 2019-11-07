@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import WelcomePage from './pages/welcome';
@@ -33,22 +33,39 @@ const theme = createMuiTheme({
   }
 });
 
-function App(props) {
-  const { isLoggedin } = props;
-  return (
-    <Router>
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/register" component={RegisterPage} />
-      <Route exact path="/account" component={AccountPage} />
-      {!isLoggedin ? (
-        <Route exact path="/" component={Dashboard} />
-      ) : (
-          <Route exact path="/" component={WelcomePage} />
-        )}
-      <Route exact path="/leaderboard" component={Leaderboard} />
-      <Route exact path="/lobby" component={LobbyPage} />
-    </Router>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    // fetch
+    const token = localStorage.getItem('token');
+    fetch('/refresh', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+  }
+
+  render() {
+    const userData = true;
+    return (
+      <Router>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/account" component={AccountPage} />
+        {!userData ? (
+          <Route exact path="/" component={Dashboard} />
+        ) : (
+            <Route exact path="/" component={WelcomePage} />
+          )}
+        <Route exact path="/leaderboard" component={Leaderboard} />
+        <Route exact path="/lobby" component={LobbyPage} />
+      </Router>
+    );
+  }
 }
 
 ReactDOM.render(
