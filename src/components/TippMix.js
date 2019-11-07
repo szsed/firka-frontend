@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, TextField, CardMedia } from '@material-ui/core';
+import { changeGameAction } from '../store/'
 
 const timeToChange = 10000;
 
@@ -14,46 +15,37 @@ class TippMix extends Component {
   }
 
   componentDidMount() {
-    this.currentImgSource = this.imageArray[currentImgIndex].source
-    setTimeout(this.nextImage, timeToChange + 1000)
+    let guess = document.querySelector('#tip')
+    setTimeout(sendGuessAction(guess), timeToChange)
   }
 
-  currentImgSource = '';
-  currentImgIndex = 0;
-
-  imageArray = this.imageArray.filter(element => {
-    if (element.user !== this.props.user) {
-      return element
-    }
-  })
-
-  nextImage = () => {
-    let word = document.querySelector('#tip').textContent
-    let tip = { user: this.props.user, image: this.imageArray[currentImgIndex].id, word: word }
-    this.state.tips.push(tip)
-    if (this.currentImgIndex < this.imageArray.length) {
-      this.currentImgIndex++
-      this.currentImgSource = this.imageArray[this.currentImgIndex].source
-      setTimeout(this.nextImage, timeToChange)
+  addField = () => {
+    if (this.props.game.players[this.props.round] !== this.props.user) {
+      return (
+        <>
+          <TextField type="text" id="tip" />
+          <Button>Nyomjad ha megvan!</Button>
+        </>
+      )
     } else {
-      this.callVote
+      return null
     }
   }
 
   render() {
     return (
       <>
-        <CardMedia src={currentImg} />
-        <TextField type="text" id="tip" />
-        <Button>Nyomjad ha megvan!</Button>
+        <CardMedia src={this.props.game.players[this.props.round].drawing} />
+        {this.addField()}
       </>
     );
   }
 }
 
-const mapStateToProps = ({ images, user, }) => ({
-  images: images,
+const mapStateToProps = ({ game, user, }) => ({
+  game: game.gameStats,
   user: user.id,
+  round: game.roundCounter,
 });
 
 const mapActionsToProps = {
