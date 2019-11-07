@@ -5,12 +5,15 @@ import WelcomePage from './pages/welcome';
 import AccountPage from './pages/account';
 import Dashboard from './pages/dashboard';
 import Leaderboard from './pages/leaderboard';
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 
-const isLoggedin = false;
-
-function App() {
+function App(props) {
+  const { isLoggedin } = props;
   return (
     <Router>
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/register" component={RegisterPage} />
       <Route exact path="/account" component={AccountPage} />
       {isLoggedin ? (
         <Route exact path="/" component={Dashboard} />
