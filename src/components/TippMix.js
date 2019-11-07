@@ -2,21 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, TextField, CardMedia } from '@material-ui/core';
-import { changeGameAction } from '../store/'
+import { sendGuessAction } from '../store/actions'
 
 const timeToChange = 10000;
 
 class TippMix extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tips =[]
-    }
   }
 
   componentDidMount() {
-    let guess = document.querySelector('#tip')
-    setTimeout(sendGuessAction(guess), timeToChange)
+    let guess = document.querySelector('#tip').textContent
+    setTimeout(this.props.sendGuess(guess), timeToChange)
   }
 
   addField = () => {
@@ -49,16 +46,20 @@ const mapStateToProps = ({ game, user, }) => ({
 });
 
 const mapActionsToProps = {
-  changeGame: changeGameAction,
+  sendGuess: sendGuessAction,
 }
 
 Display.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      source: PropTypes.string,
+      id: PropTypes.string,
+      drawing: PropTypes.string,
     })
   ),
+  user: PropTypes.string,
+  round: PropTypes.number,
+  sendGuess: PropTypes.func,
+
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(TippMix)
