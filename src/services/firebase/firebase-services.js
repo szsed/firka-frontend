@@ -3,7 +3,8 @@ import store from "../../store/store";
 
 export const createGameListListener = () => {
   return firestoreDB.where('status', '==', 'lobby').onSnapshot(querySnapshot => {
-    console.log(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+    const gamesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    store.dispatch({ type: 'REFRESH_GAMES', payload: gamesData });
   });
 }
 
@@ -21,7 +22,7 @@ export const addGameToFirestore = gameData => {
 }
 
 export const startGameInFirestore = (gameId) => {
-  firestoreDB.doc(gameId).update({
+  return firestoreDB.doc(gameId).update({
     status: 'inprogress',
   })
 }
