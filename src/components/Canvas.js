@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Canvas extends Component {
   constructor(props) {
@@ -39,7 +41,7 @@ class Canvas extends Component {
       paint = false;
     });
 
-    const clearButton = document.querySelector('#clearButton')
+    const clearButton = document.querySelector('#clearButton') // not implemented
     clearButton.addEventListener('click', () => {
       clickX = [];
       clickY = [];

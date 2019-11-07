@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Canvas from './Canvas';
 import Firebase from '../services/firebase/firebase-services'
+
+const timeToUpload = 11000;
 
 class Display extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      canvas: ''
-    };
   }
 
   componentDidMount() {
-    let canvasData = document.querySelector('#canvas').toDataURL();
-    setTimeout(uploadImage(canvasData), this.props.time)
+    setTimeout(this.uploadImage(), timeToUpload);
   }
 
-  uploadImage = (canvasData) => {
-    Firebase.sendImageToFirestore(userid, canvasData)
+  uploadImage = () => {
+    let canvasData = document.querySelector('#canvas').toDataURL();
+    Firebase.sendImageToFirestore(this.props.user, canvasData);
   }
 
   render() {
@@ -33,4 +34,14 @@ class Display extends Component {
 
 }
 
-export default Display
+const mapStateToProps = ({ user_id }) => ({
+  user: user_id,
+});
+
+Display.propTypes = {
+  user: PropTypes.string,
+  time: PropTypes.number,
+  uploadImage: PropTypes.func,
+};
+
+export default connect(mapStateToProps)(Display);
