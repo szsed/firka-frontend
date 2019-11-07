@@ -11,6 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { registerUser } from '../models/user-model';
 
 const useStyles = theme => ({
   paper: {
@@ -70,6 +71,7 @@ class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     console.log('regisztráltam')
+    const { username, password } = this.state
     /* const { username, password } = this.state;
     if (!username || !password) {
       return;
@@ -85,7 +87,14 @@ class Register extends Component {
       })
       .catch(error => this.setState({ responseError: error.message })); */
       registerUser(username, password)
-      .then(console.log);
+      .then(parsed => {
+        this.props.history.push("/"); 
+      })
+      .catch(err => {
+      if(err.message) {
+         this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+      }
+    })
   }
 
   render() {
@@ -139,6 +148,7 @@ class Register extends Component {
               >
                 Regisztrálok
               </Button>
+              <label>{this.state.responseError}</label>
               <Grid container>
                 <Grid item>
                   <Link underline="always" href="/login" variant="body2">

@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { loginUser } from '../models/user-model';
 
 const useStyles = theme => ({
   paper: {
@@ -68,7 +69,6 @@ class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log('bejelentkeztem')
     const { username, password } = this.state;
     /* const { username, password } = this.state;
 
@@ -82,8 +82,16 @@ class Login extends Component {
       })
       .catch(error => this.setState({ responseError: error.message })); */
       loginUser(username, password)
-      .then(console.log);
+      .then(parsed => {
+        this.props.history.push("/"); 
+      })
+      .catch(err => {
+      if(err.message) {
+         this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+      }
+    })
   }
+  
 
   render() {
     const { classes } = this.props;
@@ -140,6 +148,7 @@ class Login extends Component {
                 >
                   Bejelentkezés
                 </Button>
+                <label>{this.state.responseError}</label>
                 <Grid container>
                   <Grid item>
                     <Link underline="always" href="/register" variant="body2">
