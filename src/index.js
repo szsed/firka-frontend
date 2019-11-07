@@ -50,9 +50,9 @@ class App extends Component {
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/account" component={AccountPage} />
         {!userData ? (
-          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/" component={WelcomePage} />
         ) : (
-            <Route exact path="/" component={WelcomePage} />
+            <Route exact path="/" component={Dashboard} />
           )}
         <Route exact path="/leaderboard" component={Leaderboard} />
         <Route exact path="/lobby" component={LobbyPage} />
@@ -67,7 +67,7 @@ const mapStateToProps = state => {
   };
 }
 
-const AppWithRedux = connect()(App);
+const AppWithRedux = connect(mapStateToProps, null)(App);
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
