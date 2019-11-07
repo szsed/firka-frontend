@@ -21,6 +21,17 @@ export const addGameToFirestore = gameData => {
   return firestoreDB.add(gameData).then(doc => doc.id);
 }
 
+export const joinGameInFirestore = (gameId, userData) => {
+  return firestoreDB.doc(gameId).get().then(doc => {
+    const players = doc.players;
+    players.push(userData);
+    return firestoreDB.doc(gameId).update({
+      players,
+    })
+  })
+}
+
+
 export const startGameInFirestore = (gameId) => {
   return firestoreDB.doc(gameId).update({
     status: 'inprogress',

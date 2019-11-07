@@ -5,6 +5,7 @@ export const testUser = {
 }
 
 export const testGame = {
+  id: 'kjshfdkjhdsfjkdsf',
   name: 'Test Game Name',
   players: [
     {

@@ -71,14 +71,14 @@ class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
-    registerUser({username, password})
-    .then(parsed => {
-     if(parsed.message) {
-       this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
-     } else {
-       this.props.history.push("/"); 
-      }
-   })
+    registerUser({ username, password })
+      .then(parsed => {
+        if (parsed.message) {
+          this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+        } else {
+          this.props.history.push("/");
+        }
+      })
   }
 
   render() {
