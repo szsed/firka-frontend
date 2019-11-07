@@ -86,67 +86,67 @@ class Login extends Component {
     const { classes } = this.props;
     return (
         <Fragment>
-        <CssBaseline />
-        <Container maxWidth="sm">
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Bejelentkezés
-            </Typography>
-            <form
-              className={classes.form}
-              noValidate
-              onSubmit={this.handleSubmit}
-            >
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Válassz felhasználónevet!"
-                name="username"
-                type="text"
-                autoFocus
-                onChange={this.handleUserChange}
-                onBlur={event => this.validate(event)}
-                helperText={this.state.usernameError}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Válassz jelszót!"
-                type="password"
-                id="password"
-                onChange={this.handlePasswordChange}
-                onBlur={event => this.validate(event)}
-                helperText={this.state.passwordError}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                disabled={!this.state.username || !this.state.password}
-              >
+          <CssBaseline />
+          <Container maxWidth="sm">
+            <Paper className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
                 Bejelentkezés
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <Link underline="none" href="/register" variant="body2">
-                    {"Még nincs fiókod? Regisztrálj itt!"}
-                  </Link>
+              </Typography>
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={this.handleSubmit}
+              >
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Válassz felhasználónevet!"
+                  name="username"
+                  type="text"
+                  autoFocus
+                  onChange={this.handleUserChange}
+                  onBlur={event => this.validate(event)}
+                  helperText={this.state.usernameError}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Válassz jelszót!"
+                  type="password"
+                  id="password"
+                  onChange={this.handlePasswordChange}
+                  onBlur={event => this.validate(event)}
+                  helperText={this.state.passwordError}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  disabled={!this.state.username || !this.state.password}
+                >
+                  Bejelentkezés
+                </Button>
+                <Grid container>
+                  <Grid item>
+                    <Link underline="none" href="/register" variant="body2">
+                      {"Még nincs fiókod? Regisztrálj itt!"}
+                    </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          </Paper>
-      </Container>
+              </form>
+            </Paper>
+        </Container>
       </Fragment>
     );
   }
