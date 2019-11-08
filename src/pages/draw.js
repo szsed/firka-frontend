@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Canvas from '../components/Canvas';
-import { sendImageToFirestore } from '../services/firebase/firebase-services';
 import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { sendDrawingAction } from '../store/actions';
+import { sendDrawingAction, changeGameStatusAction } from '../store/actions';
 
 const timeToUpload = 11000;
 
@@ -56,6 +55,14 @@ class Draw extends Component {
     this.props.sendDrawing(canvasData);
   }
 
+  componentDidUpdate() {
+    const { game, changeGameStatus } = this.props;
+    if (!game) return;
+    const drawingCount = game.players.filter(player => player.drawing).length;
+    // if (drawingcount === 3) changeGameStatus('guess');
+    if (drawingCount === 1) changeGameStatus('guess');
+  }
+
   render() {
     const { classes, width } = this.props;
     return (
@@ -85,12 +92,13 @@ class Draw extends Component {
 
 }
 
-const mapStateToProps = ({ user_id }) => ({
-  user: user_id,
+const mapStateToProps = state => ({
+  game: state.game.gameStats,
 });
 
 const mapActionsToProps = {
-  sendDrawing: sendDrawingAction
+  sendDrawing: sendDrawingAction,
+  changeGameStatus: changeGameStatusAction,
 }
 
 Draw.propTypes = {

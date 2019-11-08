@@ -46,6 +46,11 @@ class Lobby extends Component {
     this.props.history.push('/game');
   };
 
+  componentDidUpdate() {
+    if (!this.props.gameStats) return;
+    if (this.props.gameStats.status === 'inprogress') this.handleSubmit();
+  }
+
   render() {
     const { classes, gameStats, currentGame } = this.props;
     if (!gameStats) return null;

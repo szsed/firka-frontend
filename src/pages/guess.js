@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { CssBaseline, Container, Paper, Typography, CardMedia, TextField, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
+import { sendGuessAction, changeGameStatusAction } from '../store/actions';
 
 const timeToUpload = 11000;
 
@@ -49,11 +50,23 @@ class Guess extends Component {
   }
 
   componentDidMount() {
-    // setTimeout(this.uploadImage, timeToUpload);
+    setTimeout(this.uploadGuess, timeToUpload);
+  }
+
+  uploadGuess() {
+
+  }
+
+  componentDidUpdate() {
+    const { game, changeGameStatus } = this.props;
+    if (!game) return;
+    const guessCount = game.players.filter(player => player.guesses.length === game.roundCounter).length;
+    // if (guessCount === 3) changeGameStatus('guess');
+    if (guessCount === 1) changeGameStatus('guess');
   }
 
   addField = () => {
-    const {game, round, userId, classes } = this.props;
+    const { game, round, userId, classes } = this.props;
     if (game.players[round - 1].id !== userId) {
       return (
         <>
@@ -76,7 +89,7 @@ class Guess extends Component {
           <Typography color="error" className={classes.title}>10s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
-            <img src={game.players[round - 1].drawing} />
+              <img src={game.players[round - 1].drawing} />
             </Paper>
           </div>
           {this.addField()}
@@ -99,4 +112,9 @@ Guess.propTypes = {
   uploadImage: PropTypes.func,
 };
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(withWidth()(Guess)));
+const mapActionsToProps = {
+  sendGuess: sendGuessAction,
+  changeGameStatus: changeGameStatusAction,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(withWidth()(Guess)));
