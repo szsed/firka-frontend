@@ -47,25 +47,35 @@ const useStyles = theme => ({
 class Guess extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      guess: "",
+    };
   }
 
   componentDidMount() {
     setTimeout(this.uploadGuess, timeToUpload);
   }
 
-  uploadGuess() {
+  handleChange = event => {
+    this.setState({ input: event.target.value });
+  };
+
+  uploadGuess = () => {
     const { user, game } = this.props;
-    // let canvasData = document.querySelector('#canvas').toDataURL(); lesz adat state-ből
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 250);
+    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 250);
   }
 
   componentDidUpdate() {
-    const { game, changeGameStatus } = this.props;
+    const { game, changeGameStatus, round } = this.props;
     if (!game) return;
-    const guessCount = game.players.filter(player => player.guesses.length === game.roundCounter).length;
+    const guessCount = game.players.filter(player => {
+      // console.log(player.guesses, game.roundCounter);
+      return player.guesses.length === round;
+    }).length;
     const numOfPlayers = game.players.length;
+    console.log(guessCount, numOfPlayers, game.players)
     if (guessCount === numOfPlayers) changeGameStatus('select');
   }
 
@@ -74,7 +84,12 @@ class Guess extends Component {
     if (game.players[round - 1].id !== user.playerDetails.id) {
       return (
         <>
-          <TextField type="text" id="tip" />
+          <TextField
+            type="text"
+            id="tip"
+            helperText="Mit ábrázol a kép? Írd ide!"
+            variant="outlined"
+            onChange={this.handleChange} />
         </>
       )
     } else {
