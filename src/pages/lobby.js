@@ -44,40 +44,40 @@ class Lobby extends Component {
 
   handleSubmit = () => {
     console.log('elindul a játék');
-    props.startGameAction();
+    // props.startGameAction();
   };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Fragment>
-        <CssBaseline />
-        <Navbar />
-        <Container maxWidth="sm">
-          <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Játék neve</Typography>
-            <Typography color="primary">Várjunk meg mindenkit!</Typography>
-            <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
-            <div className={classes.players}>
-              {/* {for (let i= 0; i < props.user.length; i++) } */}
-              <Chip
-                avatar={<Avatar alt={props.user[i].name} src={props.user[i].img} />}
-                label={props.user[i].name}
-              />
-            </div>
-            <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
-              Játék indítása
-            </Button>
-          </Paper>
-        </Container>
-      </Fragment>
-    );
-  }
+  // render() {
+  //   const { classes } = this.props;
+  //   return (
+  //     <Fragment>
+  //       <CssBaseline />
+  //       <Navbar />
+  //       <Container maxWidth="sm">
+  //         <Paper className={classes.paper}>
+  //           <Typography color="secondary" className={classes.title}>Játék neve</Typography>
+  //           <Typography color="primary">Várjunk meg mindenkit!</Typography>
+  //           <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
+  //           <div className={classes.players}>
+  //             {/* {for (let i= 0; i < props.user.length; i++) } */}
+  //             <Chip
+  //             // avatar={<Avatar alt={props.user[i].name} src={props.user[i].img} />}
+  //             // label={props.user[i].name}
+  //             />
+  //           </div>
+  //           <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
+  //             Játék indítása
+  //           </Button>
+  //         </Paper>
+  //       </Container>
+  //     </Fragment>
+  //   );
+  // }
 }
 
-const mapStateToProps = {
+const mapStateToProps = state => ({
   user: state.user,
-}
+})
 
 const mapActionsToProps = {
   startGame: startGameAction,

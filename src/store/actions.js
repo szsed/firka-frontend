@@ -1,8 +1,5 @@
-import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener } from "../services/firebase/firebase-services"
+import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener, addGameToFirestore } from "../services/firebase/firebase-services"
 import store from "./store";
-
-
-
 
 // export const updateGameStatsAction = () => {
 //   return dispatch => {
@@ -111,6 +108,19 @@ export const areAllGuessesSentAction = () => {
 
 export const endGameAction = () => {
   return { type: 'STOP_GAME' };
+}
+
+
+
+export const createGameAction = (userData) => {
+  return dispatch => {
+    const gameId = addGameToFirestore(userData);
+    return gameId.then(gameId => {
+      const listener = createCurrentGameListener(gameId);
+      return dispatch({ type: 'SELECT_GAME', payload: listener });
+    })
+
+  }
 }
 
 export const selectGameAction = (gameId) => {

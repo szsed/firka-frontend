@@ -4,7 +4,7 @@ import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, C
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
 import Akos from '../images/avatars/Akos.png';
-import { addListOfGamesListenerAction, selectGameAction } from '../store/actions';
+import { addListOfGamesListenerAction, selectGameAction, createGameAction } from '../store/actions';
 
 const useStyles = theme => ({
   games: {
@@ -71,6 +71,7 @@ class Dashboard extends Component {
 
   handleClick = (game) => {
     selectGameAction(game.id);
+    this.props.history.push('/game');
   };
 
   handleChange = (e) => {
@@ -79,7 +80,15 @@ class Dashboard extends Component {
     });
   };
 
-  handleSubmit = (game) => {
+  handleSubmit = () => {
+    const gameData = {
+      name: this.state.newGame,
+      players: [this.props.user.playerDetails],
+      status: 'lobby',
+    }
+
+    this.props.createGame(gameData);
+    this.props.history.push('/game');
   };
 
   render() {
@@ -96,7 +105,7 @@ class Dashboard extends Component {
               className={classes.avatar}
               src={user.avatar}
             />
-            <Typography className={classes.title}>Szervusz {user.display_name}!</Typography>
+            <Typography className={classes.title}>Szervusz {user.username}!</Typography>
             <Typography paragraph>Csatlakozz egy meglévő játékhoz:</Typography>
             <div className={classes.games}>
               {gameList ? gameList.map(game => {
@@ -154,6 +163,7 @@ const mapStateToProps = state => ({
 const mapActionsToProps = {
   addListOfGamesListener: addListOfGamesListenerAction,
   selectGame: selectGameAction,
+  createGame: createGameAction,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Dashboard));
