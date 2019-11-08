@@ -1,7 +1,9 @@
 export const testUser = {
-  id: 'batman',
-  name: 'Bruce Wayne',
-  img: 'asd.jpg'
+  id: 11,
+  username: 'batman',
+  display_name: 'Bruce Wayne',
+  victories: 3,
+  avatar: 'asd.jpg',
 }
 
 export const testGame = {

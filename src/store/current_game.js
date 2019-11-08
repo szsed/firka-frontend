@@ -71,7 +71,12 @@ const currentGameReducer = (state = initialState, action) => {
     //     ...state,
     //     allChoicesSent: true,
     //   }
-    case 'START_GAME':
+    // case 'START_GAME':
+    //   return {
+    //     ...initialState,
+    //     gameStatus: 'draw',
+    //   }
+    case 'SELECT_GAME':
       return {
         ...initialState,
         listener: action.payload,
@@ -82,8 +87,9 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         listener: null,
       }
+    default:
+      return state;
   };
-  return state;
 }
 
 export default currentGameReducer;

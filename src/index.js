@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import WelcomePage from './pages/welcome';
@@ -10,8 +10,9 @@ import RegisterPage from './pages/register';
 import LobbyPage from './pages/lobby';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from './store/store';
+import { loginWithJWTOnLoad } from './models/user-model';
 
 const theme = createMuiTheme({
   palette: {
@@ -33,27 +34,43 @@ const theme = createMuiTheme({
   }
 });
 
-function App(props) {
-  const { isLoggedin } = props;
-  return (
-    <Router>
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/register" component={RegisterPage} />
-      <Route exact path="/account" component={AccountPage} />
-      {!isLoggedin ? (
-        <Route exact path="/" component={Dashboard} />
-      ) : (
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    loginWithJWTOnLoad();
+  }
+
+  render() {
+    const { userData } = this.props;
+    return (
+      <Router>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/account" component={AccountPage} />
+        {!userData ? (
           <Route exact path="/" component={WelcomePage} />
-        )}
-      <Route exact path="/leaderboard" component={Leaderboard} />
-      <Route exact path="/lobby" component={LobbyPage} />
-    </Router>
-  );
+        ) : (
+            <Route exact path="/" component={Dashboard} />
+          )}
+        <Route exact path="/leaderboard" component={Leaderboard} />
+        <Route exact path="/lobby" component={LobbyPage} />
+      </Router>
+    );
+  }
 }
 
+const mapStateToProps = state => {
+  return {
+    userData: state.user,
+  };
+}
+
+const AppWithRedux = connect(mapStateToProps, null)(App);
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <App />
+      <AppWithRedux />
     </ThemeProvider>
   </Provider>, document.getElementById('root'));

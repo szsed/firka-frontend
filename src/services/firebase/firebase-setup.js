@@ -12,6 +12,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const firestoreDB = firebase.firestore().collection('test');
+const firestoreDB = firebase.firestore().collection('games');
 
 export default firestoreDB;
