@@ -77,7 +77,7 @@ class Guess extends Component {
     const { user, game } = this.props;
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 500);
+    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 1000);
   }
 
   componentDidUpdate() {

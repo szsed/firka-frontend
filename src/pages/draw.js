@@ -62,7 +62,7 @@ class Draw extends Component {
     let canvasData = document.querySelector('#canvas').toDataURL();
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 500);
+    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 1000);
   }
 
   componentDidUpdate() {
