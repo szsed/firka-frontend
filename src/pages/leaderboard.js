@@ -29,9 +29,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 const rows = [
-  // 'India', 'IN', 1324171354,
+  'India', 'IN', 1324171354,
 ];
-console.log(rows)
 
 const columns = [
   { id: 'avatar', label: 'Profil', minWidth: 170, align: 'center', },
@@ -66,7 +65,7 @@ const getUserData = () => {
     });
 }
 
-const classes = useStyles();
+/* const classes = useStyles(); */
 const [page, setPage] = React.useState(0);
 const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -86,6 +85,7 @@ class Leaderboard extends Component {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   componentDidMount() {
     getUserData()
       .then(rows => {
@@ -96,6 +96,7 @@ class Leaderboard extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <Fragment>
         <CssBaseline />
@@ -147,8 +148,8 @@ class Leaderboard extends Component {
               nextIconButtonProps={{
                 'aria-label': 'Következő oldal',
               }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
           </Paper>
         </Container>
@@ -156,7 +157,5 @@ class Leaderboard extends Component {
     );
   }
 }
-
-
 
 export default Leaderboard;
