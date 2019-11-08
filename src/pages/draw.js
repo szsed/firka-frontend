@@ -58,16 +58,19 @@ class Draw extends Component {
   }
 
   uploadImage = () => {
+    const { user, game } = this.props;
     let canvasData = document.querySelector('#canvas').toDataURL();
-    this.props.sendDrawing(canvasData);
+    const userId = user.playerDetails.id;
+    const userIndex = game.players.findIndex(player => player.id === userId);
+    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 1000);
   }
 
   componentDidUpdate() {
     const { game, changeGameStatus } = this.props;
     if (!game) return;
     const drawingCount = game.players.filter(player => player.drawing).length;
-    // if (drawingcount === 3) changeGameStatus('guess');
-    if (drawingCount === 1) changeGameStatus('guess');
+    const numOfPlayers = game.players.length;
+    if (drawingCount === numOfPlayers) changeGameStatus('guess');
   }
 
   render() {
@@ -101,6 +104,7 @@ class Draw extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.user,
   game: state.game.gameStats,
 });
 

@@ -80,6 +80,7 @@ class Guess extends Component {
 
   render() {
     const { classes, game, round } = this.props;
+    console.log(round, game.players);
     return (
       <Fragment>
         <CssBaseline />
