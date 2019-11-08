@@ -9,7 +9,7 @@ const initialState = {
   allGuessesAreSent: false,
   correctAnswer: '',
   choiceSent: false,
-  // allChoicesSent: false,
+  allChoicesSent: false,
   listener: null,
 };
 
@@ -41,11 +41,11 @@ const currentGameReducer = (state = initialState, action) => {
         ...state,
         drawingIsSent: true,
       };
-    case 'ALL_DRAWINGS_SENT':
-      return {
-        ...state,
-        allDrawingsAreSent: true,
-      }
+    // case 'ALL_DRAWINGS_SENT':
+    //   return {
+    //     ...state,
+    //     allDrawingsAreSent: true,
+    //   }
     case 'SEND_GUESS':
       return {
         ...state,

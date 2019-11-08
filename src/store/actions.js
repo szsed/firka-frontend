@@ -6,7 +6,7 @@ export const playerNumber = () => {
 };
 
 export const currentRound = () => {
-  return store.getState().roundCounter;
+  return store.getState().game.roundCounter;
 }
 
 export const addListOfGamesListenerAction = () => {

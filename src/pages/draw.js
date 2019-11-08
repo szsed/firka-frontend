@@ -63,7 +63,7 @@ class Draw extends Component {
     let canvasData = document.querySelector('#canvas').toDataURL();
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 1000);
+    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 250);
   }
 
   componentDidUpdate() {
@@ -75,15 +75,18 @@ class Draw extends Component {
   }
 
   render() {
-    const { classes, width } = this.props;
+    const { classes, width, user, game } = this.props;
     const { timeLeft } = this.state;
+    const userId = user.playerDetails.id;
+    const userIndex = game.players.findIndex(player => player.id === userId);
+
     return (
       <Fragment>
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
           <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
-          <Typography color="secondary" className={classes.title}>Kutyámajom</Typography>
+          <Typography color="secondary" className={classes.title}>{game.players[userIndex].word}</Typography>
           <Typography color="error" className={classes.title}><Countdown /></Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
