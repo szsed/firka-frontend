@@ -1,32 +1,6 @@
 import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener, addGameToFirestore } from "../services/firebase/firebase-services"
 import store from "./store";
 
-// export const updateGameStatsAction = () => {
-//   return dispatch => {
-//     return updateGameStats()
-//       // mi kell ennek??? ez jó függvény itt???
-//       .then(response => {
-//         const gameStats = response.json;
-//         // ez így gut???
-//         dispatch({ type: 'UPDATE_GAMESTATS', payload: gameStats });
-//       })
-//   }
-// }
-
-// export const areAllChoicesSentAction = () => {
-//   let currentNumberOfChoices = 0;
-//   for (let i = 0; i < gameStats.players.length; i++) {
-//     if (gameStats.players[i].guesses.length === currentRound()) {
-//       currentNumberOfChoices++;
-//     }
-//   }
-//   if (currentNumberOfChoices === playerNumber) {
-//     return { type: 'ALL_CHOICES_SENT' };
-//   }
-// }
-
-// -----------------------------------------------------------------------------------------------------
-
 export const playerNumber = () => {
   return 3;
 };
@@ -125,6 +99,13 @@ export const createGameAction = (userData) => {
 
 export const selectGameAction = (gameId) => {
   const userData = store.getState().user.playerDetails;
+  const gameData = store.getState().lobby.currentGames.find(game => game.id === gameId);
+  const playerIndex = gameData.players.length;
+  userData = {
+    ...userData,
+    guesses: [],
+    word: gameData.words[playerIndex]
+  }
   const listener = createCurrentGameListener(gameId);
   joinGameInFirestore(gameId, userData)
   return { type: 'SELECT_GAME', payload: listener }

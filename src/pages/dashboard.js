@@ -3,8 +3,8 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
-import Akos from '../images/avatars/Akos.png';
 import { addListOfGamesListenerAction, selectGameAction, createGameAction } from '../store/actions';
+import { getRandomWords } from '../models/word-model';
 
 const useStyles = theme => ({
   games: {
@@ -71,7 +71,7 @@ class Dashboard extends Component {
 
   handleClick = (game) => {
     selectGameAction(game.id);
-    this.props.history.push('/game');
+    this.props.history.push('/lobby');
   };
 
   handleChange = (e) => {
@@ -81,14 +81,22 @@ class Dashboard extends Component {
   };
 
   handleSubmit = () => {
-    const gameData = {
-      name: this.state.newGame,
-      players: [this.props.user],
-      status: 'lobby',
-    }
+    getRandomWords().then(words => {
+      const userData = {
+        ...this.props.user,
+        guesses: [],
+        word: words[0],
+      }
+      const gameData = {
+        name: this.state.newGame,
+        players: [userData],
+        status: 'lobby',
+        words
+      }
 
-    this.props.createGame(gameData);
-    this.props.history.push('/game');
+      this.props.createGame(gameData);
+      this.props.history.push('/lobby');
+    });
   };
 
   render() {
@@ -116,26 +124,6 @@ class Dashboard extends Component {
                   onClick={() => this.handleClick(game)}
                 />)
               }) : null}
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
-              <Chip
-                avatar={<Avatar alt="Natacha" src={Akos} />}
-                label="Ákos játéka"
-                onClick={this.handleClick}
-              />
             </div>
             <Typography paragraph>Vagy hozz létre egy új játékot:</Typography>
             <TextField
