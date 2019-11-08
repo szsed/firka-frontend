@@ -12,12 +12,13 @@ class TippMix extends Component {
   }
 
   componentDidMount() {
-    let guess = document.querySelector('#tip').textContent
-    setTimeout(this.props.sendGuess(guess), timeToChange)
+    let guess = document.querySelector('#tip')
+    const sendGuess = () => this.props.sendGuess(guess.textContent);
+    setTimeout(sendGuess, timeToChange);
   }
 
   addField = () => {
-    if (this.props.game.players[this.props.round] !== this.props.user) {
+    if (this.props.game.players[this.props.round - 1].id !== this.props.userId) {
       return (
         <>
           <TextField type="text" id="tip" />
@@ -32,7 +33,7 @@ class TippMix extends Component {
   render() {
     return (
       <>
-        <CardMedia src={this.props.game.players[this.props.round].drawing} />
+        <CardMedia src={this.props.game.players[this.props.round - 1].drawing} />
         {this.addField()}
       </>
     );
@@ -41,7 +42,7 @@ class TippMix extends Component {
 
 const mapStateToProps = ({ game, user, }) => ({
   game: game.gameStats,
-  user: user.playerDetails[0].id,
+  userId: user.playerDetails.id,
   round: game.roundCounter,
 });
 

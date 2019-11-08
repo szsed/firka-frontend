@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendImageToFirestore } from '../services/firebase/firebase-services';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { calculateString } from 'bytebuffer';
 
 const timeToUpload = 11000;
 
@@ -51,12 +49,7 @@ class Guess extends Component {
   }
 
   componentDidMount() {
-    setTimeout(this.uploadImage, timeToUpload);
-  }
-
-  uploadImage = () => {
-    let canvasData = document.querySelector('#canvas').toDataURL();
-    sendImageToFirestore(this.props.userId, canvasData);
+    // setTimeout(this.uploadImage, timeToUpload);
   }
 
   render() {
