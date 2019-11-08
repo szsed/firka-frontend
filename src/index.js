@@ -9,6 +9,7 @@ import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import LobbyPage from './pages/lobby';
 import GamePage from './pages/game';
+import Count from './components/Countdown';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
 import { Provider, connect } from 'react-redux';
@@ -58,6 +59,7 @@ class App extends Component {
         <Route exact path="/leaderboard" component={Leaderboard} />
         <Route exact path="/lobby" component={LobbyPage} />
         <Route exact path="/game" component={GamePage} />
+        <Route exact path="/c" component={GamePage} />
       </Router>
     );
   }
