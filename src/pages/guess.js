@@ -9,6 +9,18 @@ import { sendGuessAction, changeGameStatusAction } from '../store/actions';
 const timeToUpload = 11000;
 
 const useStyles = theme => ({
+  textField: {
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    padding: theme.spacing(4),
+    width: 310,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    position: "absolute"
+  },
   paper: {
     marginTop: theme.spacing(3),
     display: "flex",
@@ -82,12 +94,15 @@ class Guess extends Component {
     if (game.players[round - 1].id !== user.playerDetails.id) {
       return (
         <>
-          <TextField
-            type="text"
-            id="tip"
-            helperText="Mit ábrázol a kép? Írd ide!"
-            variant="outlined"
-            onChange={this.handleChange} />
+         <TextField 
+          className={classes.textField}
+          type="text" 
+          id="tip" 
+          id="outlined-basic" 
+          helperText="Mit ábrázol a kép? Írd ide!" 
+          variant="outlined" 
+          onChange={this.handleChange}
+          ></TextField>
         </>
       )
     } else {
@@ -104,12 +119,12 @@ class Guess extends Component {
         <Container maxWidth="sm">
           <Typography color="secondary" className={classes.title}>Mi van a képen?</Typography>
           <Typography color="error" className={classes.title}>10s</Typography>
+          {this.addField()}
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               <img src={game.players[round - 1].drawing} />
             </Paper>
           </div>
-          {this.addField()}
         </Container>
       </Fragment>
     )
