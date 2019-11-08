@@ -59,13 +59,13 @@ class Vote extends Component {
   }
 
   selector = (guesses) => {
-    if (this.props.game.players[this.props.round - 1] !== this.props.user.playerDetails.id) {
+    if (this.props.game.players[this.props.round - 1].id !== this.props.user.playerDetails.id) {
       return (
         <FormControl component="fieldset" >
           <FormLabel component="legend">Na vajon melyik a jó?</FormLabel>
           <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange}>
             {this.props.game.players.map(player => (
-              <FormControlLabel value={player.guesses[0]} control={<Radio />} label={player.guesses[0]} />
+              <FormControlLabel value={player.guesses[this.props.round - 1]} control={<Radio />} label={player.guesses[this.props.round - 1]} />
             ))}
           </RadioGroup>
         </FormControl>

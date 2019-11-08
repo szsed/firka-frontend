@@ -97,14 +97,14 @@ class Guess extends Component {
     if (game.players[round - 1].id !== user.playerDetails.id) {
       return (
         <>
-         <TextField 
-          className={classes.textField}
-          type="text" 
-          id="tip" 
-          id="outlined-basic" 
-          helperText="Mit ábrázol a kép? Írd ide!" 
-          variant="outlined" 
-          onChange={this.handleChange}
+          <TextField
+            className={classes.textField}
+            type="text"
+            id="tip"
+            id="outlined-basic"
+            helperText="Mit ábrázol a kép? Írd ide!"
+            variant="outlined"
+            onChange={this.handleChange}
           ></TextField>
         </>
       )
@@ -115,6 +115,7 @@ class Guess extends Component {
 
   render() {
     const { classes, game, round } = this.props;
+    if (!game) return null;
     return (
       <Fragment>
         <CssBaseline />
