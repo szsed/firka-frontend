@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import WelcomePage from './pages/welcome';
 import AccountPage from './pages/account';
 import Dashboard from './pages/dashboard';
-import Leaderboard from './pages/results';
+import Leaderboard from './pages/leaderboard';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import LobbyPage from './pages/lobby';
