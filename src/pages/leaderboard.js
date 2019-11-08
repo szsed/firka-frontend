@@ -1,4 +1,142 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { withStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import { Typography, Paper } from "@material-ui/core";
+import { requestToAPI } from "../services/backend-api-services";
+
+const useStyles = theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    padding: theme.spacing(4)
+  },
+  title: {
+    fontSize: 20,
+    margin: theme.spacing(2),
+    [theme.breakpoints.up("md")]: {
+      fontSize: 28
+    }
+  },
+  avatar: {
+    width: 70,
+    height: 70
+  },
+  boardItem: {
+    width: "100%",
+    padding: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: theme.spacing(2)
+  },
+  boardDiv: {
+    display: "flex",
+    alignItems: "center"
+  },
+  boardName: {
+    marginLeft: "10px"
+  }
+});
+
+const getUserData = () => {
+  return requestToAPI('/users', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(response => response.json())
+    .then(parsed => {
+      if (parsed.message) throw parsed;
+      return fillRows(parsed)
+    })
+    .catch(err => {
+      console.log(err.message);
+      return err;
+    });
+}
+
+const fillRows = (parsed) => {
+  return parsed.map(userData => ({
+    avatar: userData.avatar,
+    username: userData.username,
+    victories: userData.victories,
+  }))
+}
+
+class Scoreboard extends Component {
+  constructor(props) {
+    super(props); 
+    this.state = {
+      rows: '',
+    };
+  };
+
+  componentDidMount() {
+    getUserData()
+      .then(rows => {
+        this.setState({
+          rows
+        })
+      })
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Typography paragraph variant="h4">
+              Eredmények
+            </Typography>
+            {this.state.rows.map(element => {
+              return (
+                <Paper className={classes.boardItem}>
+                  <div className={classes.boardDiv}>
+                    <Avatar src={element.avatar} />
+                    <Typography className={classes.boardName}>{element.username}</Typography>
+                  </div>
+                  <Typography>{element.score}</Typography>
+                </Paper>
+              )
+            })}
+          </div>
+        </Container>
+      </>
+    )
+  }
+}
+
+const mapStateToProps = ({ game }) => ({
+  game: game.gameStats,
+});
+
+
+Scoreboard.propTypes = {
+  game: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      score: PropTypes.number,
+      avatar: PropTypes.string,
+    })
+  )
+};
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Scoreboard));
+
+
+
+/* import React, { Component, Fragment } from 'react';
 import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles, makeStyles, createMuiTheme } from "@material-ui/core/styles";
@@ -124,7 +262,7 @@ class Leaderboard extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.state.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                  {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                         {columns.map(column => {
@@ -163,4 +301,4 @@ class Leaderboard extends Component {
   }
 }
 
-export default withStyles(useStyles)(Leaderboard);
+export default withStyles(useStyles)(Leaderboard); */
