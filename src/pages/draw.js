@@ -45,9 +45,16 @@ const useStyles = theme => ({
 });
 
 class Draw extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeLeft: 10,
+    };
+  }
 
   componentDidMount() {
     setTimeout(this.uploadImage, timeToUpload);
+    // setInterval(this.setState({ timeLeft: this.state.timeLeft - 1 }), 1000);
   }
 
   uploadImage = () => {
@@ -65,6 +72,7 @@ class Draw extends Component {
 
   render() {
     const { classes, width } = this.props;
+    const { timeLeft } = this.state;
     return (
       <Fragment>
         <CssBaseline />
@@ -72,7 +80,7 @@ class Draw extends Component {
         <Container maxWidth="sm">
           <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
           <Typography color="secondary" className={classes.title}>Kutyámajom</Typography>
-          <Typography color="error" className={classes.title}>10s</Typography>
+          <Typography color="error" className={classes.title}>{timeLeft}s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               {width === 'xs' ? (
