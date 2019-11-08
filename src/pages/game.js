@@ -14,13 +14,13 @@ class GamePage extends Component {
 
     switch (gameState) {
       case 'draw':
-        return Draw;
+        return <Draw />;
       case 'guess':
-        return Guess;
+        return <Guess />;
       case 'select':
-        return Vote;
+        return <Vote />;
       case 'gameEnd':
-        return Results;
+        return <Results />;
       default:
         return null;
     };

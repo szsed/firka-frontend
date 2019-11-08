@@ -54,7 +54,7 @@ function Navbar(props) {
 
   const handleLogout = () => {
     logoutUser();
-    props.history.push('/login');
+    props.history.push('/');
   }
 
 

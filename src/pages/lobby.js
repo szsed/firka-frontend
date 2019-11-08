@@ -42,11 +42,14 @@ const useStyles = theme => ({
 class Lobby extends Component {
 
   handleSubmit = () => {
-    startGameAction();
+    this.props.startGame();
+    this.props.history.push('/game');
   };
 
   render() {
-    const { classes, userList, currentGame } = this.props;
+    const { classes, gameStats, currentGame } = this.props;
+    if (!gameStats) return null;
+    const userList = gameStats.players;
     return (
       <Fragment>
         <CssBaseline />
@@ -76,7 +79,7 @@ class Lobby extends Component {
 }
 
 const mapStateToProps = state => ({
-  userList: state.game.gameStats.players,
+  gameStats: state.game.gameStats,
   currentGame: state.game.gameStats
 });
 

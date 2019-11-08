@@ -6,6 +6,7 @@ import { sendImageToFirestore } from '../services/firebase/firebase-services';
 import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
+import { sendDrawingAction } from '../store/actions';
 
 const timeToUpload = 11000;
 
@@ -52,9 +53,7 @@ class Draw extends Component {
 
   uploadImage = () => {
     let canvasData = document.querySelector('#canvas').toDataURL();
-    // TODO: 
-    //sendImageToFirestore(this.props.user, canvasData);
-    sendImageToFirestore('cica', canvasData);
+    this.props.sendDrawing(canvasData);
   }
 
   render() {
@@ -90,10 +89,14 @@ const mapStateToProps = ({ user_id }) => ({
   user: user_id,
 });
 
+const mapActionsToProps = {
+  sendDrawing: sendDrawingAction
+}
+
 Draw.propTypes = {
   user: PropTypes.string,
   time: PropTypes.number,
   uploadImage: PropTypes.func,
 };
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(withWidth()(Draw)));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(withWidth()(Draw)));

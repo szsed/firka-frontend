@@ -1,34 +1,5 @@
-import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener } from "../services/firebase/firebase-services"
+import { createGameListListener, sendImageToFirestore, sendGuessToFirestore, sendScoreToFirestore, joinGameInFirestore, startGameInFirestore, createCurrentGameListener, addGameToFirestore } from "../services/firebase/firebase-services"
 import store from "./store";
-
-
-
-
-// export const updateGameStatsAction = () => {
-//   return dispatch => {
-//     return updateGameStats()
-//       // mi kell ennek??? ez jó függvény itt???
-//       .then(response => {
-//         const gameStats = response.json;
-//         // ez így gut???
-//         dispatch({ type: 'UPDATE_GAMESTATS', payload: gameStats });
-//       })
-//   }
-// }
-
-// export const areAllChoicesSentAction = () => {
-//   let currentNumberOfChoices = 0;
-//   for (let i = 0; i < gameStats.players.length; i++) {
-//     if (gameStats.players[i].guesses.length === currentRound()) {
-//       currentNumberOfChoices++;
-//     }
-//   }
-//   if (currentNumberOfChoices === playerNumber) {
-//     return { type: 'ALL_CHOICES_SENT' };
-//   }
-// }
-
-// -----------------------------------------------------------------------------------------------------
 
 export const playerNumber = () => {
   return 3;
@@ -52,13 +23,14 @@ export const nextRoundAction = () => {
 }
 
 export const sendDrawingAction = (drawing) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   sendImageToFirestore(userId, drawing);
+  store.dispatch(changeGameStatusAction('guess'));
   return { type: 'SEND_DRAW' };
 }
 
 export const sendGuessAction = (guess) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     sendGuessToFirestore(userId, guess);
   } else {
@@ -68,7 +40,7 @@ export const sendGuessAction = (guess) => {
 }
 
 export const sendChoiceAction = (choice) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   let userIdRelatedToTheChosenGuess = 0;
   if (choice !== store.getState().game.gameStats.players[currentRound() - 1].word) {
     for (let i = 0; i < store.getState().game.gameStats.players.length; i++) {
@@ -113,8 +85,28 @@ export const endGameAction = () => {
   return { type: 'STOP_GAME' };
 }
 
+
+
+export const createGameAction = (userData) => {
+  return dispatch => {
+    const gameId = addGameToFirestore(userData);
+    return gameId.then(gameId => {
+      const listener = createCurrentGameListener(gameId);
+      return dispatch({ type: 'SELECT_GAME', payload: listener });
+    })
+
+  }
+}
+
 export const selectGameAction = (gameId) => {
-  const userData = store.getState().user;
+  let userData = store.getState().user.playerDetails;
+  const gameData = store.getState().lobby.currentGames.find(game => game.id === gameId);
+  const playerIndex = gameData.players.length;
+  userData = {
+    ...userData,
+    guesses: [],
+    word: gameData.words[playerIndex]
+  }
   const listener = createCurrentGameListener(gameId);
   joinGameInFirestore(gameId, userData)
   return { type: 'SELECT_GAME', payload: listener }
@@ -122,7 +114,6 @@ export const selectGameAction = (gameId) => {
 
 export const startGameAction = () => {
   const gameId = store.getState().game.gameStats.id;
-  console.log(gameId);
   startGameInFirestore(gameId);
   return { type: 'GAME_STATUS_CHANGE', payload: 'draw' };
 }
@@ -137,7 +128,7 @@ export const whatIsTheCorrectAnswerAction = () => {
 }
 
 export const blockGuessingAction = () => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     return null;
   } else {
@@ -147,7 +138,7 @@ export const blockGuessingAction = () => {
 }
 
 export const buidlingChoicesAction = () => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     return null;
   } else {
