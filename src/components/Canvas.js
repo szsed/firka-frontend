@@ -82,26 +82,26 @@ class Canvas extends Component {
 
     //color changer
 
-    let colorButton = document.querySelectorAll('#colorButton');
+    let colorButton = document.querySelectorAll('.colorButton');
     let currentColor = 'black';
     let clickColor = new Array();
 
     colorButton.forEach(function (button) {
       button.addEventListener('click', function (e) {
-        currentColor = button.innerHTML;
+        currentColor = button.id;
       })
     });
 
 
     //size chooser
 
-    let sizeButton = document.querySelectorAll('#sizeButton');
+    let sizeButton = document.querySelectorAll('.sizeButton');
     let clickSize = new Array();
     let curSize = 5;
 
     sizeButton.forEach(function (button) {
       button.addEventListener('click', function (e) {
-        curSize = Number(button.className);
+        curSize = Number(button.id);
       })
     });
 
@@ -111,11 +111,16 @@ class Canvas extends Component {
     return (
       <>
         <canvas className="canvas" id="canvas" width={this.props.width} height={this.props.height}></canvas>
-        <button id="colorButton">Black</button>
-        <button id="colorButton">Green</button>
-        <button id="sizeButton" className='2'>Small</button>
-        <button id="sizeButton" className='5'>Medium</button>
-        <button id="sizeButton" className='10'>Large</button>
+        <button id="red" className='colorButton'>Piros</button>
+        <button id="yellow" className='colorButton'>Sárga</button>
+        <button id="orange" className='colorButton'>Narancs</button>
+        <button id="blue" className='colorButton'>Kék</button>
+        <button id="green" className='colorButton'>Zöld</button>
+        <button id="brown" className='colorButton'>Barna</button>
+        <button id="black" className='colorButton'>Fekete</button>
+        <button id="2" className='sizeButton'>Small</button>
+        <button id="5" className='sizeButton'>Medium</button>
+        <button id="10" className='sizeButton'>Large</button>
       </>
     )
   }

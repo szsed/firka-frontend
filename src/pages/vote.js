@@ -41,8 +41,8 @@ class Vote extends Component {
   }
 
   componentDidMount() {
-    this.currentImgSource = this.props.images[this.currentImgSource].source
-    setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
+    // this.currentImgSource = this.props.images[this.currentImgSource].source
+    // setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
   }
 
 
@@ -87,7 +87,7 @@ class Vote extends Component {
         <Container maxWidth="sm">
           <Paper className={classes.paper}>
             <Typography color="secondary" className={classes.title}>Vote</Typography>
-            <img width="100%" alt="drawing" src={game.players[round].drawing} />
+            <img width="100%" alt="drawing" src={game.players[round - 1].drawing} />
             {this.selector()}
           </Paper>
         </Container>

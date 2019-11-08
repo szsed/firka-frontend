@@ -93,7 +93,6 @@ export const createGameAction = (userData) => {
     const gameId = addGameToFirestore(userData);
     return gameId.then(gameId => {
       const listener = createCurrentGameListener(gameId);
-      console.log(listener)
       return dispatch({ type: 'SELECT_GAME', payload: listener });
     })
 
@@ -111,7 +110,6 @@ export const selectGameAction = (gameId) => {
     drawing: null,
   }
   const listener = createCurrentGameListener(gameId);
-  console.log(listener);
   joinGameInFirestore(gameId, userData)
   return { type: 'SELECT_GAME', payload: listener }
 }

@@ -23,7 +23,8 @@ class GamePage extends Component {
       case 'gameEnd':
         return <Results />;
       default:
-        return history.push('/');
+        history.push('/')
+        return null;
     };
   }
 }
