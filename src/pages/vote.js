@@ -9,6 +9,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { connect } from 'react-redux';
+import store from '../store/store';
+import { nextRoundAction } from '../store/actions';
 
 const timeToChange = 10000;
 
@@ -41,8 +43,9 @@ class Vote extends Component {
   }
 
   componentDidMount() {
-    // this.currentImgSource = this.props.images[this.currentImgSource].source
-    // setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
+    setTimeout(() => {
+      store.dispatch(nextRoundAction())
+    }, timeToChange)
   }
 
   componentDidUpdate() {
