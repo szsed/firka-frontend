@@ -156,7 +156,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
+  user: state.user.playerDetails,
   gameList: state.lobby.currentGames,
 });
 
