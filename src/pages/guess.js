@@ -9,6 +9,18 @@ import { sendGuessAction, changeGameStatusAction } from '../store/actions';
 const timeToUpload = 11000;
 
 const useStyles = theme => ({
+  textField: {
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    padding: theme.spacing(4),
+    width: 310,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    position: "relative"
+  },
   paper: {
     marginTop: theme.spacing(3),
     display: "flex",
@@ -70,7 +82,15 @@ class Guess extends Component {
     if (game.players[round - 1].id !== userId) {
       return (
         <>
-          <TextField type="text" id="tip" />
+         <TextField 
+          className={classes.textField}
+          type="text" 
+          id="tip" 
+          id="outlined-basic" 
+          helperText="Mit ábrázol a kép? Írd ide!" 
+          variant="outlined" 
+          onChange={this.handleChange}
+          ></TextField>
         </>
       )
     } else {
