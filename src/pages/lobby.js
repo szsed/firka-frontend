@@ -47,7 +47,7 @@ class Lobby extends Component {
 
   componentDidUpdate() {
     if (!this.props.gameStats) return;
-    if (this.props.gameStats.status === 'inprogress') this.changeGameStatus('draw');
+    if (this.props.gameStats.status === 'inprogress') this.props.changeGameStatus('draw');
   }
 
   render() {
