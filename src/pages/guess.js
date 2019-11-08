@@ -59,27 +59,39 @@ const useStyles = theme => ({
 class Guess extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      guess: "",
+    };
   }
 
   componentDidMount() {
     setTimeout(this.uploadGuess, timeToUpload);
   }
 
-  uploadGuess() {
+  handleChange = event => {
+    this.setState({ guess: event.target.value });
+  };
 
+  uploadGuess = () => {
+    const { user, game } = this.props;
+    const userId = user.playerDetails.id;
+    const userIndex = game.players.findIndex(player => player.id === userId);
+    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 250);
   }
 
   componentDidUpdate() {
-    const { game, changeGameStatus } = this.props;
+    const { game, changeGameStatus, round } = this.props;
     if (!game) return;
-    const guessCount = game.players.filter(player => player.guesses.length === game.roundCounter).length;
-    // if (guessCount === 3) changeGameStatus('guess');
-    if (guessCount === 1) changeGameStatus('guess');
+    const guessCount = game.players.filter(player => {
+      return player.guesses.length === round;
+    }).length;
+    const numOfPlayers = game.players.length;
+    if (guessCount === numOfPlayers) changeGameStatus('select');
   }
 
   addField = () => {
-    const { game, round, userId, classes } = this.props;
-    if (game.players[round - 1].id !== userId) {
+    const { game, round, user, classes } = this.props;
+    if (game.players[round - 1].id !== user.playerDetails.id) {
       return (
         <>
          <TextField 
@@ -100,7 +112,6 @@ class Guess extends Component {
 
   render() {
     const { classes, game, round } = this.props;
-    console.log(round, game.players);
     return (
       <Fragment>
         <CssBaseline />
@@ -123,7 +134,7 @@ class Guess extends Component {
 
 const mapStateToProps = ({ game, user }) => ({
   game: game.gameStats,
-  userId: user.playerDetails.id,
+  user,
   round: game.roundCounter,
 });
 

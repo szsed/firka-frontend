@@ -45,12 +45,21 @@ class Vote extends Component {
     // setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
   }
 
+  componentDidUpdate() {
+    // const { game, changeGameStatus, round } = this.props;
+    // if (!game) return;
+    // const guessCount = game.players.filter(player => {
+    //   return player.guesses.length === round;
+    // }).length;
+    // const numOfPlayers = game.players.length;
+    // if (guessCount === numOfPlayers) changeGameStatus('select');
+  }
 
   selector = (guesses) => {
-    if (this.props.game.players[this.props.round] !== this.props.user) {
+    if (this.props.game.players[this.props.round] !== this.props.user.playerDetails.id) {
       return (
         <FormControl component="fieldset" >
-          <FormLabel component="legend">Na vajon melyik a jo?</FormLabel>
+          <FormLabel component="legend">Na vajon melyik a jó?</FormLabel>
           <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange}>
             {this.props.game.players.map(player => (
               <FormControlLabel value={player.guesses[0]} control={<Radio />} label={player.guesses[0]} />
@@ -98,7 +107,7 @@ class Vote extends Component {
 
 const mapStateToProps = ({ game, user, }) => ({
   game: game.gameStats,
-  user: user.playerDetails.id,
+  user,
   round: game.roundCounter,
 });
 
