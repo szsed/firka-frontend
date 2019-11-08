@@ -64,16 +64,18 @@ class Guess extends Component {
     const { user, game } = this.props;
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 250);
+    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 500);
   }
 
   componentDidUpdate() {
     const { game, changeGameStatus, round } = this.props;
     if (!game) return;
     const guessCount = game.players.filter(player => {
+      console.log(round, player.guesses)
       return player.guesses.length === round;
     }).length;
     const numOfPlayers = game.players.length;
+    console.log(guessCount, numOfPlayers)
     if (guessCount === numOfPlayers) changeGameStatus('select');
   }
 

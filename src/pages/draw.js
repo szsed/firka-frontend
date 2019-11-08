@@ -54,7 +54,6 @@ class Draw extends Component {
 
   componentDidMount() {
     setTimeout(this.uploadImage, timeToUpload);
-    // setInterval(this.setState({ timeLeft: this.state.timeLeft - 1 }), 1000);
   }
 
   uploadImage = () => {
@@ -62,7 +61,7 @@ class Draw extends Component {
     let canvasData = document.querySelector('#canvas').toDataURL();
     const userId = user.playerDetails.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 250);
+    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 500);
   }
 
   componentDidUpdate() {
