@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './styles.css';
 
 class Canvas extends Component {
 
@@ -36,17 +37,6 @@ class Canvas extends Component {
       paint = false;
     });
 
-
-    /*     const clearButton = document.querySelector('#clearButton') // not implemented
-        clearButton.addEventListener('click', () => {
-          clickX = [];
-          clickY = [];
-          clickDrag = [];
-          paint;
-          context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-        }) */
-
-
     const strokeColor = "black";
     const strokeWidt = 5;
     const strokeJoin = "round";
@@ -61,9 +51,9 @@ class Canvas extends Component {
 
     function redraw() {
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      // context.strokeStyle = strokeColor; //remove if color chooser is implemented
+      context.strokeStyle = strokeColor;
       context.lineJoin = strokeJoin;
-      // context.lineWidth = strokeWidt; //remove if size chooser is implemented
+      context.lineWidth = strokeWidt;
 
       for (var i = 0; i < clickX.length; i++) {
         context.beginPath();
@@ -80,8 +70,6 @@ class Canvas extends Component {
       }
     }
 
-    //color changer
-
     let colorButton = document.querySelectorAll('.colorButton');
     let currentColor = 'black';
     let clickColor = new Array();
@@ -93,13 +81,11 @@ class Canvas extends Component {
     });
 
 
-    //size chooser
-
-    let sizeButton = document.querySelectorAll('.sizeButton');
+    let sizeButtons = document.querySelectorAll('.sizeButton');
     let clickSize = new Array();
     let curSize = 5;
 
-    sizeButton.forEach(function (button) {
+    sizeButtons.forEach(function (button) {
       button.addEventListener('click', function (e) {
         curSize = Number(button.id);
       })
@@ -111,6 +97,7 @@ class Canvas extends Component {
     return (
       <>
         <canvas className="canvas" id="canvas" width={this.props.width} height={this.props.height}></canvas>
+      <div className = "colorButtons">
         <button id="red" className='colorButton'>Piros</button>
         <button id="yellow" className='colorButton'>Sárga</button>
         <button id="orange" className='colorButton'>Narancs</button>
@@ -118,9 +105,12 @@ class Canvas extends Component {
         <button id="green" className='colorButton'>Zöld</button>
         <button id="brown" className='colorButton'>Barna</button>
         <button id="black" className='colorButton'>Fekete</button>
-        <button id="2" className='sizeButton'>Small</button>
-        <button id="5" className='sizeButton'>Medium</button>
-        <button id="10" className='sizeButton'>Large</button>
+      </div>
+      <div className = "sizeButtons">
+        <button id="2" className='sizeButton'>Kicsi</button>
+        <button id="5" className='sizeButton'>Közepes</button>
+        <button id="10" className='sizeButton'>Nagy</button>
+      </div>
       </>
     )
   }
