@@ -95,7 +95,7 @@ class Vote extends Component {
         <Navbar />
         <Container maxWidth="sm">
           <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Vote</Typography>
+            <Typography color="secondary" className={classes.title}>Szavazás</Typography>
             <img width="100%" alt="drawing" src={game.players[round - 1].drawing} />
             {this.selector()}
           </Paper>

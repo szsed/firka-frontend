@@ -80,7 +80,7 @@ class WelcomePage extends Component {
             >
               Regisztráció
             </Button>
-            <Button href="/login" fullWidth>Bejelentjezés</Button>
+            <Button href="/login" fullWidth>Bejelentkezés</Button>
           </Paper>
         </Container>
       </Fragment>

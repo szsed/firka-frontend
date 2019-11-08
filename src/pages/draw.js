@@ -6,8 +6,9 @@ import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@m
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
 import { sendDrawingAction, changeGameStatusAction } from '../store/actions';
+import Countdown from '../components/Countdown';
 
-const timeToUpload = 11000;
+const timeToUpload = 10000;
 
 const useStyles = theme => ({
   paper: {
@@ -85,7 +86,7 @@ class Draw extends Component {
         <Container maxWidth="sm">
           <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
           <Typography color="secondary" className={classes.title}>{game.players[userIndex].word}</Typography>
-          <Typography color="error" className={classes.title}>{timeLeft}s</Typography>
+          <Typography color="error" className={classes.title}><Countdown /></Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               {width === 'xs' ? (
