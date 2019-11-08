@@ -28,6 +28,7 @@ const useStyles = theme => ({
     overflow: 'auto',
   },
 });
+
 const rows = [
   'India', 'IN', 1324171354,
 ];
@@ -69,7 +70,7 @@ class Leaderboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      rows: "",
       page: 0,
       rowsPerPage: 10,
     };
