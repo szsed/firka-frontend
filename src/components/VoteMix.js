@@ -9,19 +9,13 @@ const timeToChange = 10000;
 class VoteMix extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tip: '',
-    }
+
   }
 
   componentDidMount() {
     this.currentImgSource = this.props.images[0].source
     setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
   }
-
-  handleChange = event => {
-    this.setState({ tip: event.target.value });
-  };
 
   selector = (array) => {
     if (this.props.game.players[this.props.round] !== this.props.user) {
@@ -62,9 +56,9 @@ class VoteMix extends Component {
 }
 
 const mapStateToProps = ({ game, user, }) => ({
-  // game: game.gameStats,
-  // user: user.playerDetails.id,
-  // round: game.roundCounter,
+  game: game.gameStats,
+  user: user.playerDetails.id,
+  round: game.roundCounter,
 });
 
 const mapActionsToProps = {
