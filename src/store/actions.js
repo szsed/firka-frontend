@@ -25,6 +25,7 @@ export const nextRoundAction = () => {
 export const sendDrawingAction = (drawing) => {
   const userId = store.getState().user.playerDetails.id;
   sendImageToFirestore(userId, drawing);
+  store.dispatch(changeGameStatusAction('guess'));
   return { type: 'SEND_DRAW' };
 }
 
@@ -98,7 +99,7 @@ export const createGameAction = (userData) => {
 }
 
 export const selectGameAction = (gameId) => {
-  const userData = store.getState().user.playerDetails;
+  let userData = store.getState().user.playerDetails;
   const gameData = store.getState().lobby.currentGames.find(game => game.id === gameId);
   const playerIndex = gameData.players.length;
   userData = {
@@ -113,7 +114,6 @@ export const selectGameAction = (gameId) => {
 
 export const startGameAction = () => {
   const gameId = store.getState().game.gameStats.id;
-  console.log(gameId);
   startGameInFirestore(gameId);
   return { type: 'GAME_STATUS_CHANGE', payload: 'draw' };
 }

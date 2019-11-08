@@ -12,7 +12,10 @@ export const createCurrentGameListener = gameId => {
   return firestoreDB.doc(gameId).onSnapshot(doc => {
     store.dispatch({
       type: 'UPDATE_GAMESTATS',
-      payload: doc.data(),
+      payload: {
+        ...doc.data(),
+        id: doc.id
+      },
     })
   });
 }
