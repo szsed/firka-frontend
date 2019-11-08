@@ -76,7 +76,7 @@ class Lobby extends Component {
 }
 
 const mapStateToProps = state => ({
-  userList: state.game.gameStats.players
+  userList: state.game.gameStats.players,
   currentGame: state.game.gameStats
 });
 
