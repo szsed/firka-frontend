@@ -57,7 +57,7 @@ class Guess extends Component {
   }
 
   handleChange = event => {
-    this.setState({ input: event.target.value });
+    this.setState({ guess: event.target.value });
   };
 
   uploadGuess = () => {
@@ -71,11 +71,9 @@ class Guess extends Component {
     const { game, changeGameStatus, round } = this.props;
     if (!game) return;
     const guessCount = game.players.filter(player => {
-      // console.log(player.guesses, game.roundCounter);
       return player.guesses.length === round;
     }).length;
     const numOfPlayers = game.players.length;
-    console.log(guessCount, numOfPlayers, game.players)
     if (guessCount === numOfPlayers) changeGameStatus('select');
   }
 
