@@ -10,7 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { requestToAPI } from "../services/backend-api-services";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(3),
     display: "flex",
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     maxHeight: 440,
     overflow: 'auto',
   },
-}));
+});
 const rows = [
   'India', 'IN', 1324171354,
 ];
@@ -65,25 +65,27 @@ const getUserData = () => {
     });
 }
 
-/* const classes = useStyles(); */
-const [page, setPage] = React.useState(0);
-const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
 class Leaderboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rows: '',
+      
+      page: 0,
+      rowsPerPage: 10,
     };
   };
 
   handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    this.setState({
+      page: newPage,
+    });
   };
 
   handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    this.setState({
+      page: 0,
+      rowsPerPage: +event.target.value,
+    });
   };
 
   componentDidMount() {
@@ -97,6 +99,8 @@ class Leaderboard extends Component {
 
   render() {
     const { classes } = this.props;
+    const { page, rowsPerPage } = this.state;
+
     return (
       <Fragment>
         <CssBaseline />
@@ -158,4 +162,4 @@ class Leaderboard extends Component {
   }
 }
 
-export default Leaderboard;
+export default withStyles(useStyles)(Leaderboard);
