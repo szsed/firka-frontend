@@ -9,6 +9,9 @@ const timeToChange = 10000;
 class TippMix extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      guess: "",
+    };
   }
 
   componentDidMount() {
@@ -17,12 +20,21 @@ class TippMix extends Component {
     setTimeout(sendGuess, timeToChange);
   }
 
+  handleChange = event => {
+    this.setState({ input: event.target.value });
+  };
+
   addField = () => {
     if (this.props.game.players[this.props.round - 1].id !== this.props.userId) {
       return (
         <>
-          <TextField type="text" id="tip" />
-          <Button>Nyomjad ha megvan!</Button>
+          <TextField 
+          type="text" 
+          id="tip" 
+          helperText="Mit ábrázol a kép? Írd ide!" 
+          variant="outlined" 
+          onChange={this.handleChange}/>
+          <Button>Nyomjad, ha megvan!</Button>
         </>
       )
     } else {
