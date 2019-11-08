@@ -83,7 +83,7 @@ class Dashboard extends Component {
   handleSubmit = () => {
     const gameData = {
       name: this.state.newGame,
-      players: [this.props.user.playerDetails],
+      players: [this.props.user],
       status: 'lobby',
     }
 

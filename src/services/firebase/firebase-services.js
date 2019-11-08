@@ -23,7 +23,8 @@ export const addGameToFirestore = gameData => {
 
 export const joinGameInFirestore = (gameId, userData) => {
   return firestoreDB.doc(gameId).get().then(doc => {
-    const players = doc.players;
+    console.log(doc);
+    const players = doc.data().players;
     players.push(userData);
     return firestoreDB.doc(gameId).update({
       players,

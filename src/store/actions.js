@@ -49,13 +49,13 @@ export const nextRoundAction = () => {
 }
 
 export const sendDrawingAction = (drawing) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   sendImageToFirestore(userId, drawing);
   return { type: 'SEND_DRAW' };
 }
 
 export const sendGuessAction = (guess) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     sendGuessToFirestore(userId, guess);
   } else {
@@ -65,7 +65,7 @@ export const sendGuessAction = (guess) => {
 }
 
 export const sendChoiceAction = (choice) => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   let userIdRelatedToTheChosenGuess = 0;
   if (choice !== store.getState().game.gameStats.players[currentRound() - 1].word) {
     for (let i = 0; i < store.getState().game.gameStats.players.length; i++) {
@@ -124,7 +124,7 @@ export const createGameAction = (userData) => {
 }
 
 export const selectGameAction = (gameId) => {
-  const userData = store.getState().user;
+  const userData = store.getState().user.playerDetails;
   const listener = createCurrentGameListener(gameId);
   joinGameInFirestore(gameId, userData)
   return { type: 'SELECT_GAME', payload: listener }
@@ -146,7 +146,7 @@ export const whatIsTheCorrectAnswerAction = () => {
 }
 
 export const blockGuessingAction = () => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     return null;
   } else {
@@ -156,7 +156,7 @@ export const blockGuessingAction = () => {
 }
 
 export const buidlingChoicesAction = () => {
-  const userId = store.getState().user.id;
+  const userId = store.getState().user.playerDetails.id;
   if (userId !== store.getState().game.gameStats.players[currentRound() - 1].id) {
     return null;
   } else {
