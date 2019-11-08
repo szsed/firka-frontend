@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/* import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Container from "@material-ui/core/Container";
@@ -90,7 +90,7 @@ class Scoreboard extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, game } = this.props;
     return (
       <>
         <Container component="main" maxWidth="xs">
@@ -135,8 +135,8 @@ Scoreboard.propTypes = {
 export default connect(mapStateToProps)(withStyles(useStyles)(Scoreboard));
 
 
-
-/* import React, { Component, Fragment } from 'react';
+ */
+import React, { Component, Fragment } from 'react';
 import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles, makeStyles, createMuiTheme } from "@material-ui/core/styles";
@@ -167,8 +167,18 @@ const useStyles = theme => ({
   },
 });
 
+function createData(avatar, username, victories) {
+  return { avatar, username, victories };
+}
+
 const rows = [
-  'India', 'IN', 1324171354,
+createData('👤', 'alfonz', 25),
+createData('👤', 'D.Dani', 20),
+createData('👤', 'Szabi', 21),
+createData('👤', 'Ági', 12),
+createData('👤', 'Pascal', 13),
+createData('👤', 'N.Dani', 10),
+createData('👤', 'Ákos', 9)
 ];
 
 const columns = [
@@ -177,13 +187,13 @@ const columns = [
   { id: 'victories', label: 'Pontszám', minWidth: 170, align: 'center' },
 ];
 
-const fillRows = (parsed) => {
+/* const fillRows = (parsed) => {
   return parsed.map(userData => ({
     avatar: userData.avatar,
     username: userData.username,
     victories: userData.victories,
   }))
-}
+} */
 
 const getUserData = () => {
   return requestToAPI('/users', {
@@ -196,7 +206,7 @@ const getUserData = () => {
     .then(response => response.json())
     .then(parsed => {
       if (parsed.message) throw parsed;
-      return fillRows(parsed)
+      return parsed
     })
     .catch(err => {
       console.log(err.message);
@@ -301,4 +311,4 @@ class Leaderboard extends Component {
   }
 }
 
-export default withStyles(useStyles)(Leaderboard); */
+export default withStyles(useStyles)(Leaderboard);
