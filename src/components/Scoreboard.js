@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { Typography, Paper } from "@material-ui/core";
+import { testGame } from '../constants/test-game';
 
 const useStyles = theme => ({
   paper: {
@@ -50,21 +51,22 @@ class Scoreboard extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, game } = this.props;
+    if (!game) return null;
     return (
       <>
-        <Container component="main" /* maxWidth="xs" */>
+        <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
             <Typography paragraph variant="h4">
-              Eredmeny tabla
+              Végeredmény
             </Typography>
-            {this.props.game.players.forEach(element => {
+            {game.players.map(element => {
               return (
                 <Paper className={classes.boardItem}>
                   <div className={classes.boardDiv}>
-                    {/* <Avatar src={element.avatar} /> */}
-                    <Typography className={classes.boardName}>{element.name}</Typography>
+                    <Avatar src={element.avatar} />
+                    <Typography className={classes.boardName}>{element.username}</Typography>
                   </div>
                   <Typography>{element.score}</Typography>
                 </Paper>
@@ -82,7 +84,7 @@ const mapStateToProps = ({ game }) => ({
 });
 
 
-Display.propTypes = {
+Scoreboard.propTypes = {
   game: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

@@ -32,7 +32,7 @@ class Vote extends Component {
         <Navbar />
         <Container maxWidth="sm">
           <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Results</Typography>
+            <Typography color="secondary" className={classes.title}>Vote</Typography>
           </Paper>
         </Container>
       </Fragment>
