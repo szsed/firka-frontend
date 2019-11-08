@@ -4,13 +4,14 @@ import Draw from './draw';
 import Guess from './guess';
 import Vote from './vote';
 import Results from './results';
+import { withRouter } from "react-router-dom";
 
 class GamePage extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { gameState } = this.props;
+    const { gameState, history } = this.props;
 
     switch (gameState) {
       case 'draw':
@@ -22,7 +23,7 @@ class GamePage extends Component {
       case 'gameEnd':
         return <Results />;
       default:
-        return null;
+        return history.push('/');
     };
   }
 }
@@ -33,4 +34,4 @@ const mapStateToProps = state => {
   };
 }
 
-export default connect(mapStateToProps, null)(GamePage);
+export default withRouter(connect(mapStateToProps, null)(GamePage));
