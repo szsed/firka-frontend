@@ -20,7 +20,27 @@ class Canvas extends Component {
       redraw();
     });
 
+    canvas.addEventListener('touchstart', (event) => {
+      event.preventDefault()
+      let mouseX = event.offsetX;
+      let mouseY = event.offsetY;
+
+      paint = true;
+      addClick(mouseX, mouseY);
+      redraw();
+    });
+
     canvas.addEventListener('mousemove', (event) => {
+      let mouseX = event.offsetX;
+      let mouseY = event.offsetY;
+      if (paint) {
+        addClick(mouseX, mouseY, true);
+        redraw();
+      }
+    })
+
+    canvas.addEventListener('touchmove', (event) => {
+      event.preventDefault()
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
       if (paint) {
@@ -33,7 +53,17 @@ class Canvas extends Component {
       paint = false;
     });
 
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      paint = false;
+    });
+
     canvas.addEventListener('mouseleave', (e) => {
+      paint = false;
+    });
+
+    canvas.addEventListener('touchcancel', (e) => {
+      e.preventDefault();
       paint = false;
     });
 
@@ -97,20 +127,20 @@ class Canvas extends Component {
     return (
       <>
         <canvas className="canvas" id="canvas" width={this.props.width} height={this.props.height}></canvas>
-      <div className = "colorButtons">
-        <button id="red" className='colorButton'>Piros</button>
-        <button id="yellow" className='colorButton'>Sárga</button>
-        <button id="orange" className='colorButton'>Narancs</button>
-        <button id="blue" className='colorButton'>Kék</button>
-        <button id="green" className='colorButton'>Zöld</button>
-        <button id="brown" className='colorButton'>Barna</button>
-        <button id="black" className='colorButton'>Fekete</button>
-      </div>
-      <div className = "sizeButtons">
-        <button id="2" className='sizeButton'>Kicsi</button>
-        <button id="5" className='sizeButton'>Közepes</button>
-        <button id="10" className='sizeButton'>Nagy</button>
-      </div>
+        <div className="colorButtons">
+          <button id="red" className='colorButton'>Piros</button>
+          <button id="yellow" className='colorButton'>Sárga</button>
+          <button id="orange" className='colorButton'>Narancs</button>
+          <button id="blue" className='colorButton'>Kék</button>
+          <button id="green" className='colorButton'>Zöld</button>
+          <button id="brown" className='colorButton'>Barna</button>
+          <button id="black" className='colorButton'>Fekete</button>
+        </div>
+        <div className="sizeButtons">
+          <button id="2" className='sizeButton'>Kicsi</button>
+          <button id="5" className='sizeButton'>Közepes</button>
+          <button id="10" className='sizeButton'>Nagy</button>
+        </div>
       </>
     )
   }
