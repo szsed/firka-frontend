@@ -3,7 +3,7 @@ export const testUser = {
   username: 'batman',
   display_name: 'Bruce Wayne',
   victories: 3,
-  avatar: 'asd.jpg',
+  avatar: 'https://imgur.com/I80W1Q0.png',
 }
 
 export const testGame = {
