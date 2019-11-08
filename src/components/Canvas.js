@@ -21,7 +21,6 @@ class Canvas extends Component {
     });
 
     canvas.addEventListener('touchstart', (event) => {
-      event.preventDefault()
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
 
@@ -40,7 +39,6 @@ class Canvas extends Component {
     })
 
     canvas.addEventListener('touchmove', (event) => {
-      event.preventDefault()
       let mouseX = event.offsetX;
       let mouseY = event.offsetY;
       if (paint) {
@@ -54,7 +52,6 @@ class Canvas extends Component {
     });
 
     canvas.addEventListener('touchend', (e) => {
-      e.preventDefault();
       paint = false;
     });
 
@@ -63,7 +60,6 @@ class Canvas extends Component {
     });
 
     canvas.addEventListener('touchcancel', (e) => {
-      e.preventDefault();
       paint = false;
     });
 
