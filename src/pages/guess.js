@@ -5,8 +5,9 @@ import { CssBaseline, Container, Paper, Typography, CardMedia, TextField, withWi
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
 import { sendGuessAction, changeGameStatusAction } from '../store/actions';
+import Countdown from '../components/Countdown';
 
-const timeToUpload = 11000;
+const timeToUpload = 10000;
 
 const useStyles = theme => ({
   paper: {
@@ -87,7 +88,7 @@ class Guess extends Component {
         <Navbar />
         <Container maxWidth="sm">
           <Typography color="secondary" className={classes.title}>Mi van a képen?</Typography>
-          <Typography color="error" className={classes.title}>10s</Typography>
+          <Typography color="error" className={classes.title}><Countdown /></Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               <img src={game.players[round - 1].drawing} />
