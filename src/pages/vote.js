@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { connect } from 'react-redux';
 import store from '../store/store';
-import { nextRoundAction } from '../store/actions';
+import { nextRoundAction, endGameAction } from '../store/actions';
 
 const timeToChange = 10000;
 
@@ -44,7 +44,11 @@ class Vote extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      store.dispatch(nextRoundAction())
+      if (this.props.round < 3) {
+        store.dispatch(nextRoundAction());
+      } else {
+        store.dispatch(endGameAction());
+      }
     }, timeToChange)
   }
 
