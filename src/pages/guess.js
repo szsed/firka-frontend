@@ -120,12 +120,12 @@ class Guess extends Component {
         <Container maxWidth="sm">
           <Typography color="secondary" className={classes.title}>Mi van a képen?</Typography>
           <Typography color="error" className={classes.title}><Countdown /></Typography>
-          {this.addField()}
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               <img src={game.players[round - 1].drawing} />
             </Paper>
           </div>
+          {this.addField()}
         </Container>
       </Fragment>
     )
