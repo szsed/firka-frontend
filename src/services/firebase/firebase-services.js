@@ -47,17 +47,14 @@ export const endGameInFirestore = (gameId) => {
   })
 }
 
-export const getCurrentGameInfo = userId => {
+export const getCurrentGameInfo = () => {
   return new Promise(resolve => {
-    firestoreDB.where('status', '==', 'inprogress').get().then(docs => {
-      if (!docs) return null;
-      const gamesList = []
-      docs.forEach(doc => gamesList.push({
+    const gameId = store.getState().game.gameStats.id;
+    firestoreDB.doc(gameId).get().then(doc => {
+      resolve({
         id: doc.id,
-        data: doc.data()
-      }));
-      const currentGameData = gamesList.filter(game => game.data.players.some(player => player.id === userId))[0];
-      resolve(currentGameData);
+        data: doc.data(),
+      })
     });
   });
 }
