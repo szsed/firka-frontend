@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CardMedia, FormControl, FormLabel, RadioGroup, FormControlLabel } from '@material-ui/core';
+import { CardMedia, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { sendChoiceAction } from '../store/actions'
 
 const timeToChange = 10000;
@@ -15,7 +15,7 @@ class VoteMix extends Component {
   }
 
   componentDidMount() {
-    this.currentImgSource = this.props.images[currentImgIndex].source
+    this.currentImgSource = this.props.images[0].source
     setTimeout(this.props.sendChoice(this.state.tip), timeToChange)
   }
 
@@ -30,7 +30,7 @@ class VoteMix extends Component {
           <FormLabel component="legend">Na vajon melyik a jo?</FormLabel>
           <RadioGroup defaultValue={array[0].text} aria-label="choices" name="customized-radios" onChange={this.handleChange}>
             {array.forEach(element => {
-              return (<FormControlLabel value={element.text} control={<StyledRadio />} label={element.text} />)
+              return (<FormControlLabel value={element.text} control={<Radio />} label={element.text} />)
             })}
           </RadioGroup>
         </FormControl>
@@ -41,7 +41,7 @@ class VoteMix extends Component {
           <FormLabel component="legend">Na vajon melyik a jo?</FormLabel>
           <RadioGroup defaultValue={array[0].text} aria-label="choices" name="customized-radios">
             {array.forEach(element => {
-              return (<FormControlLabel value="disabled" disabled control={<StyledRadio />} label={element.text} />)
+              return (<FormControlLabel value="disabled" disabled control={<Radio />} label={element.text} />)
             })}
           </RadioGroup>
         </FormControl>
@@ -62,16 +62,16 @@ class VoteMix extends Component {
 }
 
 const mapStateToProps = ({ game, user, }) => ({
-  game: game.gameStats,
-  user: user.playerDetails[0].id,
-  round: game.roundCounter,
+  // game: game.gameStats,
+  // user: user.playerDetails.id,
+  // round: game.roundCounter,
 });
 
 const mapActionsToProps = {
   sendChoice: sendChoiceAction,
 }
 
-Display.propTypes = {
+VoteMix.propTypes = {
   images: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

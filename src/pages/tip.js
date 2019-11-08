@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Canvas from '../components/Canvas';
 import { sendImageToFirestore } from '../services/firebase/firebase-services';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
@@ -25,6 +24,7 @@ const useStyles = theme => ({
     [theme.breakpoints.up("md")]: {
       fontSize: 32,
       marginBottom: theme.spacing(4),
+      marginTop: theme.spacing(4),
     },
     textAlign: 'center',
   },
@@ -45,7 +45,7 @@ const useStyles = theme => ({
   },
 });
 
-class Draw extends Component {
+class Guess extends Component {
   constructor(props) {
     super(props);
   }
@@ -56,20 +56,17 @@ class Draw extends Component {
 
   uploadImage = () => {
     let canvasData = document.querySelector('#canvas').toDataURL();
-    // TODO: 
-    //sendImageToFirestore(this.props.user, canvasData);
-    sendImageToFirestore('cica', canvasData);
+    sendImageToFirestore(this.props.userId, canvasData);
   }
 
   render() {
-    const { classes, width } = this.props;
+    const { classes } = this.props;
     return (
       <Fragment>
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
-          <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
-          <Typography color="secondary" className={classes.title}>asd</Typography>
+          <Typography color="secondary" className={classes.title}>Mi van a képen?</Typography>
           <Typography color="error" className={classes.title}>10s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
@@ -86,14 +83,14 @@ class Draw extends Component {
 
 }
 
-const mapStateToProps = ({ user_id }) => ({
-  user: user_id,
+const mapStateToProps = ({ user }) => ({
+  userId: user.playerDetails.id,
 });
 
-Draw.propTypes = {
+Guess.propTypes = {
   user: PropTypes.string,
   time: PropTypes.number,
   uploadImage: PropTypes.func,
 };
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(withWidth()(Draw)));
+export default connect(mapStateToProps, null)(withStyles(useStyles)(withWidth()(Guess)));

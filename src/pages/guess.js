@@ -1,7 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { sendImageToFirestore } from '../services/firebase/firebase-services';
+import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
-import { CssBaseline, Container, Paper, Typography } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
+import { calculateString } from 'bytebuffer';
+
+const timeToUpload = 11000;
 
 const useStyles = theme => ({
   paper: {
@@ -10,20 +16,49 @@ const useStyles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     textAlign: "center",
-    padding: theme.spacing(4),
     position: 'relative',
   },
   title: {
     fontSize: 24,
     margin: theme.spacing(1),
     [theme.breakpoints.up("md")]: {
-      fontSize: 28,
-      marginBottom: theme.spacing(8),
-    }
+      fontSize: 32,
+      marginBottom: theme.spacing(4),
+      marginTop: theme.spacing(4),
+    },
+    textAlign: 'center',
+  },
+  button: {
+    margin: theme.spacing(3, 0, 2),
+    padding: theme.spacing(2),
+  },
+  paragraph: {
+    textAlign: 'center',
+    marginTop: theme.spacing(4),
+  },
+  paperContainer: {
+    margin: '0 auto',
+    width: 536,
+    [theme.breakpoints.down("xs")]: {
+      width: 280,
+    },
   },
 });
 
 class Guess extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    setTimeout(this.uploadImage, timeToUpload);
+  }
+
+  uploadImage = () => {
+    let canvasData = document.querySelector('#canvas').toDataURL();
+    sendImageToFirestore(this.props.userId, canvasData);
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -31,14 +66,31 @@ class Guess extends Component {
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
-          <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Results</Typography>
-          </Paper>
+          <Typography color="secondary" className={classes.title}>Mi van a képen?</Typography>
+          <Typography color="error" className={classes.title}>10s</Typography>
+          <div className={classes.paperContainer}>
+            <Paper className={classes.paper}>
+              <h3>kép helye</h3>
+            </Paper>
+          </div>
+          <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
+            Kész!
+            </Button>
         </Container>
       </Fragment>
-    );
+    )
   }
+
 }
 
+const mapStateToProps = ({ user }) => ({
+  userId: user.playerDetails.id,
+});
 
-export default (withStyles(useStyles)(Guess));
+Guess.propTypes = {
+  user: PropTypes.string,
+  time: PropTypes.number,
+  uploadImage: PropTypes.func,
+};
+
+export default connect(mapStateToProps, null)(withStyles(useStyles)(withWidth()(Guess)));
