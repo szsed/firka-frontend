@@ -41,7 +41,7 @@ class TippMix extends Component {
 
 const mapStateToProps = ({ game, user, }) => ({
   game: game.gameStats,
-  user: user.id,
+  user: user.playerDetails[0].id,
   round: game.roundCounter,
 });
 
@@ -62,4 +62,4 @@ Display.propTypes = {
 
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(TippMix)
+export default connect(mapStateToProps, mapActionsToProps)(TippMix);
