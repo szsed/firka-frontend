@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip, withWidth } from '@material-ui/core';
+import { CssBaseline, Container, Paper, Typography, CardMedia, TextField, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
 
@@ -52,8 +52,21 @@ class Guess extends Component {
     // setTimeout(this.uploadImage, timeToUpload);
   }
 
+  addField = () => {
+    const {game, round, userId, classes } = this.props;
+    if (game.players[round - 1].id !== userId) {
+      return (
+        <>
+          <TextField type="text" id="tip" />
+        </>
+      )
+    } else {
+      return <Typography color="secondary" className={classes.title}>Várj amíg a többiek tippelnek!</Typography>
+    }
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, game, round } = this.props;
     return (
       <Fragment>
         <CssBaseline />
@@ -63,12 +76,10 @@ class Guess extends Component {
           <Typography color="error" className={classes.title}>10s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
-              <h3>kép helye</h3>
+            <img src={game.players[round - 1].drawing} />
             </Paper>
           </div>
-          <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
-            Kész!
-            </Button>
+          {this.addField()}
         </Container>
       </Fragment>
     )
@@ -76,8 +87,10 @@ class Guess extends Component {
 
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ game, user }) => ({
+  game: game.gameStats,
   userId: user.playerDetails.id,
+  round: game.roundCounter,
 });
 
 Guess.propTypes = {

@@ -53,6 +53,7 @@ class Draw extends Component {
 
   uploadImage = () => {
     let canvasData = document.querySelector('#canvas').toDataURL();
+    console.log(canvasData)
     this.props.sendDrawing(canvasData);
   }
 

@@ -86,6 +86,7 @@ class Dashboard extends Component {
         ...this.props.user,
         guesses: [],
         word: words[0],
+        drawing: null,
       }
       const gameData = {
         name: this.state.newGame,

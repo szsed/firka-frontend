@@ -61,9 +61,9 @@ class Canvas extends Component {
 
     function redraw() {
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      context.strokeStyle = strokeColor; //remove if color chooser is implemented
+      // context.strokeStyle = strokeColor; //remove if color chooser is implemented
       context.lineJoin = strokeJoin;
-      context.lineWidth = strokeWidt; //remove if size chooser is implemented
+      // context.lineWidth = strokeWidt; //remove if size chooser is implemented
 
       for (var i = 0; i < clickX.length; i++) {
         context.beginPath();
@@ -74,8 +74,8 @@ class Canvas extends Component {
         }
         context.lineTo(clickX[i], clickY[i]);
         context.closePath();
-        //context.strokeStyle = clickColor[i];
-        //context.lineWidth = clickSize[i];
+        context.strokeStyle = clickColor[i];
+        context.lineWidth = clickSize[i];
         context.stroke();
       }
     }
@@ -111,11 +111,11 @@ class Canvas extends Component {
     return (
       <>
         <canvas className="canvas" id="canvas" width={this.props.width} height={this.props.height}></canvas>
-        {/*  <button id="colorButton">Black</button> */}
-        {/* <button id="colorButton">Green</button> */}
-        {/* <button id="sizeButton" className='2'>Small</button> */}
-        {/* <button id="sizeButton" className='5'>Medium</button> */}
-        {/* <button id="sizeButton" className='10'>Large</button> */}
+        <button id="colorButton">Black</button>
+        <button id="colorButton">Green</button>
+        <button id="sizeButton" className='2'>Small</button>
+        <button id="sizeButton" className='5'>Medium</button>
+        <button id="sizeButton" className='10'>Large</button>
       </>
     )
   }
