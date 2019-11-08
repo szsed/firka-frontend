@@ -131,7 +131,8 @@ export const selectGameAction = (gameId) => {
 }
 
 export const startGameAction = () => {
-  const gameId = store.getState().game.id;
+  const gameId = store.getState().game.gameStats.id;
+  console.log(gameId);
   startGameInFirestore(gameId);
   return { type: 'GAME_STATUS_CHANGE', payload: 'draw' };
 }

@@ -2,10 +2,9 @@ import React, { Component, Fragment } from 'react';
 import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
-import Akos from '../images/avatars/Akos.png';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { startGameAction } from '../store/actions';
+import { testGame } from '../constants/test-game';
 
 const useStyles = theme => ({
   players: {
@@ -43,49 +42,46 @@ const useStyles = theme => ({
 class Lobby extends Component {
 
   handleSubmit = () => {
-    console.log('elindul a játék');
-    // props.startGameAction();
+    startGameAction();
   };
 
-  // render() {
-  //   const { classes } = this.props;
-  //   return (
-  //     <Fragment>
-  //       <CssBaseline />
-  //       <Navbar />
-  //       <Container maxWidth="sm">
-  //         <Paper className={classes.paper}>
-  //           <Typography color="secondary" className={classes.title}>Játék neve</Typography>
-  //           <Typography color="primary">Várjunk meg mindenkit!</Typography>
-  //           <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
-  //           <div className={classes.players}>
-  //             {/* {for (let i= 0; i < props.user.length; i++) } */}
-  //             <Chip
-  //             // avatar={<Avatar alt={props.user[i].name} src={props.user[i].img} />}
-  //             // label={props.user[i].name}
-  //             />
-  //           </div>
-  //           <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
-  //             Játék indítása
-  //           </Button>
-  //         </Paper>
-  //       </Container>
-  //     </Fragment>
-  //   );
-  // }
+  render() {
+    const { classes, userList, currentGame } = this.props;
+    return (
+      <Fragment>
+        <CssBaseline />
+        <Navbar />
+        <Container maxWidth="sm">
+          <Paper className={classes.paper}>
+            <Typography color="secondary" className={classes.title}>{currentGame.name}</Typography>
+            <Typography color="primary">Várjunk meg mindenkit!</Typography>
+            <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
+            <div className={classes.players}>
+              {userList ? userList.map(user => {
+                return (<Chip
+                  avatar={<Avatar alt={user.username} src={user.avatar} />}
+                  label={user.username}
+                  key={user.id}
+                />)
+              }) : null}
+            </div>
+            <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
+              Játék indítása
+            </Button>
+          </Paper>
+        </Container>
+      </Fragment>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-})
+  userList: state.game.gameStats.players,
+  currentGame: state.game.gameStats
+});
 
 const mapActionsToProps = {
   startGame: startGameAction,
-};
-
-Lobby.propTypes = {
-  startGame: PropTypes.func,
-  user: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));
