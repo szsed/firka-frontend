@@ -72,7 +72,7 @@ class Account extends Component {
               src={user.playerDetails.avatar}
             />
             <Typography className={classes.title}>{user.playerDetails.username}</Typography>
-            <Button className={classes.button} variant="contained" >Adatok szerkesztése</Button>
+            <Button href="/leaderboard" className={classes.button} variant="contained" >Ranglista</Button>
             <Button href="/" className={classes.button} >Vissza a főoldalra</Button>
           </Paper>
         </Container>

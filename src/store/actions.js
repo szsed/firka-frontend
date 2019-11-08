@@ -24,9 +24,7 @@ export const nextRoundAction = () => {
 
 export const sendDrawingAction = (drawing) => {
   const userId = store.getState().user.playerDetails.id;
-  console.log(drawing)
   sendImageToFirestore(userId, drawing);
-  store.dispatch(changeGameStatusAction('guess'));
   return { type: 'SEND_DRAW' };
 }
 

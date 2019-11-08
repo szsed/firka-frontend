@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Canvas from '../components/Canvas';
-import { sendImageToFirestore } from '../services/firebase/firebase-services';
 import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { sendDrawingAction } from '../store/actions';
+import { sendDrawingAction, changeGameStatusAction } from '../store/actions';
 
 const timeToUpload = 11000;
 
@@ -46,18 +45,37 @@ const useStyles = theme => ({
 });
 
 class Draw extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeLeft: 10,
+    };
+  }
 
   componentDidMount() {
     setTimeout(this.uploadImage, timeToUpload);
+    // setInterval(this.setState({ timeLeft: this.state.timeLeft - 1 }), 1000);
   }
 
   uploadImage = () => {
+    const { user, game } = this.props;
     let canvasData = document.querySelector('#canvas').toDataURL();
-    this.props.sendDrawing(canvasData);
+    const userId = user.playerDetails.id;
+    const userIndex = game.players.findIndex(player => player.id === userId);
+    setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 1000);
+  }
+
+  componentDidUpdate() {
+    const { game, changeGameStatus } = this.props;
+    if (!game) return;
+    const drawingCount = game.players.filter(player => player.drawing).length;
+    const numOfPlayers = game.players.length;
+    if (drawingCount === numOfPlayers) changeGameStatus('guess');
   }
 
   render() {
     const { classes, width } = this.props;
+    const { timeLeft } = this.state;
     return (
       <Fragment>
         <CssBaseline />
@@ -65,7 +83,7 @@ class Draw extends Component {
         <Container maxWidth="sm">
           <Typography color="primary" className={classes.paragraph} paragraph>Rajzold le a következőt:</Typography>
           <Typography color="secondary" className={classes.title}>Kutyámajom</Typography>
-          <Typography color="error" className={classes.title}>10s</Typography>
+          <Typography color="error" className={classes.title}>{timeLeft}s</Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
               {width === 'xs' ? (
@@ -85,12 +103,14 @@ class Draw extends Component {
 
 }
 
-const mapStateToProps = ({ user_id }) => ({
-  user: user_id,
+const mapStateToProps = state => ({
+  user: state.user,
+  game: state.game.gameStats,
 });
 
 const mapActionsToProps = {
-  sendDrawing: sendDrawingAction
+  sendDrawing: sendDrawingAction,
+  changeGameStatus: changeGameStatusAction,
 }
 
 Draw.propTypes = {
