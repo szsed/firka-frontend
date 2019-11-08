@@ -1,4 +1,4 @@
-const API = 'http://localhost:4000';
+const API = 'https://firka-hatulveg.herokuapp.com';
 
 const addTokenToHeaders = params => {
   const token = localStorage.getItem('token');
