@@ -11,15 +11,6 @@ import { sendDrawingAction } from '../store/actions';
 const timeToUpload = 11000;
 
 const useStyles = theme => ({
-  players: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    '& > *': {
-      margin: theme.spacing(0.5),
-    },
-    marginBottom: theme.spacing(6),
-  },
   paper: {
     marginTop: theme.spacing(3),
     display: "flex",

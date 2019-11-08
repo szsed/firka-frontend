@@ -8,7 +8,7 @@ import Leaderboard from './pages/leaderboard';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import LobbyPage from './pages/lobby';
-import GamePage from './pages/game';
+import GamePage from './components/VoteMix';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { blueGrey, orange } from "@material-ui/core/colors";
 import { Provider, connect } from 'react-redux';
