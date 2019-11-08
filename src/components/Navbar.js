@@ -9,6 +9,9 @@ import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
 import Logo_white from '../images/logo_white.png';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+import { logoutUser } from "../models/user-model";
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -50,8 +53,10 @@ function Navbar(props) {
   };
 
   const handleLogout = () => {
-    console.log('kijelentkeztem');
+    logoutUser();
+    props.history.push('/');
   }
+
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -169,4 +174,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(Navbar);
+export default withRouter(connect(mapStateToProps, null)(Navbar));

@@ -1,31 +1,34 @@
 export const testUser = {
-  id: 'batman',
-  name: 'Bruce Wayne',
-  img: 'asd.jpg'
+  id: 11,
+  username: 'batman',
+  display_name: 'Bruce Wayne',
+  victories: 3,
+  avatar: 'https://imgur.com/I80W1Q0.png',
 }
 
 export const testGame = {
+  id: 'kjshfdkjhdsfjkdsf',
   name: 'Test Game Name',
   players: [
     {
       ...testUser,
       word: 'kutyálmajom',
       drawing: null,
-      guesses: [],
+      guesses: ['alma', 'korte'],
       score: 0,
     },
     {
       ...testUser,
       word: 'strucc',
       drawing: null,
-      guesses: [],
+      guesses: ['almsa', 'korte'],
       score: 0,
     },
     {
       ...testUser,
       word: 'pumpa',
       drawing: null,
-      guesses: [],
+      guesses: ['almfa', 'korte'],
       score: 0,
     },
   ],

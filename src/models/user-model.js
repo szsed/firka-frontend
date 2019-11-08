@@ -34,7 +34,33 @@ export const loginUser = (username, password) => {
     body: JSON.stringify({
       username,
       password,
+    }),
+  })
+    .then(response => response.json())
+    .then(parsed => {
+      if (parsed.message) throw parsed;
+      localStorage.setItem('token', parsed.token);
+      store.dispatch({ type: 'LOGIN', payload: parsed });
+      return parsed;
     })
+    .catch(err => {
+      console.log(err.message);
+      return err;
+    });
+};
+
+export const loginWithJWTOnLoad = () => {
+  const token = localStorage.getItem('token')
+  if (!token) return;
+  return requestToAPI('/refresh', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      token,
+    }),
   })
     .then(response => response.json())
     .then(parsed => {

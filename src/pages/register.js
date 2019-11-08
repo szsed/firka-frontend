@@ -9,8 +9,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { registerUser } from '../models/user-model';
 
 const useStyles = theme => ({
@@ -71,14 +69,14 @@ class Register extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
-    registerUser({username, password})
-    .then(parsed => {
-     if(parsed.message) {
-       this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
-     } else {
-       this.props.history.push("/"); 
-      }
-   })
+    registerUser({ username, password })
+      .then(parsed => {
+        if (parsed.message) {
+          this.setState({ responseError: 'Hiba történt, ellenőrizd az adataidat!' });
+        } else {
+          this.props.history.push("/");
+        }
+      })
   }
 
   render() {

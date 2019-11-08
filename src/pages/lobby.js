@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
-import Akos from '../images/avatars/Akos.png';
+import { connect } from 'react-redux';
+import { startGameAction } from '../store/actions';
+import { testGame } from '../constants/test-game';
 
 const useStyles = theme => ({
   players: {
@@ -38,31 +40,33 @@ const useStyles = theme => ({
 });
 
 class Lobby extends Component {
-  constructor(props) {
-    super(props);
-  };
 
   handleSubmit = () => {
-    console.log('elindul a játék');
-    // TODO: indítsd el a játékot!
+    this.props.startGame();
+    this.props.history.push('/game');
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, gameStats, currentGame } = this.props;
+    if (!gameStats) return null;
+    const userList = gameStats.players;
     return (
       <Fragment>
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
           <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Játék neve</Typography>
+            <Typography color="secondary" className={classes.title}>{currentGame.name}</Typography>
             <Typography color="primary">Várjunk meg mindenkit!</Typography>
             <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
             <div className={classes.players}>
-              <Chip
-                avatar={<Avatar alt="Akos" src={Akos} />}
-                label="Ákos"
-              />
+              {userList ? userList.map(user => {
+                return (<Chip
+                  avatar={<Avatar alt={user.username} src={user.avatar} />}
+                  label={user.username}
+                  key={user.id}
+                />)
+              }) : null}
             </div>
             <Button onClick={this.handleSubmit} className={classes.button} fullWidth variant="contained" color="secondary">
               Játék indítása
@@ -74,4 +78,13 @@ class Lobby extends Component {
   }
 }
 
-export default withStyles(useStyles)(Lobby);
+const mapStateToProps = state => ({
+  gameStats: state.game.gameStats,
+  currentGame: state.game.gameStats
+});
+
+const mapActionsToProps = {
+  startGame: startGameAction,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));
