@@ -3,8 +3,7 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
-import { startGameAction } from '../store/actions';
-import { testGame } from '../constants/test-game';
+import { startGameAction, changeGameStatusAction } from '../store/actions';
 
 const useStyles = theme => ({
   players: {
@@ -48,7 +47,7 @@ class Lobby extends Component {
 
   componentDidUpdate() {
     if (!this.props.gameStats) return;
-    if (this.props.gameStats.status === 'inprogress') this.handleSubmit();
+    if (this.props.gameStats.status === 'inprogress') this.changeGameStatus('draw');
   }
 
   render() {
@@ -90,6 +89,7 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
   startGame: startGameAction,
+  changeGameStatus: changeGameStatusAction,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Lobby));
