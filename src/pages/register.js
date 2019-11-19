@@ -39,6 +39,7 @@ class Register extends Component {
     this.state = {
       username: "",
       password: "",
+      avatar: "",
       isLoggedIn: ""
     };
   }
@@ -50,6 +51,10 @@ class Register extends Component {
   handlePasswordChange = event => {
     this.setState({ password: event.target.value });
   };
+
+  /*  handleAvatarChange = event => {
+     this.setState({ avatar: event.target.src });
+   } */
 
   validate = event => {
     const { password, username } = this.state;

@@ -18,16 +18,17 @@ class Canvas extends Component {
       paint = true;
       addClick(mouseX, mouseY);
       redraw();
-    });
+    }, false);
 
     canvas.addEventListener('touchstart', (event) => {
-      let mouseX = event.offsetX;
-      let mouseY = event.offsetY;
+      let fingerX = event.touches[0].offsetX;
+      let fingerY = event.touches[0].offsetY;
 
       paint = true;
-      addClick(mouseX, mouseY);
+      addClick(fingerX, fingerY);
       redraw();
-    });
+      event.preventDefault();
+    }, false)
 
     canvas.addEventListener('mousemove', (event) => {
       let mouseX = event.offsetX;
@@ -36,32 +37,33 @@ class Canvas extends Component {
         addClick(mouseX, mouseY, true);
         redraw();
       }
-    })
+    }, false)
 
     canvas.addEventListener('touchmove', (event) => {
-      let mouseX = event.offsetX;
-      let mouseY = event.offsetY;
+      let fingerX = event.touches[0].offsetX;
+      let fingerY = event.touches[0].offsetY;
       if (paint) {
-        addClick(mouseX, mouseY, true);
+        addClick(fingerX, fingerY, true);
         redraw();
       }
-    })
+      event.preventDefault();
+    }, false)
 
     canvas.addEventListener('mouseup', (e) => {
       paint = false;
-    });
+    }, false);
 
     canvas.addEventListener('touchend', (e) => {
       paint = false;
-    });
+    }, false);
 
     canvas.addEventListener('mouseleave', (e) => {
       paint = false;
-    });
+    }, false);
 
     canvas.addEventListener('touchcancel', (e) => {
       paint = false;
-    });
+    }, false);
 
     const strokeColor = "black";
     const strokeWidt = 5;

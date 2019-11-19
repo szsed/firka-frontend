@@ -1,0 +1,3 @@
+const imagesArray = [
+  { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\boy.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\boy1.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\girl.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\girl1.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\man.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\man1.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\man2.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\man3.svg' }, { path: 'D:\Greenfox\Clones\firka-frontend\src\assets\man4.svg' },
+]

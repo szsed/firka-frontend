@@ -38,7 +38,7 @@ class Login extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
     };
   }
 
@@ -49,6 +49,7 @@ class Login extends Component {
   handlePasswordChange = event => {
     this.setState({ password: event.target.value });
   };
+
 
   validate = event => {
     const { password, username } = this.state;
