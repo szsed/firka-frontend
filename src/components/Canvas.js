@@ -21,14 +21,13 @@ class Canvas extends Component {
     let clickX = [];
     let clickY = [];
     let clickDrag = [];
-    let ongoingTouches = [];
     let paint;
-    let canvasData = canvas.getBoundingClientRect();
-    let canvasOffsetTop = canvasData.top;
-    let canvasOffsetLeft = canvasData.left;
+    let canvasPos = canvas.getBoundingClientRect();
+    let top = canvasPos.top;
+    let left = canvasPos.left;
 
 
-    function colorForTouch(touch) {
+    /* function colorForTouch(touch) {
       var r = touch.identifier % 16;
       var g = Math.floor(touch.identifier / 3) % 16;
       var b = Math.floor(touch.identifier / 7) % 16;
@@ -51,47 +50,62 @@ class Canvas extends Component {
         }
       }
       return -1;    // not found
-    }
+    } */
 
-    /*    canvas.addEventListener('mousedown', (event) => {
-         let mouseX = event.offsetX;
-         let mouseY = event.offsetY;
-   
-         paint = true;
-         addClick(mouseX, mouseY);
-         redraw();
-       }, false); */
+    canvas.addEventListener('mousedown', (event) => {
+      let mouseX = event.offsetX;
+      let mouseY = event.offsetY;
+
+      paint = true;
+      addClick(mouseX, mouseY);
+      redraw();
+    }, false);
 
     function handleStart(event) {
       event.preventDefault();
       let touches = event.changedTouches;
 
-      for (let i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        let color = colorForTouch(touches[i]);
-        //context.beginPath();
-        //context.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
-        //context.fillStyle = color;
-        //context.fill();
+      let touchX = touches[touches.length - 1].pageX - top;
+      let touchY = touches[touches.length - 1].pageX - left;
+      if (paint) {
+        addClick(touchX, touchY, true);
+        redraw();
       }
+      /*  let touches = event.changedTouches;
+ 
+       for (let i = 0; i < touches.length; i++) {
+         ongoingTouches.push(copyTouch(touches[i]));
+         let color = colorForTouch(touches[i]);
+         context.beginPath();
+         context.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
+         context.fillStyle = color;
+         context.fill();
+       } */
     }
 
     canvas.addEventListener('touchstart', handleStart, false)
 
-    /*    canvas.addEventListener('mousemove', (event) => {
-         let mouseX = event.offsetX;
-         let mouseY = event.offsetY;
-         if (paint) {
-           addClick(mouseX, mouseY, true);
-           redraw();
-         }
-       }, false) */
+    canvas.addEventListener('mousemove', (event) => {
+      let mouseX = event.offsetX;
+      let mouseY = event.offsetY;
+      if (paint) {
+        addClick(mouseX, mouseY, true);
+        redraw();
+      }
+    }, false)
 
     function handleMove(event) {
       event.preventDefault();
       let touches = event.changedTouches;
 
-      for (let i = 0; i < touches.length; i++) {
+      let touchX = touches[touches.length - 1].pageX - top;
+      let touchY = touches[touches.length - 1].pageX - left;
+      if (paint) {
+        addClick(touchX, touchY, true);
+        redraw();
+      }
+
+      /*  for (let i = 0; i < touches.length; i++) {
         let color = colorForTouch(touches[i]);
         let idx = ongoingTouchIndexById(touches[i].identifier);
 
@@ -107,24 +121,24 @@ class Canvas extends Component {
         } else {
           console.log("can't figure out which touch to continue");
         }
-      }
+      } */
     }
 
     canvas.addEventListener('touchmove', handleMove, false)
 
-    /*    canvas.addEventListener('mouseup', (e) => {
-         paint = false;
-       }, false);
-    */
+    canvas.addEventListener('mouseup', (e) => {
+      paint = false;
+    }, false);
 
-    function handleEnd(event) {
+
+    /* function handleEnd(event) {
       event.preventDefault();
       let touches = event.changedTouches;
-
+ 
       for (let i = 0; i < touches.length; i++) {
         let color = colorForTouch(touches[i]);
         let idx = ongoingTouchIndexById(touches[i].identifier);
-
+ 
         if (idx >= 0) {
           context.lineWidth = 4;
           context.fillStyle = color;
@@ -138,14 +152,14 @@ class Canvas extends Component {
         }
       }
     }
+ 
+    canvas.addEventListener('touchend', handleEnd, false); */
 
-    canvas.addEventListener('touchend', handleEnd, false);
+    canvas.addEventListener('mouseleave', (e) => {
+      paint = false;
+    }, false);
 
-    /*    canvas.addEventListener('mouseleave', (e) => {
-         paint = false;
-       }, false); */
-
-    function handleCancel(event) {
+    /* function handleCancel(event) {
       event.preventDefault();
       let touches = event.changedTouches;
 
@@ -155,61 +169,61 @@ class Canvas extends Component {
       }
     }
 
-    canvas.addEventListener('touchcancel', handleCancel, false);
+    canvas.addEventListener('touchcancel', handleCancel, false); */
 
-    /*     const strokeColor = "black";
-        const strokeWidt = 5;
-        const strokeJoin = "round";
-    
-        function addClick(x, y, dragging) {
-          clickX.push(x);
-          clickY.push(y);
-          clickDrag.push(dragging);
-          clickColor.push(currentColor);
-          clickSize.push(curSize);
+    const strokeColor = "black";
+    const strokeWidt = 5;
+    const strokeJoin = "round";
+
+    function addClick(x, y, dragging) {
+      clickX.push(x);
+      clickY.push(y);
+      clickDrag.push(dragging);
+      clickColor.push(currentColor);
+      clickSize.push(curSize);
+    }
+
+    function redraw() {
+      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      context.strokeStyle = strokeColor;
+      context.lineJoin = strokeJoin;
+      context.lineWidth = strokeWidt;
+
+      for (var i = 0; i < clickX.length; i++) {
+        context.beginPath();
+        if (clickDrag[i] && i) {
+          context.moveTo(clickX[i - 1], clickY[i - 1]);
+        } else {
+          context.moveTo(clickX[i] - 1, clickY[i]);
         }
-    
-        function redraw() {
-          context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-          context.strokeStyle = strokeColor;
-          context.lineJoin = strokeJoin;
-          context.lineWidth = strokeWidt;
-    
-          for (var i = 0; i < clickX.length; i++) {
-            context.beginPath();
-            if (clickDrag[i] && i) {
-              context.moveTo(clickX[i - 1], clickY[i - 1]);
-            } else {
-              context.moveTo(clickX[i] - 1, clickY[i]);
-            }
-            context.lineTo(clickX[i], clickY[i]);
-            context.closePath();
-            context.strokeStyle = clickColor[i];
-            context.lineWidth = clickSize[i];
-            context.stroke();
-          }
-        }
-    
-        let colorButton = document.querySelectorAll('.colorButton');
-        let currentColor = 'black';
-        let clickColor = new Array();
-    
-        colorButton.forEach(function (button) {
-          button.addEventListener('click', function (e) {
-            currentColor = button.id;
-          })
-        });
-    
-    
-        let sizeButtons = document.querySelectorAll('.sizeButton');
-        let clickSize = new Array();
-        let curSize = 5;
-    
-        sizeButtons.forEach(function (button) {
-          button.addEventListener('click', function (e) {
-            curSize = Number(button.id);
-          })
-        }); */
+        context.lineTo(clickX[i], clickY[i]);
+        context.closePath();
+        context.strokeStyle = clickColor[i];
+        context.lineWidth = clickSize[i];
+        context.stroke();
+      }
+    }
+
+    let colorButton = document.querySelectorAll('.colorButton');
+    let currentColor = 'black';
+    let clickColor = new Array();
+
+    colorButton.forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        currentColor = button.id;
+      })
+    });
+
+
+    let sizeButtons = document.querySelectorAll('.sizeButton');
+    let clickSize = new Array();
+    let curSize = 5;
+
+    sizeButtons.forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        curSize = Number(button.id);
+      })
+    });
 
   }
 
