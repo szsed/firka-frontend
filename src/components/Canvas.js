@@ -23,8 +23,9 @@ class Canvas extends Component {
     let clickDrag = [];
     let ongoingTouches = [];
     let paint;
-    let canvasOffsetTop = canvas.offsetTop;
-    let canvasOffsetLeft = canvas.offsetLeft;
+    let canvasData = canvas.getBoundingClientRect();
+    let canvasOffsetTop = canvasData.top;
+    let canvasOffsetLeft = canvasData.left;
 
 
     function colorForTouch(touch) {
