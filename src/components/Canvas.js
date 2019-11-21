@@ -144,7 +144,7 @@ class Canvas extends Component {
 
     function handleCancel(event) {
       event.preventDefault();
-      let touches = evt.changedTouches;
+      let touches = event.changedTouches;
 
       for (let i = 0; i < touches.length; i++) {
         let idx = ongoingTouchIndexById(touches[i].identifier);
