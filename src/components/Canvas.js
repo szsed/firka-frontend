@@ -16,76 +16,145 @@ class Canvas extends Component {
   } */
 
   componentDidMount() {
-    /*
     let canvas = document.querySelector('#canvas');
     let context = canvas.getContext('2d');
     let clickX = [];
     let clickY = [];
     let clickDrag = [];
-    var ongoingTouches = [];
+    let ongoingTouches = [];
     let paint;
-    
-            canvas.addEventListener('mousedown', (event) => {
-             let mouseX = event.offsetX;
-             let mouseY = event.offsetY;
-       
-             paint = true;
-             addClick(mouseX, mouseY);
-             redraw();
-           }, false);
-    
-        canvas.addEventListener('touchstart', (event) => {
-          event.preventDefault();
-          var el = document.getElementById("canvas");
-          var ctx = el.getContext("2d");
-          var touches = event.changedTouches;
-    
-          for (var i = 0; i < touches.length; i++) {
-            ongoingTouches.push(copyTouch(touches[i]));
-            var color = colorForTouch(touches[i]);
-            ctx.beginPath();
-            ctx.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);
-            ctx.fillStyle = color;
-            ctx.fill();
-          }
-        }, false)
-    
-            canvas.addEventListener('mousemove', (event) => {
-              let mouseX = event.offsetX;
-              let mouseY = event.offsetY;
-              if (paint) {
-                addClick(mouseX, mouseY, true);
-                redraw();
-              }
-            }, false)
-        
-        canvas.addEventListener('touchmove', (event) => {
-          let fingerX = event.touches[0].offsetX;
-          let fingerY = event.touches[0].offsetY;
-          if (paint) {
-            addClick(fingerX, fingerY, true);
-            redraw();
-          }
-          event.preventDefault();
-        }, false)
-    
-            canvas.addEventListener('mouseup', (e) => {
-              paint = false;
-            }, false);
-    
-            canvas.addEventListener('touchend', (e) => {
-              paint = false;
-            }, false);
-    
-          canvas.addEventListener('mouseleave', (e) => {
-            paint = false;
-          }, false);
-    
-            canvas.addEventListener('touchcancel', (e) => {
-              paint = false;
-            }, false);
-    
-        const strokeColor = "black";
+
+
+    function colorForTouch(touch) {
+      var r = touch.identifier % 16;
+      var g = Math.floor(touch.identifier / 3) % 16;
+      var b = Math.floor(touch.identifier / 7) % 16;
+      r = r.toString(16); // make it a hex digit
+      g = g.toString(16); // make it a hex digit
+      b = b.toString(16); // make it a hex digit
+      let color = "#" + r + g + b;
+      return color;
+    }
+
+    function copyTouch({ identifier, pageX, pageY }) {
+      return { identifier, pageX, pageY };
+    }
+
+    function ongoingTouchIndexById(idToFind) {
+      for (let i = 0; i < ongoingTouches.length; i++) {
+        let id = ongoingTouches[i].identifier;
+        if (id == idToFind) {
+          return i;
+        }
+      }
+      return -1;    // not found
+    }
+
+    /*    canvas.addEventListener('mousedown', (event) => {
+         let mouseX = event.offsetX;
+         let mouseY = event.offsetY;
+   
+         paint = true;
+         addClick(mouseX, mouseY);
+         redraw();
+       }, false); */
+
+    function handleStart(event) {
+      event.preventDefault();
+      let touches = event.changedTouches;
+
+      for (let i = 0; i < touches.length; i++) {
+        ongoingTouches.push(copyTouch(touches[i]));
+        let color = colorForTouch(touches[i]);
+        context.beginPath();
+        context.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
+        context.fillStyle = color;
+        context.fill();
+      }
+    }
+
+    canvas.addEventListener('touchstart', handleStart, false)
+
+    /*    canvas.addEventListener('mousemove', (event) => {
+         let mouseX = event.offsetX;
+         let mouseY = event.offsetY;
+         if (paint) {
+           addClick(mouseX, mouseY, true);
+           redraw();
+         }
+       }, false) */
+
+    function handleMove(event) {
+      event.preventDefault();
+      let touches = event.changedTouches;
+
+      for (let i = 0; i < touches.length; i++) {
+        let color = colorForTouch(touches[i]);
+        let idx = ongoingTouchIndexById(touches[i].identifier);
+
+        if (idx >= 0) {
+          context.beginPath();
+          context.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+          context.lineTo(touches[i].pageX, touches[i].pageY);
+          context.lineWidth = 4;
+          context.strokeStyle = color;
+          context.stroke();
+
+          ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
+        } else {
+          console.log("can't figure out which touch to continue");
+        }
+      }
+    }
+
+    canvas.addEventListener('touchmove', handleMove, false)
+
+    /*    canvas.addEventListener('mouseup', (e) => {
+         paint = false;
+       }, false);
+    */
+
+    function handleEnd(event) {
+      event.preventDefault();
+      let touches = event.changedTouches;
+
+      for (let i = 0; i < touches.length; i++) {
+        let color = colorForTouch(touches[i]);
+        let idx = ongoingTouchIndexById(touches[i].identifier);
+
+        if (idx >= 0) {
+          context.lineWidth = 4;
+          context.fillStyle = color;
+          context.beginPath();
+          context.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+          context.lineTo(touches[i].pageX, touches[i].pageY);
+          context.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
+          ongoingTouches.splice(idx, 1);  // remove it; we're done
+        } else {
+          console.log("can't figure out which touch to end");
+        }
+      }
+    }
+
+    canvas.addEventListener('touchend', handleEnd, false);
+
+    /*    canvas.addEventListener('mouseleave', (e) => {
+         paint = false;
+       }, false); */
+
+    function handleCancel(event) {
+      event.preventDefault();
+      let touches = evt.changedTouches;
+
+      for (let i = 0; i < touches.length; i++) {
+        let idx = ongoingTouchIndexById(touches[i].identifier);
+        ongoingTouches.splice(idx, 1);  // remove it; we're done
+      }
+    }
+
+    canvas.addEventListener('touchcancel', handleCancel, false);
+
+    /*     const strokeColor = "black";
         const strokeWidt = 5;
         const strokeJoin = "round";
     
@@ -139,71 +208,6 @@ class Canvas extends Component {
           })
         }); */
 
-    let canvas = document.querySelector('#canvas');
-    let context = canvas.getContext('2d');
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
-    var start = function (coors) {
-      context.beginPath();
-      context.moveTo(coors.x, coors.y);
-      this.isDrawing = true;
-    };
-    var move = function (coors) {
-      if (this.isDrawing) {
-        context.strokeStyle = "#fff";
-        context.lineJoin = "round";
-        context.lineWidth = 3;
-        context.lineTo(coors.x, coors.y);
-        context.stroke();
-      }
-    };
-    var stop = function (coors) {
-      if (this.isDrawing) {
-        this.touchmove(coors);
-        this.isDrawing = false;
-      }
-    };
-    var drawer = {
-      isDrawing: false,
-      mousedown: start,
-      mousemove: move,
-      mouseup: stop,
-      touchstart: start,
-      touchmove: move,
-      touchend: stop
-    };
-    var draw = function (e) {
-      var coors = {
-        x: e.clientX || e.targetTouches[0].pageX,
-        y: e.clientY || e.targetTouches[0].pageY
-      };
-      drawer[e.type](coors);
-    }
-    canvas.addEventListener('mousedown', draw, false);
-    canvas.addEventListener('mousemove', draw, false);
-    canvas.addEventListener('mouseup', draw, false);
-    canvas.addEventListener('touchstart', draw, false);
-    canvas.addEventListener('touchmove', draw, false);
-    canvas.addEventListener('touchend', draw, false);
-
-    /*  var go = function (e) {
-       this.parentNode.removeChild(this);
-       draw(e);
-     }; */
-
-    /*   $('#go').addEventListener('mousedown', go, false);
-      $('#go').addEventListener('touchstart', go, false); */
-
-    // prevent elastic scrolling
-    document.body.addEventListener('touchmove', function (e) {
-      e.preventDefault();
-    }, false);
-    // end body:touchmove
-    window.onresize = function (e) {
-      canvas.width = document.body.clientWidth;
-      canvas.height = document.body.clientHeight;
-    };
-
   }
 
   render() {
@@ -211,7 +215,7 @@ class Canvas extends Component {
       <>
         <canvas className="canvas" id="canvas" width={this.props.width} height={this.props.height}></canvas>
         <div className="colorButtons">
-          {/*           <button id="red" className='colorButton'>Piros</button>
+          {/*  <button id="red" className='colorButton'>Piros</button>
           <button id="yellow" className='colorButton'>Sárga</button>
           <button id="orange" className='colorButton'>Narancs</button>
           <button id="blue" className='colorButton'>Kék</button>
@@ -220,7 +224,7 @@ class Canvas extends Component {
           <button id="black" className='colorButton'>Fekete</button> */}
         </div>
         <div className="sizeButtons">
-          {/*           <button id="2" className='sizeButton'>Kicsi</button>
+          {/* <button id="2" className='sizeButton'>Kicsi</button>
           <button id="5" className='sizeButton'>Közepes</button>
           <button id="10" className='sizeButton'>Nagy</button> */}
         </div>
