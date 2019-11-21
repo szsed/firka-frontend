@@ -36,8 +36,8 @@ class Canvas extends Component {
       return color;
     }
 
-    function copyTouch({ identifier, offsetX, offsetY }) {
-      return { identifier, offsetX, offsetY };
+    function copyTouch({ identifier, pageX, pageY }) {
+      return { identifier, pageX, pageY };
     }
 
     function ongoingTouchIndexById(idToFind) {
@@ -65,11 +65,11 @@ class Canvas extends Component {
 
       for (let i = 0; i < touches.length; i++) {
         ongoingTouches.push(copyTouch(touches[i]));
-        let color = colorForTouch(touches[i]);
-        context.beginPath();
-        context.arc(touches[i].offsetX, touches[i].offsetY, 4, 0, 2 * Math.PI, false);  // a circle at the start
-        context.fillStyle = color;
-        context.fill();
+        //let color = colorForTouch(touches[i]);
+        //context.beginPath();
+        //context.arc(touches[i].pageX - touches[i].target.offsetLeft, touches[i].pageY - touches[i].target.offsetTop, 4, 0, 2 * Math.PI, false);  // a circle at the start
+        //context.fillStyle = color;
+        //context.fill();
       }
     }
 
@@ -94,8 +94,8 @@ class Canvas extends Component {
 
         if (idx >= 0) {
           context.beginPath();
-          context.moveTo(ongoingTouches[idx].offsetX, ongoingTouches[idx].offsetY);
-          context.lineTo(touches[i].offsetX, touches[i].offsetY);
+          context.moveTo(ongoingTouches[idx].pageX - ongoingTouches[idx].target.offsetLeft, ongoingTouches[idx].pageY - ongoingTouches[idx].target.offsetTop);
+          context.lineTo(touches[i].pageX - touches[i].target.offsetLeft, touches[i].pageY - touches[i].target.offsetTop);
           context.lineWidth = 4;
           context.strokeStyle = color;
           context.stroke();
@@ -126,9 +126,9 @@ class Canvas extends Component {
           context.lineWidth = 4;
           context.fillStyle = color;
           context.beginPath();
-          context.moveTo(ongoingTouches[idx].offsetX, ongoingTouches[idx].offsetY);
-          context.lineTo(touches[i].offsetX, touches[i].offsetY);
-          context.fillRect(touches[i].offsetX - 4, touches[i].offsetY - 4, 8, 8);  // and a square at the end
+          context.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+          context.lineTo(touches[i].pageX, touches[i].pageY);
+          context.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
           ongoingTouches.splice(idx, 1);  // remove it; we're done
         } else {
           console.log("can't figure out which touch to end");
