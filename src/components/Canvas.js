@@ -23,6 +23,8 @@ class Canvas extends Component {
     let clickDrag = [];
     let ongoingTouches = [];
     let paint;
+    let canvasOffsetTop = canvas.offsetTop;
+    let canvasOffsetLeft = canvas.offsetLeft;
 
 
     function colorForTouch(touch) {
@@ -65,9 +67,9 @@ class Canvas extends Component {
 
       for (let i = 0; i < touches.length; i++) {
         ongoingTouches.push(copyTouch(touches[i]));
-        //let color = colorForTouch(touches[i]);
+        let color = colorForTouch(touches[i]);
         //context.beginPath();
-        //context.arc(touches[i].pageX - touches[i].target.offsetLeft, touches[i].pageY - touches[i].target.offsetTop, 4, 0, 2 * Math.PI, false);  // a circle at the start
+        //context.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
         //context.fillStyle = color;
         //context.fill();
       }
@@ -94,8 +96,8 @@ class Canvas extends Component {
 
         if (idx >= 0) {
           context.beginPath();
-          context.moveTo(ongoingTouches[idx].pageX - ongoingTouches[idx].target.offsetLeft, ongoingTouches[idx].pageY - ongoingTouches[idx].target.offsetTop);
-          context.lineTo(touches[i].pageX - touches[i].target.offsetLeft, touches[i].pageY - touches[i].target.offsetTop);
+          context.moveTo(ongoingTouches[idx].pageX - canvasOffsetTop, ongoingTouches[idx].pageY - canvasOffsetLeft);
+          context.lineTo(touches[i].clientX - canvasOffsetTop, touches[i].clientY - canvasOffsetLeft);
           context.lineWidth = 4;
           context.strokeStyle = color;
           context.stroke();
