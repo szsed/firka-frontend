@@ -143,7 +143,6 @@ class Canvas extends Component {
     let context = canvas.getContext('2d');
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
-    var context = canvas.getContext('2d');
     var start = function (coors) {
       context.beginPath();
       context.moveTo(coors.x, coors.y);
@@ -187,13 +186,13 @@ class Canvas extends Component {
     canvas.addEventListener('touchmove', draw, false);
     canvas.addEventListener('touchend', draw, false);
 
-    var go = function (e) {
-      this.parentNode.removeChild(this);
-      draw(e);
-    };
+    /*  var go = function (e) {
+       this.parentNode.removeChild(this);
+       draw(e);
+     }; */
 
-    $('#go').addEventListener('mousedown', go, false);
-    $('#go').addEventListener('touchstart', go, false);
+    /*   $('#go').addEventListener('mousedown', go, false);
+      $('#go').addEventListener('touchstart', go, false); */
 
     // prevent elastic scrolling
     document.body.addEventListener('touchmove', function (e) {
