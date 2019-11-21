@@ -24,7 +24,7 @@ class Canvas extends Component {
     let ongoingTouches = [];
     let paint;
     let canvasData = canvas.getBoundingClientRect();
-    let canvasOffsetTop = canvasData.bottom;
+    let canvasOffsetTop = canvasData.top;
     let canvasOffsetLeft = canvasData.left;
 
 
@@ -97,8 +97,8 @@ class Canvas extends Component {
 
         if (idx >= 0) {
           context.beginPath();
-          context.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
-          context.lineTo(touches[i].clientX - canvasOffsetTop, touches[i].clientY + canvasOffsetLeft);
+          context.moveTo(ongoingTouches[idx].clientX, ongoingTouches[idx].clientY);
+          context.lineTo(touches[i].clientX + canvasOffsetTop, touches[i].clientY + canvasOffsetLeft);
           context.lineWidth = 4;
           context.strokeStyle = color;
           context.stroke();
