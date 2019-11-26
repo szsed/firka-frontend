@@ -1,8 +1,12 @@
+import { gameStatus } from "../../constants/constants";
+import { UPDATE_GAME_DATA, NEXT_ROUND, GAME_STATUS_CHANGE, SEND_DRAWING, SEND_GUESS, ALL_GUESSES_SENT, CORRECT_ANSWER_IS, SEND_CHOICE, SELECT_GAME, STOP_GAME } from "../actions/types";
+
+const { WAIT_FOR_START, GUESS, END } = gameStatus;
+
 const initialState = {
-  gameStatus: 'wait_for_start',
-  //wait_for_start, draw, guess, select, gameEnd
-  gameStats: null,
-  roundCounter: 1,
+  gameStatus: WAIT_FOR_START,
+  gameData: null,
+  roundCounter: 0,
   drawingIsSent: false,
   allDrawingsAreSent: false,
   guessIsSent: false,
@@ -15,12 +19,12 @@ const initialState = {
 
 const currentGameReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_GAMESTATS':
+    case UPDATE_GAME_DATA:
       return {
         ...state,
-        gameStats: action.payload,
+        gameData: action.payload,
       }
-    case 'NEXT_ROUND':
+    case NEXT_ROUND:
       return {
         ...state,
         roundCounter: state.roundCounter + 1,
@@ -29,14 +33,14 @@ const currentGameReducer = (state = initialState, action) => {
         correctAnswer: '',
         choiceSent: false,
         allChoicesSent: false,
-        gameStatus: 'guess',
+        gameStatus: GUESS,
       };
-    case 'GAME_STATUS_CHANGE':
+    case GAME_STATUS_CHANGE:
       return {
         ...state,
         gameStatus: action.payload,
       };
-    case 'SEND_DRAW':
+    case SEND_DRAWING:
       return {
         ...state,
         drawingIsSent: true,
@@ -46,22 +50,22 @@ const currentGameReducer = (state = initialState, action) => {
     //     ...state,
     //     allDrawingsAreSent: true,
     //   }
-    case 'SEND_GUESS':
+    case SEND_GUESS:
       return {
         ...state,
         guessIsSent: true,
       }
-    case 'ALL_GUESSES_SENT':
+    case ALL_GUESSES_SENT:
       return {
         ...state,
         allGuessesAreSent: true,
       }
-    case 'CORRECT_ANSWER_IS':
+    case CORRECT_ANSWER_IS:
       return {
         ...state,
         correctAnswer: action.payload,
       }
-    case 'SEND_CHOICE':
+    case SEND_CHOICE:
       return {
         ...state,
         choiceSent: true,
@@ -76,15 +80,16 @@ const currentGameReducer = (state = initialState, action) => {
     //     ...initialState,
     //     gameStatus: 'draw',
     //   }
-    case 'SELECT_GAME':
+    case SELECT_GAME:
       return {
         ...initialState,
         listener: action.payload,
       }
-    case 'STOP_GAME':
+    case STOP_GAME:
       state.listener();
       return {
         ...state,
+        gameStatus: END,
         listener: null,
       }
     default:

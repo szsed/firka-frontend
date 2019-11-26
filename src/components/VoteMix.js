@@ -57,7 +57,7 @@ class VoteMix extends Component {
 
 const mapStateToProps = ({ game, user, }) => ({
   game: game.gameStats,
-  user: user.playerDetails.id,
+  user: user.id,
   round: game.roundCounter,
 });
 

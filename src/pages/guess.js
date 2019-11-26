@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CssBaseline, Container, Paper, Typography, CardMedia, TextField, withWidth } from '@material-ui/core';
+import { CssBaseline, Container, Paper, Typography, TextField, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { sendGuessAction, changeGameStatusAction } from '../store/actions';
+import { sendGuessAction, changeGameStatusAction } from '../redux/actions/current-game-actions';
 import Countdown from '../components/Countdown';
+import { gameStatus } from '../constants/constants';
 
+const { SELECT } = gameStatus;
 const timeToUpload = 10000;
 
 const useStyles = theme => ({
@@ -74,27 +76,25 @@ class Guess extends Component {
   };
 
   uploadGuess = () => {
-    const { user, game } = this.props;
-    const userId = user.playerDetails.id;
+    const { user, game, sendGuess } = this.props;
+    const userId = user.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
-    setTimeout(() => this.props.sendGuess(this.state.guess), userIndex * 1000);
+    setTimeout(() => sendGuess(this.state.guess), userIndex * 1000);
   }
 
   componentDidUpdate() {
     const { game, changeGameStatus, round } = this.props;
     if (!game) return;
     const guessCount = game.players.filter(player => {
-      console.log(round, player.guesses)
-      return player.guesses.length === round;
+      return player.guesses.length === round + 1;
     }).length;
     const numOfPlayers = game.players.length;
-    console.log(guessCount, numOfPlayers)
-    if (guessCount === numOfPlayers) changeGameStatus('select');
+    if (guessCount === numOfPlayers) changeGameStatus(SELECT);
   }
 
   addField = () => {
     const { game, round, user, classes } = this.props;
-    if (game.players[round - 1].id !== user.playerDetails.id) {
+    if (game.players[round].id !== user.id) {
       return (
         <>
           <TextField
@@ -125,7 +125,7 @@ class Guess extends Component {
           <Typography color="error" className={classes.title}><Countdown /></Typography>
           <div className={classes.paperContainer}>
             <Paper className={classes.paper}>
-              <img src={game.players[round - 1].drawing} />
+              <img src={game.players[round].drawing} alt='#' />
             </Paper>
           </div>
           {this.addField()}
@@ -137,7 +137,7 @@ class Guess extends Component {
 }
 
 const mapStateToProps = ({ game, user }) => ({
-  game: game.gameStats,
+  game: game.gameData,
   user,
   round: game.roundCounter,
 });

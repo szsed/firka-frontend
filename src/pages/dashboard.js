@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, TextField, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
-import { addListOfGamesListenerAction, selectGameAction, createGameAction } from '../store/actions';
+import { addListOfGamesListenerAction, selectGameAction, createGameAction } from '../redux/actions/game-list-actions';
 import { getRandomWords } from '../models/word-model';
 
 const useStyles = theme => ({
@@ -70,8 +70,9 @@ class Dashboard extends Component {
   }
 
   handleClick = (game) => {
-    selectGameAction(game.id);
-    this.props.history.push('/lobby');
+    const { selectGame, history } = this.props;
+    selectGame(game.id);
+    history.push('/lobby');
   };
 
   handleChange = (e) => {
@@ -81,22 +82,24 @@ class Dashboard extends Component {
   };
 
   handleSubmit = () => {
+    const { user, createGame, history } = this.props;
     getRandomWords().then(words => {
       const userData = {
-        ...this.props.user,
+        ...user,
         guesses: [],
         word: words[0],
+        score: 0,
         drawing: null,
       }
       const gameData = {
         name: this.state.newGame,
-        players: [userData],
         status: 'lobby',
-        words
+        words,
+        players: [userData],
       }
 
-      this.props.createGame(gameData);
-      this.props.history.push('/lobby');
+      createGame(gameData);
+      history.push('/lobby');
     });
   };
 
@@ -145,8 +148,8 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.playerDetails,
-  gameList: state.lobby.currentGames,
+  user: state.user,
+  gameList: state.lobby.openGames,
 });
 
 const mapActionsToProps = {

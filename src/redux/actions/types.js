@@ -1,0 +1,20 @@
+export const ADD_LISTENER = 'ADD_LISTENER';
+export const STOP_LISTENER = 'STOP_LISTENER';
+export const NEXT_ROUND = 'NEXT_ROUND';
+export const SEND_DRAWING = 'SEND_DRAWING';
+export const SEND_GUESS = 'SEND_GUESS';
+export const SEND_CHOICE = 'SEND_CHOICE';
+export const ALL_DRAWINGS_SENT = 'ALL_DRAWINGS_SENT';
+export const ALL_GUESSES_SENT = 'ALL_GUESSES_SENT';
+export const STOP_GAME = 'STOP_GAME';
+export const SELECT_GAME = 'SELECT_GAME';
+export const GAME_STATUS_CHANGE = 'GAME_STATUS_CHANGE';
+export const CORRECT_ANSWER_IS = 'CORRECT_ANSWER_IS';
+export const UPDATE_GAME_DATA = 'UPDATE_GAME_DATA';
+
+export const REFRESH_GAMES = 'REFRESH_GAMES';
+export const ADD_LOBBY_LISTENER = 'ADD_LOBBY_LISTENER';
+export const STOP_LOBBY_LISTENER = 'STOP_LOBBY_LISTENER';
+
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
