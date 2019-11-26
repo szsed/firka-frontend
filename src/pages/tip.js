@@ -85,7 +85,7 @@ class Guess extends Component {
 }
 
 const mapStateToProps = ({ user }) => ({
-  userId: user.playerDetails.id,
+  userId: user.id,
 });
 
 Guess.propTypes = {

@@ -3,7 +3,10 @@ import Navbar from '../components/Navbar';
 import { CssBaseline, Container, Paper, Typography, Button, Avatar, Chip } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from 'react-redux';
-import { startGameAction, changeGameStatusAction } from '../store/actions';
+import { startGameAction, changeGameStatusAction } from '../redux/actions/current-game-actions';
+import { gameStatus } from '../constants/constants';
+
+const { DRAW } = gameStatus;
 
 const useStyles = theme => ({
   players: {
@@ -46,24 +49,25 @@ class Lobby extends Component {
   };
 
   componentDidUpdate() {
-    if (!this.props.gameStats) return;
-    if (this.props.gameStats.status === 'inprogress') {
-      this.props.changeGameStatus('draw');
-      this.props.history.push('/game');
+    const { game, history, changeGameStatus } = this.props;
+    if (!game) return;
+    if (game.status === 'inprogress') {
+      changeGameStatus(DRAW);
+      history.push('/game');
     };
   }
 
   render() {
-    const { classes, gameStats, currentGame } = this.props;
-    if (!gameStats) return null;
-    const userList = gameStats.players;
+    const { classes, game } = this.props;
+    if (!game) return null;
+    const userList = game.players;
     return (
       <Fragment>
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
           <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>{currentGame.name}</Typography>
+            <Typography color="secondary" className={classes.title}>{game.name}</Typography>
             <Typography color="primary">Várjunk meg mindenkit!</Typography>
             <Typography color="primary" paragraph>Ők már csatlakoztak:</Typography>
             <div className={classes.players}>
@@ -85,9 +89,8 @@ class Lobby extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  gameStats: state.game.gameStats,
-  currentGame: state.game.gameStats
+const mapStateToProps = ({ game }) => ({
+  game: game.gameData,
 });
 
 const mapActionsToProps = {

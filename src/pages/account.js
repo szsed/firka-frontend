@@ -55,9 +55,6 @@ const useStyles = theme => ({
 });
 
 class Account extends Component {
-  constructor(props) {
-    super(props);
-  };
 
   render() {
     const { classes, user } = this.props;
@@ -69,9 +66,9 @@ class Account extends Component {
           <Paper className={classes.paper}>
             <Avatar
               className={classes.avatar}
-              src={user.playerDetails.avatar}
+              src={user.avatar}
             />
-            <Typography className={classes.title}>{user.playerDetails.username}</Typography>
+            <Typography className={classes.title}>{user.username}</Typography>
             <Button href="/leaderboard" className={classes.button} variant="contained" >Ranglista</Button>
             <Button href="/" className={classes.button} >Vissza a főoldalra</Button>
           </Paper>

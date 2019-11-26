@@ -5,9 +5,11 @@ import Canvas from '../components/Canvas';
 import { CssBaseline, Container, Paper, Typography, Button, withWidth } from '@material-ui/core';
 import Navbar from '../components/Navbar';
 import { withStyles } from "@material-ui/core/styles";
-import { sendDrawingAction, changeGameStatusAction } from '../store/actions';
+import { sendDrawingAction, changeGameStatusAction } from '../redux/actions/current-game-actions';
 import Countdown from '../components/Countdown';
+import { gameStatus } from '../constants/constants';
 
+const { GUESS } = gameStatus;
 const timeToUpload = 10000;
 
 const useStyles = theme => ({
@@ -60,7 +62,7 @@ class Draw extends Component {
   uploadImage = () => {
     const { user, game } = this.props;
     let canvasData = document.querySelector('#canvas').toDataURL();
-    const userId = user.playerDetails.id;
+    const userId = user.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
     setTimeout(() => this.props.sendDrawing(canvasData), userIndex * 1000);
   }
@@ -70,13 +72,12 @@ class Draw extends Component {
     if (!game) return;
     const drawingCount = game.players.filter(player => player.drawing).length;
     const numOfPlayers = game.players.length;
-    if (drawingCount === numOfPlayers) changeGameStatus('guess');
+    if (drawingCount === numOfPlayers) changeGameStatus(GUESS);
   }
 
   render() {
     const { classes, width, user, game } = this.props;
-    const { timeLeft } = this.state;
-    const userId = user.playerDetails.id;
+    const userId = user.id;
     const userIndex = game.players.findIndex(player => player.id === userId);
 
     return (
@@ -106,9 +107,9 @@ class Draw extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  game: state.game.gameStats,
+const mapStateToProps = ({ game, user }) => ({
+  game: game.gameData,
+  user,
 });
 
 const mapActionsToProps = {

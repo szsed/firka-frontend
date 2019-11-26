@@ -6,7 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import { Typography, Paper } from "@material-ui/core";
-import { testGame } from '../constants/test-game';
+import Navbar from '../components/Navbar';
 
 const useStyles = theme => ({
   paper: {
@@ -46,17 +46,15 @@ const useStyles = theme => ({
 });
 
 class Scoreboard extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const { classes, game } = this.props;
     if (!game) return null;
     return (
       <>
+        <CssBaseline />
+        <Navbar />
         <Container component="main" maxWidth="xs">
-          <CssBaseline />
           <div className={classes.paper}>
             <Typography paragraph variant="h4">
               Végeredmény
@@ -80,7 +78,7 @@ class Scoreboard extends Component {
 }
 
 const mapStateToProps = ({ game }) => ({
-  game: game.gameStats,
+  game: game.gameData,
 });
 
 

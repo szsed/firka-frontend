@@ -1,17 +1,18 @@
 import firestoreDB from "./firebase-setup";
-import store from "../../store/store";
+import store from "../../redux/store";
+import { REFRESH_GAMES, UPDATE_GAME_DATA } from "../../redux/actions/types";
 
 export const createGameListListener = () => {
   return firestoreDB.where('status', '==', 'lobby').onSnapshot(querySnapshot => {
-    const gamesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    store.dispatch({ type: 'REFRESH_GAMES', payload: gamesData });
+    const gameListData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    store.dispatch({ type: REFRESH_GAMES, payload: gameListData });
   });
 }
 
 export const createCurrentGameListener = gameId => {
   return firestoreDB.doc(gameId).onSnapshot(doc => {
     store.dispatch({
-      type: 'UPDATE_GAMESTATS',
+      type: UPDATE_GAME_DATA,
       payload: {
         ...doc.data(),
         id: doc.id
@@ -49,7 +50,7 @@ export const endGameInFirestore = (gameId) => {
 
 export const getCurrentGameInfo = () => {
   return new Promise(resolve => {
-    const gameId = store.getState().game.gameStats.id;
+    const gameId = store.getState().game.gameData.id;
     firestoreDB.doc(gameId).get().then(doc => {
       resolve({
         id: doc.id,

@@ -98,7 +98,7 @@ class Canvas extends Component {
 
     let colorButton = document.querySelectorAll('.colorButton');
     let currentColor = 'black';
-    let clickColor = new Array();
+    let clickColor = [];
 
     colorButton.forEach(function (button) {
       button.addEventListener('click', function (e) {
@@ -108,7 +108,7 @@ class Canvas extends Component {
 
 
     let sizeButtons = document.querySelectorAll('.sizeButton');
-    let clickSize = new Array();
+    let clickSize = [];
     let curSize = 5;
 
     sizeButtons.forEach(function (button) {

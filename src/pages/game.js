@@ -5,22 +5,22 @@ import Guess from './guess';
 import Vote from './vote';
 import Results from './results';
 import { withRouter } from "react-router-dom";
+import { gameStatus } from '../constants/constants';
+
+const { DRAW, GUESS, SELECT, END } = gameStatus;
 
 class GamePage extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
-    const { gameState, history } = this.props;
+    const { gameStatus, history } = this.props;
 
-    switch (gameState) {
-      case 'draw':
+    switch (gameStatus) {
+      case DRAW:
         return <Draw />;
-      case 'guess':
+      case GUESS:
         return <Guess />;
-      case 'select':
+      case SELECT:
         return <Vote />;
-      case 'gameEnd':
+      case END:
         return <Results />;
       default:
         history.push('/')
@@ -31,7 +31,7 @@ class GamePage extends Component {
 
 const mapStateToProps = state => {
   return {
-    gameState: state.game.gameStatus,
+    gameStatus: state.game.gameStatus,
   };
 }
 

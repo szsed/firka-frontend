@@ -28,12 +28,12 @@ class TippMix extends Component {
     if (this.props.game.players[this.props.round - 1].id !== this.props.userId) {
       return (
         <>
-          <TextField 
-          type="text" 
-          id="tip" 
-          helperText="Mit ábrázol a kép? Írd ide!" 
-          variant="outlined" 
-          onChange={this.handleChange}/>
+          <TextField
+            type="text"
+            id="tip"
+            helperText="Mit ábrázol a kép? Írd ide!"
+            variant="outlined"
+            onChange={this.handleChange} />
           <Button>Nyomjad, ha megvan!</Button>
         </>
       )
@@ -54,7 +54,7 @@ class TippMix extends Component {
 
 const mapStateToProps = ({ game, user, }) => ({
   game: game.gameStats,
-  userId: user.playerDetails.id,
+  userId: user.id,
   round: game.roundCounter,
 });
 

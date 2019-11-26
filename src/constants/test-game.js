@@ -21,7 +21,7 @@ export const testGame = {
       ...testUser,
       word: 'strucc',
       drawing: null,
-      guesses: ['almsa', 'korte'],
+      guesses: ['alma', 'korte'],
       score: 0,
     },
     {

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
+import Countdown from '../components/Countdown';
 import { CssBaseline, Container, Paper, Typography } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import Radio from '@material-ui/core/Radio';
@@ -9,8 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { connect } from 'react-redux';
-import store from '../store/store';
-import { nextRoundAction, endGameAction } from '../store/actions';
+import { startNextRoundAction, endGameAction } from '../redux/actions/current-game-actions';
 
 const timeToChange = 10000;
 
@@ -43,13 +43,8 @@ class Vote extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (this.props.round < 3) {
-        store.dispatch(nextRoundAction());
-      } else {
-        store.dispatch(endGameAction());
-      }
-    }, timeToChange)
+    const { round, game, nextRound, endGame } = this.props;
+    setTimeout(() => round < game.players.length - 1 ? nextRound() : endGame(), timeToChange);
   }
 
   componentDidUpdate() {
@@ -62,14 +57,15 @@ class Vote extends Component {
     // if (guessCount === numOfPlayers) changeGameStatus('select');
   }
 
-  selector = (guesses) => {
-    if (this.props.game.players[this.props.round - 1].id !== this.props.user.playerDetails.id) {
+  selector = () => {
+    const { game, round, user } = this.props;
+    if (game.players[round].id !== user.id) {
       return (
         <FormControl component="fieldset" >
           <FormLabel component="legend">Na vajon melyik a jó?</FormLabel>
           <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange}>
-            {this.props.game.players.map(player => (
-              <FormControlLabel value={player.guesses[this.props.round - 1]} control={<Radio />} label={player.guesses[this.props.round - 1]} />
+            {game.players.map(player => (
+              <FormControlLabel value={player.guesses[round]} control={<Radio />} label={player.guesses[round]} />
             ))}
           </RadioGroup>
         </FormControl>
@@ -78,9 +74,9 @@ class Vote extends Component {
       return (
         <FormControl component="fieldset">
           <FormLabel component="legend">Most várj, ez a Te képed :)</FormLabel>
-          <RadioGroup aria-label="gender" name="gender1" value={this.props.value} onChange={this.handleChange}>
-            {this.props.game.players.map(player => (
-              <FormControlLabel value={player.guesses[this.props.round - 1]} disabled control={<Radio />} label={player.guesses[this.props.round - 1]} />
+          <RadioGroup aria-label="gender" name="gender1" value={this.state.value} onChange={this.handleChange}>
+            {game.players.map(player => (
+              <FormControlLabel value={player.guesses[round]} disabled control={<Radio />} label={player.guesses[round]} />
             ))}
           </RadioGroup>
         </FormControl>
@@ -95,15 +91,16 @@ class Vote extends Component {
   };
 
   render() {
-    const { classes, game, user, round } = this.props;
+    const { classes, game, round } = this.props;
     return (
       <Fragment>
         <CssBaseline />
         <Navbar />
         <Container maxWidth="sm">
+          <Typography color="secondary" className={classes.title}>Szavazás</Typography>
+          <Typography color="error" className={classes.title}><Countdown /></Typography>
           <Paper className={classes.paper}>
-            <Typography color="secondary" className={classes.title}>Szavazás</Typography>
-            <img width="100%" alt="drawing" src={game.players[round - 1].drawing} />
+            <img width="100%" alt="drawing" src={game.players[round].drawing} />
             {this.selector()}
           </Paper>
         </Container>
@@ -113,14 +110,16 @@ class Vote extends Component {
 }
 
 const mapStateToProps = ({ game, user, }) => ({
-  game: game.gameStats,
+  game: game.gameData,
   user,
   round: game.roundCounter,
 });
 
-// const mapActionsToProps = {
-//   sendChoice: sendChoiceAction,
-// }
+const mapActionsToProps = {
+  // sendChoice: sendChoiceAction,
+  startNextRound: startNextRoundAction,
+  endGame: endGameAction,
+}
 
 Vote.propTypes = {
   images: PropTypes.arrayOf(
@@ -135,4 +134,4 @@ Vote.propTypes = {
 
 };
 
-export default connect(mapStateToProps, null)(withStyles(useStyles)(Vote));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(useStyles)(Vote));

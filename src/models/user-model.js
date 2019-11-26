@@ -1,5 +1,6 @@
 import { requestToAPI } from "../services/backend-api-services";
-import store from "../store/store";
+import store from "../redux/store";
+import { logoutUserAction, loginUserAction } from "../redux/actions/user-actions";
 
 export const registerUser = (userData) => {
   console.log(userData);
@@ -15,7 +16,7 @@ export const registerUser = (userData) => {
     .then(parsed => {
       if (parsed.message) throw parsed.message;
       localStorage.setItem('token', parsed.token);
-      store.dispatch({ type: 'LOGIN', payload: parsed });
+      store.dispatch(loginUserAction(parsed.playerDetails));
       return parsed;
     })
     .catch(err => {
@@ -40,7 +41,7 @@ export const loginUser = (username, password) => {
     .then(parsed => {
       if (parsed.message) throw parsed;
       localStorage.setItem('token', parsed.token);
-      store.dispatch({ type: 'LOGIN', payload: parsed });
+      store.dispatch(loginUserAction(parsed.playerDetails));
       return parsed;
     })
     .catch(err => {
@@ -66,7 +67,7 @@ export const loginWithJWTOnLoad = () => {
     .then(parsed => {
       if (parsed.message) throw parsed;
       localStorage.setItem('token', parsed.token);
-      store.dispatch({ type: 'LOGIN', payload: parsed });
+      store.dispatch(loginUserAction(parsed.playerDetails));
       return parsed;
     })
     .catch(err => {
@@ -77,5 +78,5 @@ export const loginWithJWTOnLoad = () => {
 
 export const logoutUser = () => {
   localStorage.setItem('token', null);
-  store.dispatch({ type: 'LOGOUT' });
+  store.dispatch(logoutUserAction());
 }
