@@ -43,8 +43,8 @@ class Vote extends Component {
   }
 
   componentDidMount() {
-    const { round, game, nextRound, endGame } = this.props;
-    setTimeout(() => round < game.players.length - 1 ? nextRound() : endGame(), timeToChange);
+    const { round, game, startNextRound, endGame } = this.props;
+    setTimeout(() => round < game.players.length - 1 ? startNextRound() : endGame(), timeToChange);
   }
 
   componentDidUpdate() {
